@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Club MECH | Home</title>
+    <link rel="stylesheet" href="styles.css?version=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+    </style>
+    <script src="https://kit.fontawesome.com/4d3e104d1c.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <img src="media/logos/white.png">
+      </div>
+      <nav>
+        <button class="button nav" href=".">Home</button>
+        <button class="button nav" href="./events.html">Events</button>
+        <button class="button nav" href="./leaderboard.html">Leaderboard</button>
+        <button class="button nav" href="./council.html">Council</button>
+        <button class="button nav" href="./contact.html">Contact</button>
+      </nav>
+      <div class="socials-container">
+        <a class="button social" href="https://discord.gg/Z8wqw9kQ6F" target="_blank"><i class="fa-brands fa-discord"></i></a>
+        <a class="button social" href="https://www.instagram.com/ubcclubmech/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a class="button social" href="https://www.facebook.com/ClubMech/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+      </div>
+    </header>
+    <div id="content">
+      <div class="section-header">
+        <img src="media/headers/home.jpg">
+        <div>
+          <h1 class="section-title">CLUB MECH</h1>
+          <p class="section-subtitle">UBC'S MECHANICAL ENGINEERING<br>UNDERGRADUATE STUDENT CLUB</p>
+        </div>
+      </div>
+      <div class="inner">
+        <div id="welcome-container">
+          <div style="flex-grow: 1;">
+            <h2>Welcome!</h2>
+            <p>We are Club MECH, UBC's mechanical engineering undergraduate student club. Among other things, we run social and networking events, and act as representitives for mechanical engineering undergrads. Our clubroom is located in CEME 2207 – every MECH student has access!</p>
+            <p>Want to get involved? Check out the open positions, and if something interests you, reach out!</p>
+          </div>
+          <div style="flex-basis: 600px; flex-shrink: 0; display:flex; flex-direction: column; justify-content: flex-start;">
+            <h2 style="text-align: center;">Openings</h2>
+            <div style="display: flex; flex-direction: row; gap: 20px; margin-bottom: 20px;">
+              <div style="flex: 1 0;">
+                <!-- <h4 style="text-align: center; margin-top: 0;">Executive</h3> -->
+                <ul id="exec-openings" class="openings"></ul>
+              </div>
+              <div style="flex: 1 0;">
+                <!-- <h4 style="text-align: center; margin-top: 0;">Ex.-Officio</h3> -->
+                <ul id="exo-openings" class="openings"></ul>
+              </div>
+            </div>
+            <button class="button important" style="align-self: center;">Join Now</button>
+          </div>
+        </div>
+      </div>
+      <h2 style="text-align: center;">Upcoming Events</h2>
+      <div id="events" style="margin-top: 1rem;"></div>
+      <div class="inner">
+        <div style="flex-grow: 1;">
+          <h2>Sponsorship</h2>
+          <p>Test text</p>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
