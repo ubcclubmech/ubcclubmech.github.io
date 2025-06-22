@@ -97,6 +97,39 @@ nav {
   gap: 30px;
 }
 
+@media (max-width: 900px) {
+  .desktop {
+    display: none;
+  }
+
+  header {
+    justify-content: flex-start;
+  }
+
+  nav {
+    z-index: 1;
+    position: absolute;
+    top: 80px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 0px 30px 20px 15px;
+    left: 0px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--primary-100);
+    transform: translateX(0px);
+    transition-property: transform;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+  }
+
+  nav.hidden {
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+}
+
 .button {
   font-family: 'Lexend', sans-serif;
   font-size: var(--body-size);
@@ -126,7 +159,8 @@ nav {
   font-size: var(--nav-size);
 }
 
-.button.social {
+.button.icon {
+  background: none;
   text-decoration: none;
   color: var(--text-alt);
   display: flex;
@@ -136,6 +170,21 @@ nav {
   /* font-size: 24px; */
   font-size: calc(var(--nav-size) * 1.5);
 }
+
+#open-nav {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .button.nav {
+    font-size: var(--body-size);
+  }
+  #open-nav {
+    display: block;
+    font-size: 30px;
+  }
+}
+
 
 .socials-container {
   position: absolute;
@@ -154,7 +203,7 @@ nav {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  /* overflow-x: hidden; */
+  overflow-x: hidden;
 }
 
 .section-header {
@@ -167,7 +216,7 @@ nav {
 }
 
 .section-header div {
-  width: 90%;
+  width: 80%;
   position: absolute;
   top: 0px;
   bottom: 0px;
@@ -244,7 +293,7 @@ nav {
   display: block;
   position: absolute;
   bottom: calc(100% + 10px);
-  width: min(50vw, 300px);
+  width: min(40vw, 300px);
   border-radius: 10px;
   content: attr(tooltip);
   background: var(--secondary);
@@ -262,7 +311,17 @@ nav {
   transition-timing-function: ease-in-out;
 }
 
-:has(.tooltip):hover > .tooltip {
+.tooltip.right {
+  left: max(-20px, -2vw);
+  right: auto;
+}
+
+.tooltip.left {
+  right: max(-20px, -2vw);
+  left: auto;
+}
+
+:has(>.tooltip):hover > .tooltip {
   transform: translateY(0px);
   opacity: 1;
   transition-delay: 0.3s;

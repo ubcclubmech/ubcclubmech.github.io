@@ -60,17 +60,18 @@ async function init() {
     makeYearSelect();
     makeCouncilGrid();
   }
-  document.querySelectorAll(':has(>.tooltip)').forEach((el) => { fixTooltipPosition(el); });
-  window.addEventListener('resize', function() { document.querySelectorAll(':has(>.tooltip)').forEach((el) => { fixTooltipPosition(el); }); });
-  document.querySelectorAll(':has(>.tooltip)').forEach((el) => {
-    el.addEventListener('mouseover', (event) => { fixTooltipPosition(el); });
-  });
+  document.querySelectorAll(':has(>.tooltip)').forEach((el) => { handleTooltips(el); });
+
+  window.addEventListener('resize', function() { document.querySelectorAll(':has(>.tooltip)').forEach((el) => { handleTooltips(el); }); });
+  
+  // document.querySelectorAll(':has(>.tooltip)').forEach((el) => {
+  //   el.addEventListener('mouseover', (event) => { fixTooltipPosition(el); });
+  // });
 }
 window.addEventListener('DOMContentLoaded', init);
 
 async function getEvents() {
   await fetch(EVENTS_URL).then((res) => res.text()).then((rep) => {events = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
-  console.log(events);
 }
 
 async function getCouncil() {
@@ -81,24 +82,31 @@ async function getPositions() {
   await fetch(POSITIONS_URL).then((res) => res.text()).then((rep) => {positions = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
 }
 
-function fixTooltipPosition(el) {
+function toggleNav() {
+  let nav = document.getElementById('nav')
+  let classes = nav.classList;
+
+  if (classes.contains('hidden')) {
+    nav.classList.remove('hidden');
+  }
+  else
+  {
+    nav.classList.add('hidden');
+  }
+}
+document.getElementById('open-nav').addEventListener('click', toggleNav);
+
+function handleTooltips(el) {
   let ibound = el.getBoundingClientRect();
   let tooltip = el.children[0];
-  let ttbound = tooltip.getBoundingClientRect();
-  let padding = 50; // px
+  // let ttbound = tooltip.getBoundingClientRect();
 
-  // if (ttbound.x >= 150 || ttbound.x + ttbound.width <= window.outerWidth - 150) {
-  //   el.style.left = '50%';
-  //   el.style.right = 'auto';
-  //   el.style.transform = `translateX(-50%)`
-  // }
-  if (ttbound.x < padding / 2) {
-    tooltip.left = `${ibound.width / 2}`;
-    tooltip.style.transform = `translateX(${-ibound.width / 2 + padding - ttbound.x}px) translateY(2px)`;
+  tooltip.classList.remove('left', 'right');
+  if (ibound.x + ibound.width / 2 <= window.outerWidth / 2) {
+    tooltip.classList.add('right');
   }
-  if (ttbound.x + ttbound.width > window.outerWidth - padding / 2) {
-    tooltip.left = `${ibound.width / 2}`;
-    tooltip.style.transform = `translateX(${-ibound.width / 2 + window.outerWidth - (ttbound.x + ttbound.width) - padding}px) translateY(2px)`;
+  else {
+    tooltip.classList.add('left');
   }
 }
 
@@ -147,7 +155,6 @@ function makeEvents(num) {
     html += '<li><i class="fa-solid fa-clock"></i>' + eventTime + '</li>';
     html += '<li><i class="fa-solid fa-location-dot"></i>' + (currEvent.c[EVENTS_COLS.location] != null ? currEvent.c[EVENTS_COLS.location].v : 'TBD') + '</li>';
     html += '</ul>';
-    //! for some reason i won't even try to understand, if the final column in a table is empty, it still has a value (.v), but that value is null, compared to every other column, where the whole object is null, and there is no value. if you add more columns, make sure to remove the '.v's in the null checks for the calendar link
     if (currEvent.c[EVENTS_COLS.rsvp] != null || currEvent.c[EVENTS_COLS.calendar] != null) {
       html += '<ul class="event-links">';
       html += (currEvent.c[EVENTS_COLS.rsvp] != null ? ('<li><a href="' + currEvent.c[EVENTS_COLS.rsvp].v + '" target="_blank"><i class="fa-solid fa-reply"></i>RSVP</a></li>') : '');

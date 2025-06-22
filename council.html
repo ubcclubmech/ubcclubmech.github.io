@@ -1,47 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Club MECH | Council</title>
+    <link rel="stylesheet" href="styles.css?version=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+    </style>
+    <script src="https://kit.fontawesome.com/4d3e104d1c.js" crossorigin="anonymous"></script>
+  </head>
 
-<head>
-  <title>Club MECH | Council</title>
-  <link rel="stylesheet" href="styles.css?version=1" />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
-  </style>
-  <script src="https://kit.fontawesome.com/4d3e104d1c.js" crossorigin="anonymous"></script>
-</head>
-
-<body>
-  <header>
-    <div class="logo">
-      <img src="media/logos/white.png">
-    </div>
-    <nav>
-      <button class="button nav" href=".">Home</button>
-      <button class="button nav" href="./events.html">Events</button>
-      <button class="button nav" href="./leaderboard.html">Leaderboard</button>
-      <button class="button nav" href="./council.html">Council</button>
-      <button class="button nav" href="./contact.html">Contact</button>
-    </nav>
-    <div class="socials-container">
-      <a class="button social" href="https://discord.gg/Z8wqw9kQ6F" target="_blank"><i class="fa-brands fa-discord"></i></a>
-      <a class="button social" href="https://www.instagram.com/ubcclubmech/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-      <a class="button social" href="https://www.facebook.com/ClubMech/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-    </div>
-  </header>
-  <div id="content">
-    <div class="section-header">
-      <img src="media/headers/council.jpg">
-      <div>
-        <h1 class="section-title">COUNCIL</h1>
-        <select id="council-year"></select>
+  <body>
+    <header>
+      <div class="logo desktop">
+        <img src="media/logos/white.png">
       </div>
+      <button class="button icon" id="open-nav"><i class="fa-solid fa-bars"></i></button>
+      <nav id="nav" class="hidden">
+        <button class="button nav" href=".">Home</button>
+        <button class="button nav" href="./events.html">Events</button>
+        <button class="button nav" href="./council.html">Council</button>
+        <button class="button nav" href="./contact.html">Contact</button>
+        <button class="button nav" href="./leaderboard.html">Leaderboard</button>
+      </nav>
+      <div class="socials-container">
+        <a class="button icon" href="https://discord.gg/Z8wqw9kQ6F" target="_blank"><i class="fa-brands fa-discord"></i></a>
+        <a class="button icon" href="https://www.instagram.com/ubcclubmech/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a class="button icon" href="https://www.facebook.com/ClubMech/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+      </div>
+    </header>
+    <div id="content">
+      <div class="section-header">
+        <img src="media/headers/council.jpg">
+        <div>
+          <h1 class="section-title">COUNCIL</h1>
+          <select id="council-year"></select>
+        </div>
+      </div>
+
+      <div id="council-grid"></div>
     </div>
-
-    <div id="council-grid"></div>
-  </div>
-  <script type="module" src="app.js"></script>
-</body>
-
+    <script type="module" src="app.js"></script>
+  </body>
 </html>
