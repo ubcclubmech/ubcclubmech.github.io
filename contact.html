@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Club MECH | Contact</title>
+    <link rel="stylesheet" href="styles.css?version=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+    </style>
+    <script src="https://kit.fontawesome.com/4d3e104d1c.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <header>
+      <div class="logo desktop">
+        <img src="media/logos/white.png">
+      </div>
+      <button class="button icon" id="open-nav"><i class="fa-solid fa-bars"></i></button>
+      <nav id="nav" class="hidden">
+        <button class="button nav" href=".">Home</button>
+        <button class="button nav" href="./events.html">Events</button>
+        <button class="button nav" href="./council.html">Council</button>
+        <button class="button nav" href="./contact.html">Contact</button>
+        <button class="button nav" href="./leaderboard.html">Leaderboard</button>
+      </nav>
+      <div class="socials-container">
+        <a class="button icon" href="https://discord.gg/Z8wqw9kQ6F" target="_blank"><i class="fa-brands fa-discord"></i></a>
+        <a class="button icon" href="https://www.instagram.com/ubcclubmech/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a class="button icon" href="https://www.facebook.com/ClubMech/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+      </div>
+    </header>
+    <div id="content">
+      <div class="section-header">
+        <img src="media/headers/contact.jpg">
+        <div>
+          <h1 class="section-title">CONTACT</h1>
+        </div>
+      </div>
+
+      <div class="inner">
+        <!-- <h2>Reach out!</h2> -->
+        <p style="text-align: center; max-width: 700px; margin-top: 100px;">Have a question? Want to sponsor our club? Want to get involved? Send us a message, and we'll get back to you!</p>
+
+        <form action="https://api.web3forms.com/submit" method="POST">
+          <!-- REQUIRED -->
+          <input id="form-key" type="hidden" name="access_key" value="c4548fb5-1ac4-4648-ab1f-d9366657bcb3">
+
+          <!-- OPTIONAL -->
+          <input id="form-subject" type="hidden" name="subject" value="Website Contact Message (general)">
+          <input type="hidden" name="from_name" value="Club MECH Website">
+          <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+          <!-- DATA -->
+          <div class="form-container">
+            <div style="flex: 1 0 30%;">
+              <label for="name"><h3>Name</h3></label>
+              <input type="text" name="name" style="width: 100%;" required>
+            </div>
+            <div style="flex: 1 0 30%;"> 
+              <label for="email"><h3>Email</h3></label>
+              <input type="email" name="email" required>
+            </div>
+            <div style="flex-shrink: 0; width: 100%;">
+              <label for="message"><h3>Message</h3></label>
+              <textarea name="message" required></textarea>
+            </div>
+            <div style="flex: 1 0 30%;">
+              <select id="form-type">
+                <option value="general">General</option>
+                <option value="sponsorship">Sponsorship</option>
+                <option value="events">Events</option>
+                <option value="council">Council</option>
+              </select>
+            </div>
+            <div style="flex: 1 0 30%;">
+              <button type="submit" class="button important">Send</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

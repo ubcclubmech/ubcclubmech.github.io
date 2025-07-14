@@ -38,6 +38,9 @@ const POSITIONS_COLS = {
 }
 //!
 
+//! CURRENTLY THESE ARE ALL UBCMECHEVENTS KEYS
+const FORM_KEYS = new Map([['general', 'c4548fb5-1ac4-4648-ab1f-d9366657bcb3'], ['sponsorship', 'c4548fb5-1ac4-4648-ab1f-d9366657bcb3'], ['events', 'c4548fb5-1ac4-4648-ab1f-d9366657bcb3'], ['council', 'c4548fb5-1ac4-4648-ab1f-d9366657bcb3']]); // general: ubcclubmech@gmail.com, sponsorship: clubmechprofessional@gmail.com, events: ubcmechevents@gmail.com, council: clubmechsecretary@gmail.com
+
 const MONTHS = new Map([[1, "Jan"], [2, "Feb"], [3, "Mar"], [4, "Apr"], [5, "May"], [6, "Jun"], [7, "Jul"], [8, "Aug"], [9, "Sep"], [10, "Oct"], [11, "Nov"], [12, "Dec"]]);
 
 let events;
@@ -248,6 +251,19 @@ document.querySelectorAll('#council-year').forEach((el) => {
   el.addEventListener('input', makeCouncilGrid);
 });
 
+function updateContactForm() {
+  let selectObj = document.getElementById('form-type');
+  let type = selectObj.options[selectObj.selectedIndex].value;
+
+  let key = FORM_KEYS.get(type);
+  let subject = 'Website Contact Message (' + type + ')';
+
+  document.getElementById('form-key').setAttribute('value', key);
+  document.getElementById('form-subject').setAttribute('value', subject);
+}
+document.querySelectorAll('#form-type').forEach((el) => {
+  el.addEventListener('input', updateContactForm);
+})
 
 function changePage(href) {
   if (href != null) {

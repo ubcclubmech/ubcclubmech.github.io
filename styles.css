@@ -7,6 +7,7 @@
   --primary-100: hsl(235, 43%, 20%);
   --primary-150: hsl(235, 43%, 30%);
   --primary-200: hsl(235, 43%, 40%);
+  --primary-250: hsl(235, 43%, 50%);
   --primary-300: hsl(235, 43%, 60%);
   --primary-350: hsl(235, 43%, 70%);
   --primary-400: hsl(235, 43%, 80%);
@@ -51,7 +52,7 @@ html {
 body {
   background-color: var(--background);
   margin: 0;
-  padding-bottom: 100px;
+  padding-bottom: 150px;
 }
 
 h1 { font-size: var(--h1-size); color: var(--primary-100); }
@@ -79,7 +80,7 @@ header {
 .logo {
   object-fit: contain;
   width: 140px;
-  height: 65px;
+  height: 60px;
   position: absolute;
   left: 15px;
 }
@@ -113,19 +114,21 @@ nav {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 10px;
-    padding: 0px 30px 20px 15px;
+    gap: 0;
+    width: 100%;
     left: 0px;
-    border-bottom-right-radius: 10px;
+    padding-bottom: 20px;
     background-color: var(--primary-100);
-    transform: translateX(0px);
-    transition-property: transform;
-    transition-duration: 0.3s;
+    /* transform: translateX(0px); */
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: 0.2s;
     transition-timing-function: ease-in-out;
   }
 
   nav.hidden {
-    transform: translateX(-100%);
+    opacity: 0;
+    /* transform: translateX(-100%); */
     pointer-events: none;
   }
 }
@@ -143,9 +146,10 @@ nav {
 }
 
 .button.important {
-  background-color: var(--primary-150);
+  background-color: var(--primary-100);
   color: var(--text-alt);
-  padding: 0.3rem 1rem;
+  padding: 0.4rem 1.3rem;
+  line-height: inherit;
   transition: background-color 0.2s ease-in-out;
 }
 
@@ -153,7 +157,7 @@ nav {
   background-color: var(--primary-200);
 }
 
-.button.nav {
+nav .button.nav {
   background: none;
   color: var(--text-alt);
   font-size: var(--nav-size);
@@ -176,9 +180,21 @@ nav {
 }
 
 @media (max-width: 900px) {
-  .button.nav {
-    font-size: var(--body-size);
+  nav .button.nav {
+    font-size: calc(var(--nav-size) * 1.25);
+    width: 100%;
+    padding: 1rem;
+    margin: 0;
+    border-radius: 0;
+    transition-property: background-color;
+    transition-duration: 0.1s;
+    transition-timing-function: ease-in-out;
   }
+
+  nav .button.nav:hover {
+    background-color: var(--primary-200);
+  }
+
   #open-nav {
     display: block;
     font-size: 30px;
@@ -216,7 +232,7 @@ nav {
 }
 
 .section-header div {
-  width: 80%;
+  width: 100%;
   position: absolute;
   top: 0px;
   bottom: 0px;
@@ -234,17 +250,25 @@ nav {
 }
 
 .section-header h1 {
+  text-align: center;
   margin: 0px;
   color: var(--text-alt);
-  text-shadow: 0px 0px 15px black;
+  text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
 }
 
 .section-header p {
+  width: 80%;
   margin: 0px;
   font-size: var(--h4-size);
   text-align: center;
   color: var(--text-alt);
-  text-shadow: 0px 0px 15px black;
+  text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 800px) {
+  .section-header p {
+    width: 60%;
+  }
 }
 
 .section-header select {
@@ -256,7 +280,7 @@ nav {
   color: var(--text-alt);
   font-family: inherit;
   cursor: pointer;
-  text-shadow: 0px 0px 15px black;
+  text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
 }
 
 .section-header select:focus {
@@ -342,6 +366,21 @@ nav {
   }
 }
 
+#welcome-openings {
+  flex-basis: 600px;
+  flex-shrink: 0;
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+@media (max-width: 1000px) {
+  #welcome-openings {
+    flex-basis: 0px;
+    margin-bottom: 1rem;
+  }
+}
+
 .openings {
   display: flex;
   flex-direction: column;
@@ -385,6 +424,7 @@ nav {
   grid-template-columns: 1fr 1fr 1fr;
   gap: 100px;
   margin-top: 100px;
+  margin-bottom: 1rem;
 }
 
 @media (max-width: 1500px) {
@@ -432,7 +472,7 @@ nav {
   align-items: stretch;
   flex-wrap: wrap;
   padding: 0;
-  gap: 5px;
+  gap: 10px;
   margin: 1rem 0 0 0;
 }
 
@@ -471,7 +511,7 @@ nav {
 }
 
 .event li a:hover {
-  background-color: var(--primary-200);
+  background-color: var(--primary-150);
 }
 
 .event li i {
@@ -567,7 +607,7 @@ nav {
 
 .council-member a:hover {
   color: var(--text-alt);
-  background-color: var(--primary-200);
+  background-color: var(--primary-150);
   cursor: pointer;
 }
 
@@ -580,4 +620,75 @@ nav {
 .council-member li:has(> ul) ul {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+/* CONTACT */
+
+form {
+  width: min(100%, 750px);
+  margin-top: 50px;
+}
+
+form label h3 {
+  font-size: var(--h5-size);
+  margin: 0 0 0.5rem 0;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.form-container > div {
+  min-width: 200px;
+}
+
+form input {
+  box-sizing: border-box;
+  font-size: var(--body-size);
+  font-family: inherit;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--secondary);
+  padding: 0.5rem 0.7rem;
+  width: 100%;
+  
+  /* box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25); */
+}
+
+form textarea {
+  box-sizing: border-box;
+  resize: none;
+  font-size: var(--body-size);
+  font-family: inherit;
+  width: 100%;
+  height: calc(6.1 * var(--line-height) * var(--body-size));
+  margin: 0;
+  background-color: var(--secondary);
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem 0.7rem;
+}
+
+form select {
+  width: 100%;
+  font-size: var(--body-size);
+  font-family: inherit;
+  padding: 0.5rem 0.7rem;
+  margin: 0;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--secondary);
+}
+
+form button {
+  width: 100%;
+  margin: 0;
+  padding: 0.5rem 0.7rem;
+  line-height: inherit;
 }
