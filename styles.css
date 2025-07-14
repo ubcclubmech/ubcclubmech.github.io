@@ -460,7 +460,6 @@ header nav .button.nav {
   font-size: var(--body-size);
   background-color: var(--secondary);
   margin: 0;
-  padding: 0.2rem 0.7rem;
   border-radius: 10px;
   text-align: center;
   position: relative;
@@ -469,14 +468,16 @@ header nav .button.nav {
   justify-content: stretch;
   align-items: center;
   text-align: center;
+  padding: 0.2rem 0.7rem;
 }
 
-.openings li div {
-  flex-grow: 1;
+.openings li > div {
+  flex: 1 0;
+  padding: 0 0.5rem;
 }
 
-.openings li i {
-  flex: 0 0;
+.openings li > i {
+  flex: 0 0 calc(var(--body-size) * 1.25);
   color: var(--primary-100);
 }
 
