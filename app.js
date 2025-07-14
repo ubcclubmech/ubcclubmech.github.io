@@ -5,9 +5,11 @@ const BASE = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?`;
 const EVENTS_SHEET = 'Events';
 const COUNCIL_SHEET = 'Council';
 const POSITIONS_SHEET = 'Positions';
+const CONTACTS_SHEET = 'Contact'
 const EVENTS_URL = `${BASE}&sheet=${EVENTS_SHEET}&tq=${QUERY}`;
 const COUNCIL_URL = `${BASE}&sheet=${COUNCIL_SHEET}&tq=${QUERY}`;
 const POSITIONS_URL = `${BASE}&sheet=${POSITIONS_SHEET}&tq=${QUERY}`;
+const CONTACTS_URL = `${BASE}&sheet=${CONTACTS_SHEET}&tq=${QUERY}`
 
 const MATCHES_ID = '1r8BtslMkYsPrT3gRfWNOGKM8-QjrsfuN8ts8N5JqZXQ';
 const MATCHES_BASE  = `https://docs.google.com/spreadsheets/d/${MATCHES_ID}/gviz/tq?`;
@@ -45,6 +47,13 @@ const POSITIONS_COLS = {
   "filled": 4
 }
 
+const CONTACTS_COLS = {
+  "option": 0,
+  "email": 1,
+  "key": 2,
+  "show": 3
+}
+
 const MATCHES_COLS = {
   "game": 1,
   "p1_id": 2,
@@ -64,9 +73,6 @@ const PLAYERS_COLS = {
   "name": 1
 }
 //!
-
-//! CURRENTLY THESE ARE ALL UBCMECHEVENTS KEYS
-const FORM_KEYS = new Map([['general', 'c4548fb5-1ac4-4648-ab1f-d9366657bcb3'], ['sponsorship', 'c4548fb5-1ac4-4648-ab1f-d9366657bcb3'], ['events', 'c4548fb5-1ac4-4648-ab1f-d9366657bcb3'], ['council', 'c4548fb5-1ac4-4648-ab1f-d9366657bcb3']]); // general: ubcclubmech@gmail.com, sponsorship: clubmechprofessional@gmail.com, events: ubcmechevents@gmail.com, council: clubmechsecretary@gmail.com
 
 const GAME_PARAMS = {
   "Foosball": {
@@ -99,6 +105,7 @@ const MONTHS = new Map([[1, "Jan"], [2, "Feb"], [3, "Mar"], [4, "Apr"], [5, "May
 let events;
 let council;
 let positions;
+let contacts;
 let years = [];
 
 let gameData;
@@ -130,6 +137,10 @@ async function init() {
     let currentBoard = localStorage.currentBoard != null ? localStorage.currentBoard : "foos";
     changeLeaderboard(currentBoard);
   }
+  else if (document.getElementById('form-type') != null) { // contact
+    await getContacts();
+    makeContactOptions();
+  }
   document.querySelectorAll(':has(>.tooltip)').forEach((el) => { handleTooltips(el); });
 
   window.addEventListener('resize', function() { document.querySelectorAll(':has(>.tooltip)').forEach((el) => { handleTooltips(el); }); });
@@ -150,6 +161,10 @@ async function getCouncil() {
 
 async function getPositions() {
   await fetch(POSITIONS_URL).then((res) => res.text()).then((rep) => {positions = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
+}
+
+async function getContacts() {
+  await fetch(CONTACTS_URL).then((res) => res.text()).then((rep) => {contacts = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
 }
 
 async function getGameData() {
@@ -345,12 +360,39 @@ document.querySelectorAll('#council-year').forEach((el) => {
 
 // CONTACT
 
+function makeContactOptions() {
+  let selectObj = document.getElementById('form-type');
+
+  let html = '';
+  
+  for (let i = 0; i < contacts.length; i ++) {
+    if (contacts[i].c[CONTACTS_COLS.option] == null) { break; } // skip blank entries
+    if (contacts[i].c[CONTACTS_COLS.show].v == true) {
+      html += '<option value="' + contacts[i].c[CONTACTS_COLS.option].v + '">' + contacts[i].c[CONTACTS_COLS.option].v + '</option>';
+    }
+  }
+
+  document.getElementById('form-key').setAttribute('value', contacts[0].c[CONTACTS_COLS.key].v);
+  document.getElementById('form-subject').setAttribute('value', contacts[0].c[CONTACTS_COLS.option].v);
+
+  selectObj.innerHTML = html;
+}
+
 function updateContactForm() {
   let selectObj = document.getElementById('form-type');
   let type = selectObj.options[selectObj.selectedIndex].value;
 
-  let key = FORM_KEYS.get(type);
+  let key;
+  for (let i = 0; i < contacts.length; i ++) {
+    if (contacts[i].c[CONTACTS_COLS.option] == null) { break; } // skip blank entries
+    if (contacts[i].c[CONTACTS_COLS.option].v == type) {
+      key = contacts[i].c[CONTACTS_COLS.key].v;
+      break;
+    }
+  }
   let subject = 'Website Contact Message (' + type + ')';
+
+  console.log(key);
 
   document.getElementById('form-key').setAttribute('value', key);
   document.getElementById('form-subject').setAttribute('value', subject);
@@ -537,4 +579,6 @@ function filterSearch() {
     }
   }
 }
-document.getElementById('leaderboard-search').addEventListener('keyup', filterSearch);
+document.querySelectorAll('#leaderboard-search').forEach((el) => {
+  el.addEventListener('keyup', filterSearch);
+});

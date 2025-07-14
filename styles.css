@@ -1,34 +1,4 @@
 :root {
-  /* colors */
-  --background: hsl(0, 0%, 98%);
-  --text: hsl(0, 0%, 2%);
-  --text-alt: hsl(0, 0%, 98%);
-
-  --primary-50: hsl(235, 43%, 10%);
-  --primary-100: hsl(235, 43%, 20%);
-  --primary-150: hsl(235, 43%, 30%);
-  --primary-200: hsl(235, 43%, 40%);
-  --primary-250: hsl(235, 43%, 50%);
-  --primary-300: hsl(235, 43%, 60%);
-  --primary-350: hsl(235, 43%, 70%);
-  --primary-400: hsl(235, 43%, 80%);
-  --primary-450: hsl(235, 43%, 90%);
-
-  --secondary: hsl(0, 0%, 92%);
-  --secondary-50: hsl(0, 0%, 46%);
-
-  --tooltip: hsl(0, 0%, 0%, 50%);
-
-  --leaderboard-red: hsl(0, 70%, 55%);
-
-  --first: hsl(40, 87%, 59%);
-  --first-glow: hsl(40, 87%, 59%, 25%);
-  --second: hsl(197, 77%, 55%);
-  --second-glow: hsl(197, 77%, 55%, 25%);
-  --third: hsl(40, 59%, 37%);
-  --third-glow: hsl(40, 59%, 37%, 25%);
-
-  /* sizes */
   --type-scale: 1.333;
   --line-height: 1.6;
   --body-size: clamp(1rem, .8852rem + .4898vw, 1.125rem);
@@ -40,7 +10,82 @@
   --h1-size: calc(pow(var(--type-scale), 5) * var(--body-size));
 
   --header-height: 80px;
+
+  --text-light: hsl(0, 0%, 98%);
+  --text-dark: hsl(0, 0%, 2%);
 }
+
+/* @media (prefers-color-scheme: light) { */
+:root {
+  --background: hsl(0, 0%, 98%);
+  --text: hsl(0, 0%, 2%);
+  --text-alt: hsl(0, 0%, 98%);
+  --header: hsl(235, 45%, 15%);
+  --nav: hsl(0, 0%, 98%);
+  --section: hsl(0, 0%, 98%);
+
+  /* 235 43 18 */
+  
+  --primary-50: hsl(235, 45%, 5%);
+  --primary-100: hsl(235, 45%, 15%);
+  --primary-150: hsl(235, 40%, 25%);
+  --primary-200: hsl(235, 35%, 35%);
+  --primary-250: hsl(235, 30%, 45%);
+  --primary-300: hsl(235, 35%, 55%);
+  --primary-350: hsl(235, 40%, 65%);
+  --primary-400: hsl(235, 45%, 75%);
+  --primary-450: hsl(235, 45%, 85%);
+
+  --secondary: hsl(0, 0%, 92%);
+  --secondary-50: hsl(0, 0%, 46%);
+
+  --tooltip: hsl(0, 0%, 0%, 25%);
+
+  --leaderboard-red: hsl(0, 70%, 55%);
+
+  --first: hsl(40, 87%, 59%);
+  --first-glow: hsl(40, 87%, 59%, 25%);
+  --second: hsl(197, 77%, 55%);
+  --second-glow: hsl(197, 77%, 55%, 25%);
+  --third: hsl(40, 59%, 37%);
+  --third-glow: hsl(40, 59%, 37%, 25%);
+}
+/* } */
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: hsl(0, 0%, 6%);
+    --text: hsl(0, 0%, 90%);
+    --text-alt: hsl(0, 0%, 2%);
+    --header: hsl(235, 43%, 20%);
+    --nav: hsl(0, 0%, 98%);
+    --section: hsl(0, 0%, 98%);
+
+    --primary-50: hsl(235, 43%, 100%);
+    --primary-100: hsl(235, 43%, 93%);
+    --primary-150: hsl(235, 43%, 83%);
+    --primary-200: hsl(235, 43%, 73%);
+    --primary-250: hsl(235, 43%, 63%);
+    --primary-300: hsl(235, 43%, 53%);
+    --primary-350: hsl(235, 43%, 43%);
+    --primary-400: hsl(235, 43%, 33%);
+    --primary-450: hsl(235, 43%, 23%);
+
+    --secondary: hsl(0, 0%, 10%);
+    --secondary-50: hsl(0, 0%, 46%);
+
+    --tooltip: hsl(0, 0%, 0%, 40%);
+
+    --leaderboard-red: hsl(0, 70%, 73%);
+
+    --first: hsl(40, 87%, 59%);
+    --first-glow: hsl(40, 87%, 59%, 25%);
+    --second: hsl(197, 77%, 55%);
+    --second-glow: hsl(197, 77%, 55%, 25%);
+    --third: hsl(40, 59%, 37%);
+    --third-glow: hsl(40, 59%, 37%, 25%);
+  }
+} */
 
 @media (min-width: 900px) {
   :root {
@@ -82,12 +127,13 @@ header {
   left: 0;
   right: 0;
   height: var(--header-height);
-  background-color: var(--primary-100);
+  background-color: var(--header);
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: 0px 15px;
+  box-shadow: 0 10px 20px var(--tooltip);
 }
 
 .logo {
@@ -131,7 +177,7 @@ header nav {
     width: 100%;
     left: 0px;
     padding-bottom: 20px;
-    background-color: var(--primary-100);
+    background-color: var(--header);
     /* transform: translateX(0px); */
     opacity: 1;
     transition-property: opacity;
@@ -160,27 +206,30 @@ header nav {
 }
 
 .button.important {
-  background-color: var(--primary-100);
+  background-color: var(--primary-150);
   color: var(--text-alt);
   padding: 0.4rem 1.3rem;
   line-height: inherit;
-  transition: background-color 0.2s ease-in-out;
+  transition-property: background-color color;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
 }
 
 .button.important:hover {
-  background-color: var(--primary-200);
+  background-color: var(--primary-250);
+  color: var(--text-alt);
 }
 
 header nav .button.nav {
   background: none;
-  color: var(--text-alt);
+  color: var(--nav);
   font-size: var(--nav-size);
 }
 
 .button.icon {
   background: none;
   text-decoration: none;
-  color: var(--text-alt);
+  color: var(--nav);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -206,7 +255,7 @@ header nav .button.nav {
   }
 
   header nav .button.nav:hover {
-    background-color: var(--primary-200);
+    background-color: var(--primary-150);
   }
 
   #open-nav {
@@ -266,7 +315,7 @@ header nav .button.nav {
 .section-header h1 {
   text-align: center;
   margin: 0px;
-  color: var(--text-alt);
+  color: var(--section);
   text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
 }
 
@@ -274,8 +323,9 @@ header nav .button.nav {
   width: 80%;
   margin: 0px;
   font-size: var(--h4-size);
+  font-weight: 500;
   text-align: center;
-  color: var(--text-alt);
+  color: var(--section);
   text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
 }
 
@@ -291,7 +341,7 @@ header nav .button.nav {
   padding: 0 0.3rem 0 0;
   background: none;
   border: none;
-  color: var(--text-alt);
+  color: var(--section);
   font-family: inherit;
   cursor: pointer;
   text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
@@ -306,7 +356,7 @@ header nav .button.nav {
 }
 
 .section-header option {
-  color: var(--primary-100);
+  color: var(--text);
   font-size: var(--h5-size);
   text-align: center;
 }
@@ -335,7 +385,7 @@ header nav .button.nav {
   border-radius: 10px;
   content: attr(tooltip);
   background: var(--secondary);
-  box-shadow: 0px 2px 5px var(--tooltip);
+  box-shadow: 0px 10px 15px var(--tooltip);
   font-family: 'Lexend', sans-serif;
   font-weight: 400;
   color: var(--text);
@@ -691,6 +741,7 @@ form textarea {
 form select {
   width: 100%;
   font-size: var(--body-size);
+  color: var(--text);
   font-family: inherit;
   padding: 0.5rem 0.7rem;
   margin: 0;
@@ -698,6 +749,10 @@ form select {
   border: none;
   border-radius: 10px;
   background-color: var(--secondary);
+}
+
+form option {
+  color: var(--text);
 }
 
 form button {
