@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Club MECH LIVE Leaderboard</title>
+    <link rel="stylesheet" href="styles.css?version=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+    </style>
+    <script src="https://kit.fontawesome.com/4d3e104d1c.js" crossorigin="anonymous"></script>
+  <body>
+    <nav id="nav" class="leaderboard">
+      <button class="button nav icon" href="."><i class="fa-solid fa-chevron-left"></i></button>
+    </nav>
+    <div id="content">
+      <h1 style="margin: 0; text-align: center;">Club MECH</h1>
+      <h2 style="margin: 0 0 5rem 0; text-align: center;"><a id="live" href="./leaderboard.html" content="live">LIVE</a> Leaderboard</h2>
+
+      <div class="inner" style="max-width: 1200px;">
+        <div id="leaderboard-games">
+          <button class="button leaderboard" id="foos-button"><i class="fa-solid fa-futbol"></i>Foosball</button>
+          <button class="button leaderboard" id="pong-button"><i class="fa-solid fa-table-tennis-paddle-ball"></i>Pong</button>
+          <button class="button leaderboard" id="kart-button"><i class="fa-solid fa-flag-checkered"></i>Mario Kart</button>
+          <button class="button leaderboard" id="boat-button"><i class="fa-solid fa-whiskey-glass"></i>BOAT Race</button>
+          <input class="search-box" type="text" placeholder="Search leaderboard" id="leaderboard-search">
+        </div>
+
+        <ul class="leaderboard-container" id="foos-board" style="display: none;"></ul>
+        <ul class="leaderboard-container" id="pong-board" style="display: none;"></ul>
+        <ul class="leaderboard-container" id="kart-board" style="display: none;"></ul>
+        <ul class="leaderboard-container" id="boat-board" style="display: none;"></ul>
+      </div>
+    </div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
