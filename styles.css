@@ -39,6 +39,7 @@
   --secondary: hsl(0, 0%, 92%);
   --secondary-50: hsl(0, 0%, 46%);
 
+  --section-shadow: hsl(0, 0%, 0%, 30%);
   --tooltip: hsl(0, 0%, 0%, 25%);
 
   --leaderboard-red: hsl(0, 70%, 55%);
@@ -87,15 +88,16 @@
   }
 } */
 
-@media (min-width: 900px) {
+@media (min-width: 901px) {
   :root {
-    --h1-size: calc(pow(var(--type-scale), 6) * 1rem);
+    --h1-size: calc(pow(var(--type-scale), 5.6) * var(--body-size));
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   :root {
-    --h1-size: calc(pow(var(--type-scale), 4.5) * var(--body-size));
+    --type-scale: 1.25;
+    --h1-size: calc(pow(var(--type-scale), 6) * var(--body-size));
   }
 }
 
@@ -328,17 +330,17 @@ header nav .button.nav {
   text-align: center;
   margin: 0px;
   color: var(--section);
-  text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  text-shadow: 0px 0px 15px var(--section-shadow);
 }
 
 .section-header p {
   width: 80%;
   margin: 0px;
   font-size: var(--h4-size);
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
   color: var(--section);
-  text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  text-shadow: 0px 0px 15px var(--section-shadow);
 }
 
 /* @media (max-width: 800px) {
@@ -347,16 +349,37 @@ header nav .button.nav {
   }
 } */
 
+.section-header .button {
+  font-size: var(--h5-size);
+  color: var(--primary-100);
+  background-color: var(--primary-450);
+  line-height: inherit;
+  font-weight: 600;
+  padding: 0.4rem 1.3rem;
+  margin-top: 0.5rem;
+  transition-property: background-color color;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
+  text-decoration: none;
+  box-shadow: 0 0 15px var(--section-shadow);
+}
+
+.section-header .button:hover {
+  background-color: var(--primary-150);
+  color: var(--text-alt);
+}
+
 .section-header select {
   font-size: var(--h4-size);
   text-align: center;
   padding: 0 0.3rem 0 0;
   background: none;
   border: none;
+  font-weight: 600;
   color: var(--section);
   font-family: inherit;
   cursor: pointer;
-  text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  text-shadow: 0px 0px 15px var(--section-shadow);
 }
 
 .section-header select:focus {
@@ -577,6 +600,7 @@ header nav .button.nav {
 .event li a {
   width: 100%;
   background-color: var(--primary-450);
+  color: var(--primary-100);
   text-decoration: none;
   transition-property: color background-color;
   transition-duration: 0.1s;
@@ -592,12 +616,17 @@ header nav .button.nav {
 }
 
 .event li i {
-  color: var(--primary-100);
+  color: var(--text);
   margin-right: 0.6rem;
   transition-property: color background-color;
   transition-duration: 0.1s;
   transition-timing-function: ease-in-out;
 }
+
+.event li:has(a) i {
+  color: var(--primary-100);
+}
+
 
 /* COUNCIL */
 
@@ -671,7 +700,7 @@ header nav .button.nav {
 }
 
 .council-member a {
-  color: var(--text);
+  color: var(--primary-100);
   font-size: var(--body-size);
   background-color: var(--primary-450);
   text-decoration: none;
