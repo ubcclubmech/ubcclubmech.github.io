@@ -194,6 +194,20 @@ header nav {
   }
 }
 
+a.link {
+  text-decoration: none;
+  color: var(--primary-300);
+  /* text-decoration: underline dotted var(--primary-300) 3px; */
+  transition-property: color text-decoration;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
+}
+
+a.link:hover {
+  color: var(--primary-150);
+  text-decoration: underline dotted var(--primary-150) 3px;
+}
+
 .button {
   font-family: 'Lexend', sans-serif;
   font-size: var(--body-size);
