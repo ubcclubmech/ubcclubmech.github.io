@@ -43,6 +43,8 @@
   --tooltip: hsl(0, 0%, 0%, 25%);
 
   --leaderboard-red: hsl(0, 70%, 55%);
+  --leaderboard-red-light: hsl(0, 70%, 85%);
+  --leaderboard-red-dark: hsl(0, 70%, 15%);
 
   --first: hsl(40, 87%, 59%);
   --first-glow: hsl(40, 87%, 59%, 25%);
@@ -117,9 +119,9 @@ body {
 
 h1 { font-size: var(--h1-size); color: var(--primary-100); }
 h2 { font-size: var(--h2-size); color: var(--primary-100); margin: var(--h2-size) 0 1rem 0;}
-h3 { font-size: var(--h3-size); color: var(--primary-100); margin: var(--h3-size) 0 1rem 0; }
-h4 { font-size: var(--h4-size); color: var(--primary-100); margin: var(--h4-size) 0 1rem 0; }
-h5 { font-size: var(--h5-size); color: var(--primary-100); margin: var(--h5-size) 0 1rem 0; }
+h3 { font-size: var(--h3-size); color: var(--primary-100); margin: 1rem 0 1rem 0; }
+h4 { font-size: var(--h4-size); color: var(--primary-100); margin: 1rem 0 1rem 0; }
+h5 { font-size: var(--h5-size); color: var(--primary-100); margin: 1rem 0 1rem 0; }
 p { font-size: var(--body-size); margin: 1rem 0 1rem 0; }
 
 header {
@@ -194,7 +196,7 @@ header nav {
   }
 }
 
-a.link {
+a.link:not(.button) {
   text-decoration: none;
   color: var(--primary-300);
   /* text-decoration: underline dotted var(--primary-300) 3px; */
@@ -203,7 +205,7 @@ a.link {
   transition-timing-function: ease-in-out;
 }
 
-a.link:hover {
+a.link:not(.button):hover {
   color: var(--primary-150);
   text-decoration: underline dotted var(--primary-150) 3px;
 }
@@ -530,6 +532,63 @@ header nav .button.nav {
   color: var(--primary-100);
 }
 
+.gallery {
+  width: clamp(60%, 1700px, 90%);
+  column-count: 3;
+  column-gap: 1rem;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+@media (max-width: 1500px) {
+  .gallery {
+    width: min(90%, 1200px);
+    column-count: 2;
+  }
+}
+
+@media (max-width: 900px) {
+  .gallery {
+    width: min(90%, 600px);
+    column-count: 1;
+  }
+}
+
+.gallery:not(:has(:nth-child(3))) {
+  column-count: 2;
+}
+
+.gallery li {
+  list-style: none;
+  width: 100%;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.gallery li img {
+  overflow: hidden;
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.gallery li:has(p) img {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.gallery li p {
+  margin: 0;
+  color: var(--text);
+  background-color: var(--secondary);
+  /* border-radius: 10px; */
+  padding: 0.2rem 0.8rem;
+  line-height: var(--line-height);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
 /* EVENTS */
 
 #events {
@@ -561,6 +620,7 @@ header nav .button.nav {
 }
 
 .event img {
+  object-fit: cover;
   width: 100%;
   aspect-ratio: 4 / 5;
   border-radius: 10px;
@@ -823,13 +883,18 @@ form button {
 nav.leaderboard {
   position: absolute;
   top: 20px;
-  left: 15px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 nav.leaderboard .button.nav {
   color: var(--text);
   font-size: var(--h4-size);
-  padding: 0.3em 0.5em;
+  padding: 0.3em 0.4em;
   /* background-color: var(--secondary); */
 }
 
@@ -857,6 +922,7 @@ nav.leaderboard .button.nav {
   transition-property: background-color color;
   transition-duration: 0.1s;
   transition-timing-function: ease-in-out;
+  text-decoration: none;
 }
 
 .button.leaderboard:hover, .button.leaderboard.selected {
@@ -864,10 +930,19 @@ nav.leaderboard .button.nav {
   color: var(--text-alt);
 }
 
+/* .button.leaderboard.link {
+  background-color: var(--leaderboard-red-light);
+  color: var(--leaderboard-red-dark);
+}
+
+.button.leaderboard.link:hover {
+  background-color: var(--leaderboard-red);
+  color: var(--text-alt);
+} */
+
 .button.leaderboard i {
   margin-right: 0.6rem;
 }
-
 #leaderboard-search {
   background-color: var(--secondary);
   border: none;
