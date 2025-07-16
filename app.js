@@ -5,7 +5,7 @@ const BASE = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?`;
 const EVENTS_SHEET = 'Events';
 const COUNCIL_SHEET = 'Council';
 const POSITIONS_SHEET = 'Positions';
-const CONTACTS_SHEET = 'Contact'
+const CONTACTS_SHEET = 'Contacts';
 const EVENTS_URL = `${BASE}&sheet=${EVENTS_SHEET}&tq=${QUERY}`;
 const COUNCIL_URL = `${BASE}&sheet=${COUNCIL_SHEET}&tq=${QUERY}`;
 const POSITIONS_URL = `${BASE}&sheet=${POSITIONS_SHEET}&tq=${QUERY}`;
@@ -51,7 +51,8 @@ const CONTACTS_COLS = {
   "option": 0,
   "email": 1,
   "key": 2,
-  "show": 3
+  "override": 3,
+  "show": 4
 }
 
 const MATCHES_COLS = {
@@ -93,12 +94,18 @@ const GAME_PARAMS = {
     "DIVISOR": 400.0,
     "K": 100.0
   },
+  "Smash Bros": {
+    "INIT_RATING": 1000.0,
+    "BASE": 10.0,
+    "DIVISOR": 400.0,
+    "K": 100.0
+  },
   "BOAT Race": {
     "INIT_RATING": Number.POSITIVE_INFINITY
   }
 }
 
-const GAME_SHORTS = new Map([["Foosball", "foos"], ["Pong", "pong"], ["Mario Kart", "kart"], ["BOAT Race", "boat"]]);
+const GAME_SHORTS = new Map([["Foosball", "foos"], ["Pong", "pong"], ["Mario Kart", "kart"], ["Smash Bros", "smsh"], ["BOAT Race", "boat"]]);
 
 const MONTHS = new Map([[1, "Jan"], [2, "Feb"], [3, "Mar"], [4, "Apr"], [5, "May"], [6, "Jun"], [7, "Jul"], [8, "Aug"], [9, "Sep"], [10, "Oct"], [11, "Nov"], [12, "Dec"]]);
 
@@ -130,16 +137,16 @@ async function init() {
     makeYearSelect();
     makeCouncilGrid();
   }
-  else if (document.getElementById('leaderboard-games') != null) { // leaderboard
+  else if (document.getElementById('form-type') != null) { // contact page
+    await getContacts();
+    makeContactOptions();
+  }
+  else if (document.getElementById('leaderboard-games') != null) { // leaderboard page
     await Promise.all([getGameData(), getPlayerNameData()]);
     setPlayerNames();
     calculatePlayerRatings();
     let currentBoard = localStorage.currentBoard != null ? localStorage.currentBoard : "foos";
     changeLeaderboard(currentBoard);
-  }
-  else if (document.getElementById('form-type') != null) { // contact
-    await getContacts();
-    makeContactOptions();
   }
   document.querySelectorAll(':has(>.tooltip)').forEach((el) => { handleTooltips(el); });
 
@@ -366,10 +373,8 @@ function makeContactOptions() {
   let html = '';
   
   for (let i = 0; i < contacts.length; i ++) {
-    if (contacts[i].c[CONTACTS_COLS.option] == null) { break; } // skip blank entries
-    if (contacts[i].c[CONTACTS_COLS.show].v == true) {
-      html += '<option value="' + contacts[i].c[CONTACTS_COLS.option].v + '">' + contacts[i].c[CONTACTS_COLS.option].v + '</option>';
-    }
+    if (contacts[i].c[CONTACTS_COLS.option] == null || contacts[i].c[CONTACTS_COLS.show].v == false) { continue; } // skip blank entries
+    html += '<option value="' + contacts[i].c[CONTACTS_COLS.option].v + '">' + contacts[i].c[CONTACTS_COLS.option].v + '</option>';
   }
 
   document.getElementById('form-key').setAttribute('value', contacts[0].c[CONTACTS_COLS.key].v);
@@ -384,15 +389,13 @@ function updateContactForm() {
 
   let key;
   for (let i = 0; i < contacts.length; i ++) {
-    if (contacts[i].c[CONTACTS_COLS.option] == null) { break; } // skip blank entries
+    if (contacts[i].c[CONTACTS_COLS.option] == null || contacts[i].c[CONTACTS_COLS.show].v == false) { continue; } // skip blank entries
     if (contacts[i].c[CONTACTS_COLS.option].v == type) {
-      key = contacts[i].c[CONTACTS_COLS.key].v;
+      key = (contacts[i].c[CONTACTS_COLS.override] != null) ? contacts[i].c[CONTACTS_COLS.override].v : (contacts[i].c[CONTACTS_COLS.key] == null) ? contacts[0].c[CONTACTS_COLS.key].v : contacts[i].c[CONTACTS_COLS.key].v;
       break;
     }
   }
   let subject = 'Website Contact Message (' + type + ')';
-
-  console.log(key);
 
   document.getElementById('form-key').setAttribute('value', key);
   document.getElementById('form-subject').setAttribute('value', subject);
@@ -429,6 +432,7 @@ function calculatePlayerRatings() {
     "Foosball": new Map(),
     "Pong": new Map(),
     "Mario Kart": new Map(),
+    "Smash Bros": new Map(),
     "BOAT Race": new Map()
   };
 
@@ -459,12 +463,12 @@ function calculatePlayerRatings() {
     }
 
     if (game == 'BOAT Race') {
-      let time = gameData[r].c[11].v;
+      let time = gameData[r].c[MATCHES_COLS.time].v;
       if (time < Rs[0]) {
         setPlayerRating(game, ids[0], time);
       }
     }
-    else if (game == 'Mario Kart') {
+    else if (game == 'Mario Kart' || game == 'Smash Bros') {
       let Qs = []; // q values
       for (let i = 0; i < playerCount; i ++) {
         Qs[i] = Math.pow(GAME_PARAMS[game].BASE, Rs[i] / GAME_PARAMS[game].DIVISOR);
@@ -477,7 +481,7 @@ function calculatePlayerRatings() {
         }
       }
 
-      let Ss = [Number(gameData[r].c[MATCHES_COLS.p1_points].v), Number(gameData[r].c[MATCHES_COLS.p2_points].v), Number(gameData[r].c[MATCHES_COLS.p3_points].v), Number(gameData[r].c[MATCHES_COLS.p4_points].v)]; // actual scores
+      let Ss = [gameData[r].c[MATCHES_COLS.p1_points] != null ? Number(gameData[r].c[MATCHES_COLS.p1_points].v) : 0, gameData[r].c[MATCHES_COLS.p2_points] != null ? Number(gameData[r].c[MATCHES_COLS.p2_points].v) : 0, gameData[r].c[MATCHES_COLS.p3_points] != null ? Number(gameData[r].c[MATCHES_COLS.p3_points].v) : 0, gameData[r].c[MATCHES_COLS.p4_points] != null ? Number(gameData[r].c[MATCHES_COLS.p4_points].v) : 0]; // actual scores
 
       for (let i = 0; i < playerCount; i ++) {
         let mult = 0;
