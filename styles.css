@@ -40,7 +40,8 @@
   --secondary-50: hsl(0, 0%, 46%);
 
   --section-shadow: hsl(0, 0%, 0%, 30%);
-  --tooltip: hsl(0, 0%, 0%, 25%);
+  --tooltip-shadow: hsl(0, 0%, 0%, 25%);
+  --tooltip-border: hsl(0, 0%, 70%);
 
   --leaderboard-red: hsl(0, 70%, 55%);
   --leaderboard-red-light: hsl(0, 70%, 85%);
@@ -77,7 +78,7 @@
     --secondary: hsl(0, 0%, 10%);
     --secondary-50: hsl(0, 0%, 46%);
 
-    --tooltip: hsl(0, 0%, 0%, 40%);
+    --tooltip-shadow: hsl(0, 0%, 0%, 40%);
 
     --leaderboard-red: hsl(0, 70%, 73%);
 
@@ -137,7 +138,7 @@ header {
   align-items: center;
   justify-content: center;
   padding: 0px 15px;
-  box-shadow: 0 10px 20px var(--tooltip);
+  box-shadow: 0 10px 20px var(--tooltip-shadow);
 }
 
 .logo {
@@ -433,10 +434,11 @@ header nav .button.nav {
   position: absolute;
   bottom: calc(100% + 10px);
   width: min(40vw, 300px);
+  border: 1px solid var(--tooltip-border);
   border-radius: 10px;
   content: attr(tooltip);
-  background: var(--secondary);
-  box-shadow: 0px 10px 15px var(--tooltip);
+  background-color: var(--secondary);
+  box-shadow: 0px 10px 15px var(--tooltip-shadow);
   font-family: 'Lexend', sans-serif;
   font-weight: 400;
   color: var(--text);

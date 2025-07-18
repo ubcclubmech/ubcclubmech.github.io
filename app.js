@@ -521,7 +521,7 @@ function refreshLeaderboard() {
     else {
       rankedMap = new Map(Array.from(playerRatings[Array.from(GAME_SHORTS.keys())[i]]).sort((b, a) => a[1] - b[1]));
     }
-    document.getElementById(game + '-board').innerHTML = makeLeaderboardHTML(Array.from(rankedMap.values()), Array.from(rankedMap.keys()), game == 'boat' ? 3 : 0);
+    document.getElementById(game + '-board').innerHTML = makeLeaderboardHTML(Array.from(rankedMap.values()), Array.from(rankedMap.keys()), game == 'boat' ? 2 : 0);
   }
 
   // let cards = document.querySelectorAll(".player-card");
