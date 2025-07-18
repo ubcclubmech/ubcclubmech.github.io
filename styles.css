@@ -243,6 +243,7 @@ header nav .button.nav {
   background: none;
   color: var(--nav);
   font-size: var(--nav-size);
+  text-decoration: none;
 }
 
 .button.icon {
@@ -271,6 +272,9 @@ header nav .button.nav {
     transition-property: background-color;
     transition-duration: 0.1s;
     transition-timing-function: ease-in-out;
+    text-decoration: none;
+    text-align: center;
+    box-sizing: border-box;
   }
 
   header nav .button.nav:hover {
