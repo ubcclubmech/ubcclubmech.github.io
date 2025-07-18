@@ -43,16 +43,16 @@ const POSITIONS_COLS = {
   "position": 0,
   "type": 1,
   "email": 2,
-  "responsibilities": 3,
-  "filled": 4
+  "key": 3,
+  "responsibilities": 4,
+  "filled": 5
 }
 
 const CONTACTS_COLS = {
   "option": 0,
   "email": 1,
-  "key": 2,
-  "override": 3,
-  "show": 4
+  "override": 2,
+  "show": 3
 }
 
 const MATCHES_COLS = {
@@ -138,7 +138,7 @@ async function init() {
     makeCouncilGrid();
   }
   else if (document.getElementById('form-type') != null) { // contact page
-    await getContacts();
+    await Promise.all([getContacts(), getPositions()]);
     makeContactOptions();
   }
   else if (document.getElementById('leaderboard-games') != null) { // leaderboard page
@@ -377,7 +377,15 @@ function makeContactOptions() {
     html += '<option value="' + contacts[i].c[CONTACTS_COLS.option].v + '">' + contacts[i].c[CONTACTS_COLS.option].v + '</option>';
   }
 
-  document.getElementById('form-key').setAttribute('value', contacts[0].c[CONTACTS_COLS.key].v);
+  let key;
+  for (let i = 0; i < positions.length; i ++) {
+    if (positions[i].c[POSITIONS_COLS.email] != null && contacts[0].c[CONTACTS_COLS.email].v == positions[i].c[POSITIONS_COLS.email].v) {
+      key = positions[i].c[POSITIONS_COLS.key].v;
+      break;
+    }
+  }
+
+  document.getElementById('form-key').setAttribute('value', key);
   document.getElementById('form-subject').setAttribute('value', contacts[0].c[CONTACTS_COLS.option].v);
 
   selectObj.innerHTML = html;
@@ -391,8 +399,13 @@ function updateContactForm() {
   for (let i = 0; i < contacts.length; i ++) {
     if (contacts[i].c[CONTACTS_COLS.option] == null || contacts[i].c[CONTACTS_COLS.show].v == false) { continue; } // skip blank entries
     if (contacts[i].c[CONTACTS_COLS.option].v == type) {
-      key = (contacts[i].c[CONTACTS_COLS.override] != null) ? contacts[i].c[CONTACTS_COLS.override].v : (contacts[i].c[CONTACTS_COLS.key] == null) ? contacts[0].c[CONTACTS_COLS.key].v : contacts[i].c[CONTACTS_COLS.key].v;
-      break;
+      let searchEmail = (contacts[i].c[CONTACTS_COLS.override] != null) ? contacts[i].c[CONTACTS_COLS.override].v : (contacts[i].c[CONTACTS_COLS.email] != null) ? contacts[i].c[CONTACTS_COLS.email].v : contacts[0].c[CONTACTS_COLS.email].v; // take preference for override, otherwise use regular email, if both blank, default to first entry
+      for (let j = 0; j < positions.length; j ++) {
+        if (positions[j].c[POSITIONS_COLS.email] != null && positions[j].c[POSITIONS_COLS.email].v == searchEmail) {
+          key = (positions[j].c[POSITIONS_COLS.key] != null) ? positions[j].c[POSITIONS_COLS.key].v : positions[0].c[POSITIONS_COLS.key].v; // lowermost default to president
+          break;
+        }
+      }
     }
   }
   let subject = 'Website Contact Message (' + type + ')';
