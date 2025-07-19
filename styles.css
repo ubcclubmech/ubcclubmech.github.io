@@ -104,6 +104,12 @@
   }
 }
 
+@media (max-width: 600px) {
+  :root {
+    --type-scale: 1.22;
+  }
+}
+
 html {
   font-family: 'Lexend', sans-serif;
   font-size: var(--body-size);
