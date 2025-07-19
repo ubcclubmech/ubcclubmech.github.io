@@ -5,11 +5,13 @@ const BASE = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?`;
 const EVENTS_SHEET = 'Events';
 const COUNCIL_SHEET = 'Council';
 const POSITIONS_SHEET = 'Positions';
+const LINKS_SHEET = 'Links';
 const CONTACTS_SHEET = 'Contacts';
 const EVENTS_URL = `${BASE}&sheet=${EVENTS_SHEET}&tq=${QUERY}`;
 const COUNCIL_URL = `${BASE}&sheet=${COUNCIL_SHEET}&tq=${QUERY}`;
 const POSITIONS_URL = `${BASE}&sheet=${POSITIONS_SHEET}&tq=${QUERY}`;
-const CONTACTS_URL = `${BASE}&sheet=${CONTACTS_SHEET}&tq=${QUERY}`
+const LINKS_URL = `${BASE}&sheet=${LINKS_SHEET}&tq=${QUERY}`;
+const CONTACTS_URL = `${BASE}&sheet=${CONTACTS_SHEET}&tq=${QUERY}`;
 
 const MATCHES_ID = '1r8BtslMkYsPrT3gRfWNOGKM8-QjrsfuN8ts8N5JqZXQ';
 const MATCHES_BASE  = `https://docs.google.com/spreadsheets/d/${MATCHES_ID}/gviz/tq?`;
@@ -46,6 +48,13 @@ const POSITIONS_COLS = {
   "key": 3,
   "responsibilities": 4,
   "filled": 5
+}
+
+const LINKS_COLS = {
+  "name": 0,
+  "icon": 1,
+  "link": 2,
+  "show": 3
 }
 
 const CONTACTS_COLS = {
@@ -112,6 +121,7 @@ const MONTHS = new Map([[1, "Jan"], [2, "Feb"], [3, "Mar"], [4, "Apr"], [5, "May
 let events;
 let council;
 let positions;
+let links;
 let contacts;
 let years = [];
 
@@ -124,7 +134,8 @@ let playerNames;
 
 async function init() {
   if (document.getElementById('exec-openings') != null) { // home page
-    await Promise.all([getPositions(), getEvents()]);
+    await Promise.all([getLinks(), getPositions(), getEvents()]);
+    makeLinks();
     makeOpenings();
     makeEvents(3);
   }
@@ -168,6 +179,10 @@ async function getCouncil() {
 
 async function getPositions() {
   await fetch(POSITIONS_URL).then((res) => res.text()).then((rep) => {positions = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
+}
+
+async function getLinks() {
+  await fetch(LINKS_URL).then((res) => res.text()).then((rep) => {links = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
 }
 
 async function getContacts() {
@@ -237,6 +252,17 @@ function makeOpenings() {
   }
 }
 
+function makeLinks() {
+  console.log(links);
+  let html = '';
+  for (let i = 0; i < links.length; i ++) {
+    if (links[i].c[LINKS_COLS.name] == null || links[i].c[LINKS_COLS.link] == null || links[i].c[LINKS_COLS.show].v == false) { continue; } // skip blank entries
+    let icon = (links[i].c[LINKS_COLS.icon] != null) ? '<i class="fa-solid fa-' + links[i].c[LINKS_COLS.icon].v + '"></i>' : '';
+    html += '<li><a class="button link" href="' + links[i].c[LINKS_COLS.link].v + '">' + (icon + links[i].c[LINKS_COLS.name].v) + '</a></li>';
+  }
+  document.getElementById('links').innerHTML = html;
+}
+
 // EVENTS
 
 function makeEvents(num) {
@@ -255,7 +281,7 @@ function makeEvents(num) {
   for (let i = 0; i < sorted.length; i ++) {
     let currEvent = events[sorted[i][0]];
     let date = currEvent.c[EVENTS_COLS.date].f.split('-');
-    html += '<div class="event">';
+    html += '<li class="event">';
     // if (currEvent.c[EVENTS_COLS.instagram] != null) {
     //   html += '<div class="insta">' + currEvent.c[EVENTS_COLS.instagram].v + '</div>';
     // }
@@ -272,11 +298,11 @@ function makeEvents(num) {
     html += '</ul>';
     if (currEvent.c[EVENTS_COLS.rsvp] != null || currEvent.c[EVENTS_COLS.calendar] != null) {
       html += '<ul class="event-links">';
-      html += (currEvent.c[EVENTS_COLS.rsvp] != null ? ('<li><a href="' + currEvent.c[EVENTS_COLS.rsvp].v + '" target="_blank"><i class="fa-solid fa-reply"></i>RSVP</a></li>') : '');
-      html += (currEvent.c[EVENTS_COLS.calendar] != null ? ('<li><a href="' + currEvent.c[EVENTS_COLS.calendar].v + '" target="_blank"><i class="fa-brands fa-google"></i>Add to Calendar</a></li>') : '');
+      html += (currEvent.c[EVENTS_COLS.rsvp] != null ? ('<li><a class="button link" href="' + currEvent.c[EVENTS_COLS.rsvp].v + '" target="_blank"><i class="fa-solid fa-reply"></i>RSVP</a></li>') : '');
+      html += (currEvent.c[EVENTS_COLS.calendar] != null ? ('<li><a class="button link" href="' + currEvent.c[EVENTS_COLS.calendar].v + '" target="_blank"><i class="fa-brands fa-google"></i>Add to Calendar</a></li>') : '');
       html += '</ul>';
     }
-    html += '</div>';
+    html += '</li>';
   }
   document.getElementById('events').innerHTML = html;
 }
@@ -316,7 +342,7 @@ function makeCouncilGrid() {
       if (currYear == null) { break; } // skip blank entries
       let currPositions = council[i].c[COUNCIL_COLS.position].v.split(', '); // creates an array of positions held by the member
       if (currYear.v == selectedYear && currPositions[0] == positions[p].c[POSITIONS_COLS.position].v) { // heirarchical ordering done by *first* position in list
-        html += '<div class="council-member">';
+        html += '<li class="council-member">';
         let imgSrc = council[i].c[COUNCIL_COLS.photo].v == true ? String(council[i].c[COUNCIL_COLS.year].v) + '/' + council[i].c[COUNCIL_COLS.name].v : 'none';
         html += ('<img src="media/council/' + imgSrc + '.jpg" alt="' + council[i].c[COUNCIL_COLS.name].v + '">'); // photo
         html += '<h2>' + council[i].c[COUNCIL_COLS.name].v + '</h2>'; // name
@@ -344,7 +370,7 @@ function makeCouncilGrid() {
                     firstEmail = false;
                   }
                   html += '<li>';
-                  html += '<a href="mailto:' + positions[k].c[POSITIONS_COLS.email].v + '">' + positions[k].c[POSITIONS_COLS.email].v + '</a>';
+                  html += '<a class="button link" href="mailto:' + positions[k].c[POSITIONS_COLS.email].v + '">' + positions[k].c[POSITIONS_COLS.email].v + '</a>';
                   html += '</li>';
                 }
                 break;
@@ -355,7 +381,7 @@ function makeCouncilGrid() {
             html += '</ul>';
           }
         }
-        html += '</div>';
+        html += '</li>';
       }
     }
   }

@@ -211,6 +211,29 @@ a.link:not(.button):hover {
   text-decoration: underline dotted var(--primary-150) 3px;
 }
 
+#links {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 2rem 0 1rem 0;
+  list-style: none;
+  padding: 0;
+}
+
+#links li {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: stretch;
+}
+
+#links li a {
+  flex-grow: 1;
+}
+
 .button {
   font-family: 'Lexend', sans-serif;
   font-size: var(--body-size);
@@ -222,6 +245,26 @@ a.link:not(.button):hover {
 
 .button:hover {
   cursor: pointer;
+}
+
+.button.link {
+  text-decoration: none;
+  color: var(--primary-100);
+  background-color: var(--primary-450);
+  transition-property: color background-color;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
+  padding: 0.3rem 1rem;
+  text-align: center;
+}
+
+.button.link i {
+  margin-right: 0.6rem;
+}
+
+.button.link:hover {
+  background-color: var(--primary-150);
+  color: var(--text-alt);
 }
 
 .button.important {
@@ -372,22 +415,10 @@ header nav .button.nav {
 
 .section-header .button {
   font-size: var(--h5-size);
-  color: var(--primary-100);
-  background-color: var(--primary-450);
-  line-height: inherit;
   font-weight: 600;
   padding: 0.4rem 1.3rem;
   margin-top: 0.5rem;
-  transition-property: background-color color;
-  transition-duration: 0.1s;
-  transition-timing-function: ease-in-out;
-  text-decoration: none;
   box-shadow: 0 0 15px var(--section-shadow);
-}
-
-.section-header .button:hover {
-  background-color: var(--primary-150);
-  color: var(--text-alt);
 }
 
 .section-header select {
@@ -525,7 +556,7 @@ header nav .button.nav {
   justify-content: stretch;
   align-items: center;
   text-align: center;
-  padding: 0.2rem 0.7rem;
+  padding: 0.3rem 0.7rem;
 }
 
 .openings li > div {
@@ -602,8 +633,10 @@ header nav .button.nav {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 100px;
+  padding: 0;
   margin-top: 100px;
   margin-bottom: 1rem;
+  list-style: none;
 }
 
 @media (max-width: 1500px) {
@@ -648,7 +681,7 @@ header nav .button.nav {
 .event ul {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: stretch;
   align-items: stretch;
   flex-wrap: wrap;
   padding: 0;
@@ -661,10 +694,10 @@ header nav .button.nav {
   flex-grow: 1;
 }
 
-.event li:not(:has(a)), .event li a {
+.event li:not(:has(a)) {
   color: var(--text);
   background-color: var(--secondary);
-  padding: 0.2rem 0.7rem;
+  padding: 0.3rem 1rem;
   border-radius: 10px;
   white-space: nowrap;
   text-align: center;
@@ -675,36 +708,16 @@ header nav .button.nav {
   display: flex;
   flex-direction: row;
   justify-content: stretch;
+  align-items: stretch;
 }
 
 .event li a {
-  width: 100%;
-  background-color: var(--primary-450);
-  color: var(--primary-100);
-  text-decoration: none;
-  transition-property: color background-color;
-  transition-duration: 0.1s;
-  transition-timing-function: ease-in-out;
+  flex-grow: 1;
 }
 
-.event li a:hover, .event li:has(a:hover) i {
-  color: var(--text-alt);
-}
-
-.event li a:hover {
-  background-color: var(--primary-150);
-}
-
-.event li i {
+.event li:not(:has(a)) i {
   color: var(--text);
   margin-right: 0.6rem;
-  transition-property: color background-color;
-  transition-duration: 0.1s;
-  transition-timing-function: ease-in-out;
-}
-
-.event li:has(a) i {
-  color: var(--primary-100);
 }
 
 
@@ -716,6 +729,8 @@ header nav .button.nav {
   grid-template-columns: 1fr 1fr 1fr;
   gap: 100px;
   margin-top: 100px;
+  padding: 0;
+  list-style: none;
 }
 
 @media (max-width: 1500px) {
@@ -773,39 +788,14 @@ header nav .button.nav {
   flex-wrap: wrap;
 }
 
-.council-member li {
-  background-color: var(--secondary);
-  padding: 0.2rem 0.7rem;
-  border-radius: 10px;
-}
-
-.council-member a {
-  color: var(--primary-100);
-  font-size: var(--body-size);
-  background-color: var(--primary-450);
-  text-decoration: none;
-  padding: 0.2rem 0.7rem;
-  border-radius: 10px;
-  transition-property: color background-color;
-  transition-duration: 0.1s;
-  transition-timing-function: ease-in-out;
-}
-
-.council-member a:hover {
-  color: var(--text-alt);
-  background-color: var(--primary-150);
-  cursor: pointer;
-}
-
 .council-member li:has(> a) {
   background: none;
   padding: 0;
   display: flex;
 }
 
-.council-member li:has(> ul) ul {
-  margin-top: 10px;
-  margin-bottom: 10px;
+.council-member .button.link {
+  padding: 0.2rem 0.8rem;
 }
 
 /* CONTACT */
@@ -918,13 +908,26 @@ nav.leaderboard .button.nav {
   gap: 10px;
   flex-wrap: wrap;
   justify-content: stretch;
+  align-items: stretch;
   width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#leaderboard-games li {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: stretch;
 }
 
 .button.leaderboard {
   flex-grow: 1;
-  padding: 0.5rem 0.8rem;
+  padding: 0.5rem 1rem;
   line-height: inherit;
+  background-color: var(--secondary);
   transition-property: background-color color;
   transition-duration: 0.1s;
   transition-timing-function: ease-in-out;
@@ -949,6 +952,7 @@ nav.leaderboard .button.nav {
 .button.leaderboard i {
   margin-right: 0.6rem;
 }
+
 #leaderboard-search {
   background-color: var(--secondary);
   border: none;
@@ -959,6 +963,8 @@ nav.leaderboard .button.nav {
   line-height: inherit;
   width: 100%;
   text-align: center;
+  box-sizing: border-box;
+  margin: 10px 0;
 }
 
 .leaderboard-container {
@@ -967,7 +973,7 @@ nav.leaderboard .button.nav {
   justify-content: flex-start;
   align-items: stretch;
   gap: 10px;
-  margin-top: 10px;
+  margin: 0;
   width: 100%;
   list-style: none;
   padding: 0;
