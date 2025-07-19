@@ -258,7 +258,7 @@ function makeLinks() {
   for (let i = 0; i < links.length; i ++) {
     if (links[i].c[LINKS_COLS.name] == null || links[i].c[LINKS_COLS.link] == null || links[i].c[LINKS_COLS.show].v == false) { continue; } // skip blank entries
     let icon = (links[i].c[LINKS_COLS.icon] != null) ? '<i class="fa-solid fa-' + links[i].c[LINKS_COLS.icon].v + '"></i>' : '';
-    html += '<li><a class="button link" href="' + links[i].c[LINKS_COLS.link].v + '">' + (icon + links[i].c[LINKS_COLS.name].v) + '</a></li>';
+    html += '<li><a class="button link" href="' + links[i].c[LINKS_COLS.link].v + '" target="_blank">' + (icon + links[i].c[LINKS_COLS.name].v) + '</a></li>';
   }
   document.getElementById('links').innerHTML = html;
 }
