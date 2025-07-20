@@ -253,7 +253,6 @@ function makeOpenings() {
 }
 
 function makeLinks() {
-  console.log(links);
   let html = '';
   for (let i = 0; i < links.length; i ++) {
     if (links[i].c[LINKS_COLS.name] == null || links[i].c[LINKS_COLS.link] == null || links[i].c[LINKS_COLS.show].v == false) { continue; } // skip blank entries
@@ -270,8 +269,8 @@ function makeEvents(num) {
   let today = Date.now() - 1000 * 60 * 60 * 24;
   for (let i = 0; i < events.length; i ++) {
     if (events[i].c[EVENTS_COLS.date] == null) { break; } // skip blank entries
-    let date = events[i].c[EVENTS_COLS.date].f.split('-');
-    let utc = Date.UTC(date[0], date[1]-1, date[2]);
+    let date = events[i].c[EVENTS_COLS.date].v.substring(5).split(')')[0].split(',');
+    let utc = Date.UTC(date[0], date[1], date[2]);
     if (utc < today) { continue; }
     upcoming.set(i, utc);
   }
@@ -280,18 +279,19 @@ function makeEvents(num) {
   let html = '';
   for (let i = 0; i < sorted.length; i ++) {
     let currEvent = events[sorted[i][0]];
-    let date = currEvent.c[EVENTS_COLS.date].f.split('-');
+    // let date = currEvent.c[EVENTS_COLS.date].f.split('-');
+    let date = currEvent.c[EVENTS_COLS.date].v.substring(5).split(')')[0].split(',');
     html += '<li class="event">';
     // if (currEvent.c[EVENTS_COLS.instagram] != null) {
     //   html += '<div class="insta">' + currEvent.c[EVENTS_COLS.instagram].v + '</div>';
     // }
     // else {
-    let imgSrc = currEvent.c[EVENTS_COLS.image].v == true ? date[0] + '/' + date[1] + '/' + date[2] + ' ' + currEvent.c[EVENTS_COLS.name].v + '.jpg' : 'none.jpg';
+    let imgSrc = currEvent.c[EVENTS_COLS.image].v == true ? date[0] + '/' + (Number(date[1]) + 1) + '/' + date[2] + ' ' + currEvent.c[EVENTS_COLS.name].v + '.jpg' : 'none.jpg';
     html += '<img src="media/events/' + imgSrc + '">';
     // }
     html += '<h3>' + currEvent.c[EVENTS_COLS.name].v + '</h3>';
     html += '<ul class="event-dtl">';
-    html += '<li><i class="fa-solid fa-calendar"></i>' + date[2] + ' ' + MONTHS.get(Number(date[1])) + ' ' + date[0] + '</li>';
+    html += '<li><i class="fa-solid fa-calendar"></i>' + date[2] + ' ' + MONTHS.get(Number(date[1]) + 1) + ' ' + date[0] + '</li>';
     let eventTime = (currEvent.c[EVENTS_COLS.start] == null ? 'TBD' : (currEvent.c[EVENTS_COLS.start].f + (currEvent.c[EVENTS_COLS.end] == null ? '' : ('–' + currEvent.c[EVENTS_COLS.end].f))));
     html += '<li><i class="fa-solid fa-clock"></i>' + eventTime + '</li>';
     html += '<li><i class="fa-solid fa-location-dot"></i>' + (currEvent.c[EVENTS_COLS.location] != null ? currEvent.c[EVENTS_COLS.location].v : 'TBD') + '</li>';
