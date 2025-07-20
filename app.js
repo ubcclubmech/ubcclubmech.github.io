@@ -31,7 +31,8 @@ const EVENTS_COLS = {
   "rsvp": 6,
   "calendar": 7,
   "instagram": 8,
-  "image": 9
+  "image": 9,
+  "show": 10
 }
 
 const COUNCIL_COLS = {
@@ -268,7 +269,7 @@ function makeEvents(num) {
   let upcoming = new Map();
   let today = Date.now() - 1000 * 60 * 60 * 24;
   for (let i = 0; i < events.length; i ++) {
-    if (events[i].c[EVENTS_COLS.date] == null) { break; } // skip blank entries
+    if (events[i].c[EVENTS_COLS.show].v == false || events[i].c[EVENTS_COLS.date] == null || events[i].c[EVENTS_COLS.name] == null) { continue; } // skip blank entries
     let date = events[i].c[EVENTS_COLS.date].v.substring(5).split(')')[0].split(',');
     let utc = Date.UTC(date[0], date[1], date[2]);
     if (utc < today) { continue; }
@@ -286,8 +287,13 @@ function makeEvents(num) {
     //   html += '<div class="insta">' + currEvent.c[EVENTS_COLS.instagram].v + '</div>';
     // }
     // else {
-    let imgSrc = currEvent.c[EVENTS_COLS.image].v == true ? date[0] + '/' + (Number(date[1]) + 1) + '/' + date[2] + ' ' + currEvent.c[EVENTS_COLS.name].v + '.jpg' : 'none.jpg';
+    let imgSrc = currEvent.c[EVENTS_COLS.image].v == true ? date[0] + '/' + (Number(date[1]) + 1) + '/' + currEvent.c[EVENTS_COLS.name].v + '.jpg' : 'none.jpg';
+
+    if (currEvent.c[EVENTS_COLS.instagram] != null) {
+      html += '<a href="' + currEvent.c[EVENTS_COLS.instagram].v + '" target="_blank">';
+    }
     html += '<img src="media/events/' + imgSrc + '">';
+    html += (currEvent.c[EVENTS_COLS.instagram] != null) ? '</a>' : '';
     // }
     html += '<h3>' + currEvent.c[EVENTS_COLS.name].v + '</h3>';
     html += '<ul class="event-dtl">';

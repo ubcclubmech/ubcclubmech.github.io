@@ -355,6 +355,7 @@ header nav .button.nav {
   justify-content: flex-start;
   align-items: center;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .section-header {
@@ -590,7 +591,7 @@ header nav .button.nav {
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 925px) {
   .gallery {
     width: min(90%, 600px);
     column-count: 1;
@@ -638,7 +639,7 @@ header nav .button.nav {
   width: clamp(60%, 1700px, 85%);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 100px;
+  gap: min(5%, 100px);
   padding: 0;
   margin-top: 100px;
   margin-bottom: 1rem;
@@ -653,7 +654,7 @@ header nav .button.nav {
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 925px) {
   #events {
     width: min(90%, 500px);
     grid-template-columns: 1fr;
@@ -733,7 +734,7 @@ header nav .button.nav {
   display: grid;
   width: clamp(60%, 1700px, 85%);
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 100px;
+  gap: min(5%, 100px);
   margin-top: 100px;
   padding: 0;
   list-style: none;
@@ -747,7 +748,7 @@ header nav .button.nav {
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 925px) {
   #council-grid {
     width: min(90%, 500px);
     grid-template-columns: 1fr;
