@@ -3,14 +3,16 @@ const QUERY = encodeURIComponent('Select *');
 const SHEET_ID = '15aAzBnPpvBR3ntpgvbLN9WE5ftH6mSTPElIBsFxefk0';
 const BASE = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?`;
 const EVENTS_SHEET = 'Events';
+const LINKS_SHEET = 'Links';
 const COUNCIL_SHEET = 'Council';
 const POSITIONS_SHEET = 'Positions';
-const LINKS_SHEET = 'Links';
+const MERCH_SHEET = 'Merch';
 const CONTACTS_SHEET = 'Contacts';
 const EVENTS_URL = `${BASE}&sheet=${EVENTS_SHEET}&tq=${QUERY}`;
+const LINKS_URL = `${BASE}&sheet=${LINKS_SHEET}&tq=${QUERY}`;
 const COUNCIL_URL = `${BASE}&sheet=${COUNCIL_SHEET}&tq=${QUERY}`;
 const POSITIONS_URL = `${BASE}&sheet=${POSITIONS_SHEET}&tq=${QUERY}`;
-const LINKS_URL = `${BASE}&sheet=${LINKS_SHEET}&tq=${QUERY}`;
+const MERCH_URL = `${BASE}&sheet=${MERCH_SHEET}&tq=${QUERY}`;
 const CONTACTS_URL = `${BASE}&sheet=${CONTACTS_SHEET}&tq=${QUERY}`;
 
 const MATCHES_ID = '1r8BtslMkYsPrT3gRfWNOGKM8-QjrsfuN8ts8N5JqZXQ';
@@ -35,6 +37,13 @@ const EVENTS_COLS = {
   "show": 10
 }
 
+const LINKS_COLS = {
+  "name": 0,
+  "icon": 1,
+  "link": 2,
+  "show": 3
+}
+
 const COUNCIL_COLS = {
   "year": 0,
   "name": 1,
@@ -51,11 +60,14 @@ const POSITIONS_COLS = {
   "filled": 5
 }
 
-const LINKS_COLS = {
-  "name": 0,
-  "icon": 1,
-  "link": 2,
-  "show": 3
+const MERCH_COLS = {
+  "item": 0,
+  "price": 1,
+  "category": 2,
+  "sizes": 3,
+  "oos_sizes": 4,
+  "status": 5,
+  "show": 6
 }
 
 const CONTACTS_COLS = {
@@ -120,9 +132,10 @@ const GAME_SHORTS = new Map([["Foosball", "foos"], ["Pong", "pong"], ["Mario Kar
 const MONTHS = new Map([[1, "Jan"], [2, "Feb"], [3, "Mar"], [4, "Apr"], [5, "May"], [6, "Jun"], [7, "Jul"], [8, "Aug"], [9, "Sep"], [10, "Oct"], [11, "Nov"], [12, "Dec"]]);
 
 let events;
+let links;
 let council;
 let positions;
-let links;
+let merch;
 let contacts;
 let years = [];
 
@@ -149,6 +162,10 @@ async function init() {
     makeYearSelect();
     makeCouncilGrid();
   }
+  else if (document.getElementById('merch-categories') != null) { // merch page
+    await getMerch();
+    makeMerch();
+  }
   else if (document.getElementById('form-type') != null) { // contact page
     await Promise.all([getContacts(), getPositions()]);
     makeContactOptions();
@@ -174,6 +191,10 @@ async function getEvents() {
   await fetch(EVENTS_URL).then((res) => res.text()).then((rep) => {events = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
 }
 
+async function getLinks() {
+  await fetch(LINKS_URL).then((res) => res.text()).then((rep) => {links = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
+}
+
 async function getCouncil() {
   await fetch(COUNCIL_URL).then((res) => res.text()).then((rep) => {council = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
 }
@@ -182,8 +203,8 @@ async function getPositions() {
   await fetch(POSITIONS_URL).then((res) => res.text()).then((rep) => {positions = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
 }
 
-async function getLinks() {
-  await fetch(LINKS_URL).then((res) => res.text()).then((rep) => {links = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
+async function getMerch() {
+  await fetch(MERCH_URL).then((res) => res.text()).then((rep) => {merch = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
 }
 
 async function getContacts() {
@@ -295,7 +316,7 @@ function makeEvents(num) {
     html += '<img src="media/events/' + imgSrc + '">';
     html += (currEvent.c[EVENTS_COLS.instagram] != null) ? '</a>' : '';
     // }
-    html += '<h3>' + currEvent.c[EVENTS_COLS.name].v + '</h3>';
+    html += '<h2>' + currEvent.c[EVENTS_COLS.name].v + '</h2>';
     html += '<ul class="event-dtl">';
     html += '<li><i class="fa-solid fa-calendar"></i>' + date[2] + ' ' + MONTHS.get(Number(date[1]) + 1) + ' ' + date[0] + '</li>';
     let eventTime = (currEvent.c[EVENTS_COLS.start] == null ? 'TBD' : (currEvent.c[EVENTS_COLS.start].f + (currEvent.c[EVENTS_COLS.end] == null ? '' : ('–' + currEvent.c[EVENTS_COLS.end].f))));
@@ -397,13 +418,74 @@ document.querySelectorAll('#council-year').forEach((el) => {
   el.addEventListener('input', makeCouncilGrid);
 });
 
+// MERCH
+
+function makeMerch() {
+  let selectObj = document.getElementById('merch-categories');
+  let html = '';
+
+  let categories = new Set(["ALL"]);
+  for (let i = 0; i < merch.length; i ++) {
+    if (merch[i].c[MERCH_COLS.item] == null || merch[i].c[MERCH_COLS.price] == null || merch[i].c[MERCH_COLS.show].v == false) { continue; } // skip blank entries
+    html += '<li class="merch-item' + ((merch[i].c[MERCH_COLS.category] != null) ? (' ' + merch[i].c[MERCH_COLS.category].v.toLowerCase()) : '') + '">';
+    html += '<img src="media/merch/' + merch[i].c[MERCH_COLS.item].v + '.jpg">';
+    html += '<h2>' + merch[i].c[MERCH_COLS.item].v + '</h2>';
+    html += '<div><p class="price">$' + Number(merch[i].c[MERCH_COLS.price].v).toFixed(2) + '</p>';
+    if (merch[i].c[MERCH_COLS.sizes] != null) {
+      let sizes = merch[i].c[MERCH_COLS.sizes].v.split(', ');
+      let oosSizes = (merch[i].c[MERCH_COLS.oos_sizes] != null) ? merch[i].c[MERCH_COLS.oos_sizes].v.split(', ') : [];
+      html += '<ul class="sizes">';
+      for (let j = 0; j < sizes.length; j ++) {
+        let isOutOfStock = false;
+        for (let k = 0; k < oosSizes.length; k ++) {
+          if (sizes[j] == oosSizes[k]) { isOutOfStock = true; }
+        }
+        html += '<li' + ((isOutOfStock == true) ? ' class="out-of-stock"' : '') + '>' + sizes[j] + '</li>';
+      }
+      html += '</ul>';
+    }
+    else if (merch[i].c[MERCH_COLS.status] != null && merch[i].c[MERCH_COLS.status].v == 'Out of stock') {
+      html += '<p class="out-of-stock">Out of stock</p>';
+    }
+    html += '</div>';
+    html += '</li>'
+
+    if (merch[i].c[MERCH_COLS.category] != null) { // create categories set
+      categories.add(merch[i].c[MERCH_COLS.category].v.toUpperCase());
+    }
+  }
+  document.getElementById('merch-grid').innerHTML = html;
+
+  categories = Array.from(categories);
+  
+  for (let i = 0; i < categories.length; i ++) {
+    selectObj.innerHTML += '<option value="' + categories[i] + '">' + categories[i] + '</option>';
+  }
+}
+
+function filterMerch() {
+  let selectObj = document.getElementById('merch-categories');
+  let category = selectObj.options[selectObj.selectedIndex].value.toLowerCase();
+
+  let merchItems = document.querySelectorAll('.merch-item');
+
+  for (let i = 0; i < merchItems.length; i ++) {
+    if (category == 'all' || merchItems[i].classList.contains(category)) {
+      merchItems[i].style.display = '';
+    }
+    else {
+      merchItems[i].style.display = 'none';
+    }
+  }
+}
+document.querySelectorAll('#merch-categories').forEach((el) => {
+  el.addEventListener('input', filterMerch);
+});
+
 // CONTACT
 
 function makeContactOptions() {
-  let selectObj = document.getElementById('form-type');
-
   let html = '';
-  
   for (let i = 0; i < contacts.length; i ++) {
     if (contacts[i].c[CONTACTS_COLS.option] == null || contacts[i].c[CONTACTS_COLS.show].v == false) { continue; } // skip blank entries
     html += '<option value="' + contacts[i].c[CONTACTS_COLS.option].v + '">' + contacts[i].c[CONTACTS_COLS.option].v + '</option>';
@@ -420,7 +502,7 @@ function makeContactOptions() {
   document.getElementById('form-key').setAttribute('value', key);
   document.getElementById('form-subject').setAttribute('value', contacts[0].c[CONTACTS_COLS.option].v);
 
-  selectObj.innerHTML = html;
+  document.getElementById('form-type').innerHTML = html;
 }
 
 function updateContactForm() {
