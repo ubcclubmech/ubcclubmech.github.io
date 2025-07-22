@@ -459,7 +459,7 @@ function makeCouncilGrid() {
           }
         }
         html += '</h3>';
-        if (currYear.v == councilYears[0]) { // only list emails for current council
+        if (currYear == councilYears[0]) { // only list emails for current council
           let firstEmail = true; // in the event of no emails, we dont want to create empty lists
           for (let j = 0; j < currPositions.length; j ++) {
             for (let k = 0; k < positions.length; k ++) {
