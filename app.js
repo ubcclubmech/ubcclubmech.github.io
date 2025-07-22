@@ -49,9 +49,9 @@ const LINKS_COLS = {
 }
 
 const GALLERY_COLS = {
-  "image": 0,
-  "caption": 1,
-  "collection": 2,
+  "collection": 0,
+  "image": 1,
+  "caption": 2,
   "show": 3
 }
 
@@ -277,15 +277,6 @@ function handleTooltips(el) {
     tooltip.classList.add('left');
   }
 }
-
-function changePage(href) {
-  if (href != null) {
-    window.location.href = href;
-  }
-}
-document.querySelectorAll('.nav').forEach((el) => {
-  el.addEventListener('click', (event) => changePage(el.getAttribute('href')));
-});
 
 // HOME
 
