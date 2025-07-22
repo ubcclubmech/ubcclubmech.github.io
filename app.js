@@ -4,12 +4,16 @@ const SHEET_ID = '15aAzBnPpvBR3ntpgvbLN9WE5ftH6mSTPElIBsFxefk0';
 const BASE = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?`;
 const EVENTS_SHEET = 'Events';
 const LINKS_SHEET = 'Links';
+const GALLERY_SHEET = 'Gallery';
+const COLLECTIONS_SHEET = 'Collections';
 const COUNCIL_SHEET = 'Council';
 const POSITIONS_SHEET = 'Positions';
 const MERCH_SHEET = 'Merch';
 const CONTACTS_SHEET = 'Contacts';
 const EVENTS_URL = `${BASE}&sheet=${EVENTS_SHEET}&tq=${QUERY}`;
 const LINKS_URL = `${BASE}&sheet=${LINKS_SHEET}&tq=${QUERY}`;
+const GALLERY_URL = `${BASE}&sheet=${GALLERY_SHEET}&tq=${QUERY}`;
+const COLLECTIONS_URL = `${BASE}&sheet=${COLLECTIONS_SHEET}&tq=${QUERY}`;
 const COUNCIL_URL = `${BASE}&sheet=${COUNCIL_SHEET}&tq=${QUERY}`;
 const POSITIONS_URL = `${BASE}&sheet=${POSITIONS_SHEET}&tq=${QUERY}`;
 const MERCH_URL = `${BASE}&sheet=${MERCH_SHEET}&tq=${QUERY}`;
@@ -44,6 +48,18 @@ const LINKS_COLS = {
   "show": 3
 }
 
+const GALLERY_COLS = {
+  "image": 0,
+  "caption": 1,
+  "collection": 2,
+  "show": 3
+}
+
+const COLLECTIONS_COLS = {
+  "name": 0,
+  "show": 1
+}
+
 const COUNCIL_COLS = {
   "year": 0,
   "name": 1,
@@ -67,7 +83,8 @@ const MERCH_COLS = {
   "sizes": 3,
   "oos_sizes": 4,
   "status": 5,
-  "show": 6
+  "image": 6,
+  "show": 7
 }
 
 const CONTACTS_COLS = {
@@ -133,11 +150,14 @@ const MONTHS = new Map([[1, "Jan"], [2, "Feb"], [3, "Mar"], [4, "Apr"], [5, "May
 
 let events;
 let links;
+let gallery;
+let collections;
 let council;
 let positions;
 let merch;
 let contacts;
-let years = [];
+let councilYears = [];
+let galleryYears = [];
 
 let gameData;
 let playerNameData;
@@ -148,10 +168,11 @@ let playerNames;
 
 async function init() {
   if (document.getElementById('exec-openings') != null) { // home page
-    await Promise.all([getLinks(), getPositions(), getEvents()]);
+    await Promise.all([getLinks(), getPositions(), getEvents(), getCollections(), getGallery()]);
     makeLinks();
     makeOpenings();
     makeEvents(3);
+    makeGallery();
   }
   else if (document.getElementById('events') != null && document.getElementById('exec-openings') == null) { // events page
     await getEvents();
@@ -193,6 +214,14 @@ async function getEvents() {
 
 async function getLinks() {
   await fetch(LINKS_URL).then((res) => res.text()).then((rep) => {links = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
+}
+
+async function getGallery() {
+  await fetch(GALLERY_URL).then((res) => res.text()).then((rep) => {gallery = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
+}
+
+async function getCollections() {
+  await fetch(COLLECTIONS_URL).then((res) => res.text()).then((rep) => {collections = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
 }
 
 async function getCouncil() {
@@ -284,6 +313,51 @@ function makeLinks() {
   document.getElementById('links').innerHTML = html;
 }
 
+function makeGallery() {
+  let yearsSet = new Set();
+  for (let i = 0; i < collections.length; i ++) { // loops through collections entries and gets the most recent year
+    if (collections[i].c[COLLECTIONS_COLS.name] == null || collections[i].c[COLLECTIONS_COLS.show].v == false) { continue; }
+    let currYear = Number(collections[i].c[COLLECTIONS_COLS.name].v.split(' ')[0]);
+    yearsSet.add(currYear);
+  }
+
+  galleryYears = [];
+  for (let el of yearsSet) {
+    galleryYears.push(el);
+  }
+
+  galleryYears = galleryYears.sort();
+
+  let html = '';
+
+  for (let i = 0; i < galleryYears.length; i ++) {
+    html += '<h3>' + galleryYears[i] + '–' + (galleryYears[i] + 1) + '</h3>';
+    for (let j = 0; j < collections.length; j ++) {
+      if (collections[j].c[COLLECTIONS_COLS.name] == null || collections[j].c[COLLECTIONS_COLS.show].v == false) { continue; }
+      let currYear = Number(collections[j].c[COLLECTIONS_COLS.name].v.split(' ')[0]);
+      if (galleryYears[i] != currYear) { continue; }
+      let collectionName = collections[j].c[COLLECTIONS_COLS.name].v;
+      html += '<h4>' + collectionName.substring(collectionName.indexOf(' ')) + '</h4>';
+      html += '<ul class="collection">';
+
+      for (let k = 0; k < gallery.length; k ++) {
+        if (gallery[k].c[GALLERY_COLS.image] == null || gallery[k].c[GALLERY_COLS.collection] == null || gallery[k].c[GALLERY_COLS.show].v == false) { continue; }
+        if (gallery[k].c[GALLERY_COLS.collection].v != collections[j].c[COLLECTIONS_COLS.name].v) { continue; }
+        let imgURL = gallery[k].c[GALLERY_COLS.image].v;
+        let imgSrc = 'https://drive.google.com/thumbnail?id=' + imgURL.substring(imgURL.indexOf('/d/') + 3, imgURL.indexOf('/view')) + '&sz=w1080';
+        html += '<li><figure><img src="' + imgSrc + '">';
+        if (gallery[k].c[GALLERY_COLS.caption] != null) {
+          html += '<figcaption>' + gallery[k].c[GALLERY_COLS.caption].v + '</figcaption>';
+        }
+        html += '</figure></li>';
+      }
+      html += '</ul>';
+    }
+  }
+  
+  document.getElementById('gallery').innerHTML = html;
+}
+
 // EVENTS
 
 function makeEvents(num) {
@@ -301,21 +375,21 @@ function makeEvents(num) {
   let html = '';
   for (let i = 0; i < sorted.length; i ++) {
     let currEvent = events[sorted[i][0]];
-    // let date = currEvent.c[EVENTS_COLS.date].f.split('-');
     let date = currEvent.c[EVENTS_COLS.date].v.substring(5).split(')')[0].split(',');
     html += '<li class="event">';
-    // if (currEvent.c[EVENTS_COLS.instagram] != null) {
-    //   html += '<div class="insta">' + currEvent.c[EVENTS_COLS.instagram].v + '</div>';
-    // }
-    // else {
-    let imgSrc = currEvent.c[EVENTS_COLS.image].v == true ? date[0] + '/' + (Number(date[1]) + 1) + '/' + currEvent.c[EVENTS_COLS.name].v + '.jpg' : 'none.jpg';
+
+    let imgSrc = '/media/events/none.jpg';
+    if (currEvent.c[EVENTS_COLS.image] != null) {
+      let imgURL = currEvent.c[EVENTS_COLS.image].v;
+      imgSrc = 'https://drive.google.com/thumbnail?id=' + imgURL.substring(imgURL.indexOf('/d/') + 3, imgURL.indexOf('/view')) + '&sz=w1080';
+    }
 
     if (currEvent.c[EVENTS_COLS.instagram] != null) {
       html += '<a href="' + currEvent.c[EVENTS_COLS.instagram].v + '" target="_blank">';
     }
-    html += '<img src="media/events/' + imgSrc + '">';
+    html += '<img src="' + imgSrc + '" alt="' + currEvent.c[EVENTS_COLS.name].v + '">';
     html += (currEvent.c[EVENTS_COLS.instagram] != null) ? '</a>' : '';
-    // }
+    
     html += '<h2>' + currEvent.c[EVENTS_COLS.name].v + '</h2>';
     html += '<ul class="event-dtl">';
     html += '<li><i class="fa-solid fa-calendar"></i>' + date[2] + ' ' + MONTHS.get(Number(date[1]) + 1) + ' ' + date[0] + '</li>';
@@ -344,16 +418,16 @@ function makeYearSelect() {
     yearsSet.add(currYear.v);
   }
 
-  years = [];
+  councilYears = [];
   for (let el of yearsSet) {
-    years.push(el);
+    councilYears.push(el);
   }
 
-  years = years.sort().reverse();
+  councilYears = councilYears.sort().reverse();
 
   let selectHTML = '';
-  for (let i = 0; i < years.length; i ++) {
-    selectHTML += '<option value="' + years[i] + '">' + years[i] + '–' + (years[i] + 1) + '</option>';
+  for (let i = 0; i < councilYears.length; i ++) {
+    selectHTML += '<option value="' + councilYears[i] + '">' + councilYears[i] + '–' + (councilYears[i] + 1) + '</option>';
   }
   document.getElementById('council-year').innerHTML = selectHTML;
 }
@@ -370,8 +444,14 @@ function makeCouncilGrid() {
       let currPositions = council[i].c[COUNCIL_COLS.position].v.split(', '); // creates an array of positions held by the member
       if (currYear.v == selectedYear && currPositions[0] == positions[p].c[POSITIONS_COLS.position].v) { // heirarchical ordering done by *first* position in list
         html += '<li class="council-member">';
-        let imgSrc = council[i].c[COUNCIL_COLS.photo].v == true ? String(council[i].c[COUNCIL_COLS.year].v) + '/' + council[i].c[COUNCIL_COLS.name].v : 'none';
-        html += ('<img src="media/council/' + imgSrc + '.jpg" alt="' + council[i].c[COUNCIL_COLS.name].v + '">'); // photo
+
+        let imgSrc = '/media/council/none.jpg';
+        if (council[i].c[COUNCIL_COLS.photo].v != null) { //! THIS '.v' SHOULD BE REMOVED IF A COLUMN IS PLACED AFTER PHOTO
+          let imgURL = council[i].c[COUNCIL_COLS.photo].v;
+          imgSrc = 'https://drive.google.com/thumbnail?id=' + imgURL.substring(imgURL.indexOf('/d/') + 3, imgURL.indexOf('/view')) + '&sz=w1080';
+        }
+
+        html += ('<img src="' + imgSrc + '" alt="' + council[i].c[COUNCIL_COLS.name].v + '">'); // photo
         html += '<h2>' + council[i].c[COUNCIL_COLS.name].v + '</h2>'; // name
         html += '<h3>';
         for (let j = 0; j < currPositions.length; j ++) {
@@ -386,7 +466,7 @@ function makeCouncilGrid() {
           }
         }
         html += '</h3>';
-        if (currYear.v == years[0]) { // only list emails for current council
+        if (currYear.v == councilYears[0]) { // only list emails for current council
           let firstEmail = true; // in the event of no emails, we dont want to create empty lists
           for (let j = 0; j < currPositions.length; j ++) {
             for (let k = 0; k < positions.length; k ++) {
