@@ -308,7 +308,7 @@ function makeGallery() {
   let yearsSet = new Set();
   for (let i = 0; i < collections.length; i ++) { // loops through collections entries and gets the most recent year
     if (collections[i].c[COLLECTIONS_COLS.name] == null || collections[i].c[COLLECTIONS_COLS.show].v == false) { continue; }
-    let currYear = Number(collections[i].c[COLLECTIONS_COLS.name].v.split(' ')[0]);
+    let currYear = Number(collections[i].c[COLLECTIONS_COLS.name].v.split(' ')[0].split('/')[0]);
     yearsSet.add(currYear);
   }
 
@@ -325,10 +325,10 @@ function makeGallery() {
     html += '<h3>' + galleryYears[i] + '–' + (galleryYears[i] + 1) + '</h3>';
     for (let j = 0; j < collections.length; j ++) {
       if (collections[j].c[COLLECTIONS_COLS.name] == null || collections[j].c[COLLECTIONS_COLS.show].v == false) { continue; }
-      let currYear = Number(collections[j].c[COLLECTIONS_COLS.name].v.split(' ')[0]);
+      let currYear = Number(collections[j].c[COLLECTIONS_COLS.name].v.split(' ')[0].split('/')[0]);
       if (galleryYears[i] != currYear) { continue; }
       let collectionName = collections[j].c[COLLECTIONS_COLS.name].v;
-      html += '<h4>' + collectionName.substring(collectionName.indexOf(' ')) + '</h4>';
+      html += '<h4>' + collectionName.substring(collectionName.indexOf(' ') + 1) + '</h4>';
       html += '<ul class="collection">';
 
       for (let k = 0; k < gallery.length; k ++) {
@@ -404,9 +404,10 @@ function makeEvents(num) {
 function makeYearSelect() {
   let yearsSet = new Set();
   for (let i = 0; i < council.length; i ++) { // loops through council entries and gets the most recent year
-    let currYear = council[i].c[COUNCIL_COLS.year];
-    if (currYear == null) { break; } // skip blank entries
-    yearsSet.add(currYear.v);
+    if (council[i].c[COUNCIL_COLS.year] == null) { break; } // skip blank entries
+    let currYear = Number(council[i].c[COUNCIL_COLS.year].v.split('/')[0]);
+    if (isNaN(currYear) == true) { continue; } //! FOR SOME REASON, HEADER IS GETTING FETCHED TOO
+    yearsSet.add(currYear);
   }
 
   councilYears = [];
@@ -430,10 +431,11 @@ function makeCouncilGrid() {
   let html = '';
   for (let p = 0; p < positions.length; p ++) { // looping through the positions sheet allows for heirarchical ordering even if the 'Council' sheet entries are out of order
     for (let i = 0; i < council.length; i ++) {
-      let currYear = council[i].c[COUNCIL_COLS.year]; // current year
-      if (currYear == null) { break; } // skip blank entries
+      if (council[i].c[COUNCIL_COLS.year] == null) { break; } // skip blank entries
+      let currYear = Number(council[i].c[COUNCIL_COLS.year].v.split('/')[0]); // current year
+      if (isNaN(currYear) == true) { continue; }
       let currPositions = council[i].c[COUNCIL_COLS.position].v.split(', '); // creates an array of positions held by the member
-      if (currYear.v == selectedYear && currPositions[0] == positions[p].c[POSITIONS_COLS.position].v) { // heirarchical ordering done by *first* position in list
+      if (currYear == selectedYear && currPositions[0] == positions[p].c[POSITIONS_COLS.position].v) { // heirarchical ordering done by *first* position in list
         html += '<li class="council-member">';
 
         let imgSrc = '/media/council/none.jpg';
