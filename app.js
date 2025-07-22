@@ -326,7 +326,7 @@ function makeGallery() {
     galleryYears.push(el);
   }
 
-  galleryYears = galleryYears.sort();
+  galleryYears = galleryYears.sort().reverse();
 
   let html = '';
 
