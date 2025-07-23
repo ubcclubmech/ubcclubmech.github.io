@@ -21,6 +21,10 @@
   --item-name-margin: calc(var(--line-height) * 1rem - 1rem) 0 0 0;
   --item-name-line-height: 1.4;
 
+  /* section headers */
+  --section-shadow: 0 0 0.3em hsl(0, 0%, 0%, 50%);
+  --section-filter: brightness(0.9) blur(calc(var(--section-header-height) / 55));
+
   /* padding */
   --standard-padding: 0.3em 0.9em;
   --thin-padding: 0.2em 0.8em;
@@ -62,7 +66,6 @@
 
   --secondary: hsl(0, 0%, 92%);
 
-  --section-shadow: hsl(0, 0%, 0%, 30%);
   --tooltip-shadow: hsl(0, 0%, 0%, 15%);
   --tooltip-border: hsl(0, 0%, 70%);
 
@@ -114,9 +117,7 @@ html {
 }
 
 body {
-  background-color: var(--background);
   margin: 0;
-  padding-bottom: 150px;
   min-height: fit-content;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -128,6 +129,19 @@ h3 { font-size: var(--h3-size); color: var(--primary-100); margin: 1rem 0 1rem 0
 h4 { font-size: var(--h4-size); color: var(--primary-100); margin: 1rem 0 1rem 0; }
 h5 { font-size: var(--h5-size); color: var(--primary-100); margin: 1rem 0 1rem 0; }
 p { font-size: var(--body-size); margin: 1rem 0 1rem 0; }
+
+#content {
+  margin-top: var(--navbar-height);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: fit-content;
+  text-align: center;
+  position: relative;
+  background-color: var(--background);
+  padding-bottom: 150px;
+}
 
 header {
   z-index: 1;
@@ -361,27 +375,20 @@ header nav .button.nav {
   gap: var(--icon-margin);
 }
 
-#content {
-  margin-top: var(--navbar-height);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  min-height: fit-content;
-  text-align: center;
-  position: relative;
-}
-
 .section-header {
+  top: var(--navbar-height);
   width: 100%;
   height: var(--section-header-height);
   overflow: hidden;
   position: relative;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
 }
 
-.section-header div {
+.section-header > div {
   width: 100%;
   position: absolute;
   top: 0px;
@@ -393,17 +400,20 @@ header nav .button.nav {
 }
 
 .section-header img {
-  min-width: 110%;
+  z-index: 0;
+  position: fixed;
+  width: 110%;
+  height: calc(var(--section-header-height) + 4vw);
+  margin: -2vw 0;
   object-fit: cover;
-  margin: -5px 0px;
-  filter: brightness(0.6) blur(3px);
+  filter: var(--section-filter);
 }
 
 .section-header h1 {
   text-align: center;
   margin: 0px;
   color: var(--section);
-  text-shadow: 0px 0px 15px var(--section-shadow);
+  text-shadow: var(--section-shadow);
 }
 
 .section-header p {
@@ -413,14 +423,14 @@ header nav .button.nav {
   font-weight: 600;
   text-align: center;
   color: var(--section);
-  text-shadow: 0px 0px 15px var(--section-shadow);
+  text-shadow: var(--section-shadow);
 }
 
 .section-header .button {
   font-size: var(--h5-size);
   font-weight: 600;
   margin-top: 0.5rem;
-  box-shadow: 0 0 15px var(--section-shadow);
+  box-shadow: var(--section-shadow);
 }
 
 .section-header select {
@@ -433,7 +443,7 @@ header nav .button.nav {
   color: var(--section);
   font-family: inherit;
   cursor: pointer;
-  text-shadow: 0px 0px 15px var(--section-shadow);
+  text-shadow: var(--section-shadow);
 }
 
 .section-header select:focus {
