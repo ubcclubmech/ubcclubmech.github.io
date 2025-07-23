@@ -125,7 +125,7 @@ body {
 }
 
 body:not(#leaderboard-body) {
-  overscroll-behavior: contain;
+  overscroll-behavior: none;
 }
 
 h1 { font-size: var(--h1-size); color: var(--primary-100); }
