@@ -63,7 +63,7 @@
   --secondary: hsl(0, 0%, 92%);
 
   --section-shadow: hsl(0, 0%, 0%, 30%);
-  --tooltip-shadow: hsl(0, 0%, 0%, 25%);
+  --tooltip-shadow: hsl(0, 0%, 0%, 15%);
   --tooltip-border: hsl(0, 0%, 70%);
 
   --leaderboard-red: hsl(0, 70%, 55%);
@@ -369,6 +369,7 @@ header nav .button.nav {
   align-items: center;
   min-height: fit-content;
   text-align: center;
+  position: relative;
 }
 
 .section-header {
@@ -461,8 +462,10 @@ header nav .button.nav {
   margin-top: var(--grid-margin-top);
 }
 
-:has(>.tooltip) {
-  position: relative;
+@media (min-width: 601px) {
+  :has(>.tooltip) {
+    position: relative;
+  }
 }
 
 .tooltip {
@@ -473,14 +476,14 @@ header nav .button.nav {
   z-index: 2;
   display: block;
   position: absolute;
-  bottom: calc(100% + 1rem);
+  bottom: auto;
   width: min(45vw, 300px);
   box-sizing: border-box;
   border: 1px solid var(--tooltip-border);
   border-radius: var(--border-radius);
   content: attr(tooltip);
   background-color: var(--secondary);
-  box-shadow: 0px 10px 15px var(--tooltip-shadow);
+  box-shadow: 0px 5px 15px var(--tooltip-shadow);
   font-family: 'Lexend', sans-serif;
   font-weight: 400;
   color: var(--text);
@@ -488,7 +491,7 @@ header nav .button.nav {
   line-height: var(--line-height);
   padding: var(--tooltip-padding);
   opacity: 0;
-  transform: translateY(2px);
+  transform: translateY(calc(-100% - 2rem + 5px));
   transition-property: opacity tansform;
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
@@ -504,8 +507,23 @@ header nav .button.nav {
   left: auto;
 }
 
+@media (max-width: 600px) {
+  .tooltip, .tooltip.left, .tooltip.right {
+    width: auto;
+    max-width: none;
+  }
+  .tooltip.right {
+    left: 7.5%;
+    right: 20%;
+  }
+  .tooltip.left {
+    left: 20%;
+    right: 7.5%;
+  }
+}
+
 :has(>.tooltip):hover > .tooltip {
-  transform: translateY(0px);
+  transform: translateY(calc(-100% - 2rem));
   opacity: 1;
   transition-delay: 0.3s;
 }
@@ -567,7 +585,7 @@ header nav .button.nav {
   margin: 0;
   border-radius: var(--border-radius);
   text-align: center;
-  position: relative;
+  /* position: relative; */
   display: flex;
   flex-direction: row;
   justify-content: stretch;
