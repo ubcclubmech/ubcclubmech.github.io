@@ -253,19 +253,50 @@ let mouseStartY;
 let canReload;
 let reloading = false;
 let wasAtTop;
+const pullHeight = 150;
 const reloadTime = 400;
 
-function reloadEase(x) {
-  // return x === 1 ? 1 : 1 - Math.pow(2, -10 * x); // exp
-  // return 1 - Math.pow(1 - x, 4); // quart
-  return 1 - Math.pow(1 - x, 3); // cubic
-  // const c1 = 1.70158;
-  // const c3 = c1 + 1;
-  // return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); // easeOutBack
+function ease(x, dir, type) {
+  switch (dir) {
+    case 'in':
+      switch (type) {
+        case 'poly2':
+          return x * x;
+        case 'poly3':
+          return x * x * x;
+        case 'exp':
+          return x === 0 ? 0 : Math.pow(2, 10 * x - 10);
+        default:
+          break;
+      }
+    case 'out':
+      switch (type) {
+        case 'poly2':
+          return 1 - (1 - x) * (1 - x);
+        case 'poly3':
+          return 1 - Math.pow(1 - x, 3);
+        case 'poly4':
+          return 1 - Math.pow(1 - x, 4);
+        case 'exp':
+          return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+        case 'bounce':
+          const c1 = 1.70158;
+          const c3 = c1 + 1;
+          return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+        default:
+          break;
+      }
+    case 'in-out':
+      break;
+    default:
+      break;
+  }
+  return 0;
 }
 
 const body = document.querySelector('body:not(#leaderboard-body)');
 const indicator = document.querySelector('#reload-indicator');
+indicator.innerHTML = '<i class="fa-solid fa-arrow-rotate-right"></i>'
 const transformOnReload = document.querySelectorAll('#content, .section-header > :not(#reload-indicator):not(img)');
 
 body.addEventListener('touchstart', (event) => {
@@ -290,16 +321,17 @@ body.addEventListener('touchmove', (event) => {
   }
   if (document.scrollingElement.scrollTop === 0 && canReload == true) {
     wasAtTop = true;
-    let ease = reloadEase(Math.min((y - startY) / 150, 1))
-    let indicatorStyle = `transform: translateY(calc(${(25 + 20) * ease}px + var(--section-header-height) / 6 * ${ease}))`
+    let pullEase = ease(Math.min((y - startY) / (pullHeight * 7 / 8), 1), 'out', 'poly2');
+    let scaleEase = ease(Math.min((y - startY) / (pullHeight * 7 / 8), 1), 'in', 'poly3')
+    let indicatorStyle = `transform: translateY(calc(${(25 + 20) * pullEase}px + var(--section-header-height) / 6 * ${pullEase})) scale(${1 + 0.2 * scaleEase})`;
 
     indicator.style = 'transition-duration: 0s; ' + indicatorStyle + ';';
 
     transformOnReload.forEach((el) => {
-      el.style = `transform: translateY(${1.5 * ease}vw)`;
-      // filter: blur(${0.2 * ease}vw); 
+      el.style = `transition-duration: 0s; transform: translateY(${2 * pullEase}vw)`;
+      // filter: blur(${0.5 * pullEase}vw);
     })
-    if (y > (startY + 200)) {
+    if (y > (startY + pullHeight)) {
       reloading = true;
       // body.style = 'overflow: hidden;'
       indicator.style = indicatorStyle + ` rotate(360deg); transition-duration: ${reloadTime}ms;`;
@@ -315,7 +347,7 @@ function endReload(delay) {
   setTimeout(function(){
     indicator.style = 'transition-duration: 0.1s;';
     transformOnReload.forEach((el) => {
-      el.style = 'transform: translateY(0);';
+      el.style = 'transition-duration: 0.1s; transform: translateY(0);';
     });
   }, delay);
 }
