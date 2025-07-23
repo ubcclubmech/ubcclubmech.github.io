@@ -248,6 +248,82 @@ async function getPlayerNameData() {
   await fetch(PLAYERS_URL).then((res) => res.text()).then((rep) => {playerNameData = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
 }
 
+let startY;
+let mouseStartY;
+let canReload;
+let reloading = false;
+let wasAtTop;
+const reloadTime = 400;
+
+function reloadEase(x) {
+  // return x === 1 ? 1 : 1 - Math.pow(2, -10 * x); // exp
+  // return 1 - Math.pow(1 - x, 4); // quart
+  return 1 - Math.pow(1 - x, 3); // cubic
+  // const c1 = 1.70158;
+  // const c3 = c1 + 1;
+  // return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); // easeOutBack
+}
+
+const body = document.querySelector('body:not(#leaderboard-body)');
+const indicator = document.querySelector('#reload-indicator');
+const transformOnReload = document.querySelectorAll('#content, .section-header > :not(#reload-indicator):not(img)');
+
+body.addEventListener('touchstart', (event) => {
+  wasAtTop = false;
+  canReload = true;
+  reloading = false;
+  startY = event.touches[0].pageY;
+  mouseStartY = event.touches[0].clientY;
+}, {passive: true});
+
+body.addEventListener('touchmove', (event) => {
+  const y = event.touches[0].pageY;
+  const mouseY = event.touches[0].clientY;
+  if (mouseY < mouseStartY) {
+    if (wasAtTop && mouseStartY > (mouseY + 20)) {
+      canReload = false;
+      endReload(0);
+    }
+  }
+  else {
+    mouseStartY = mouseY;
+  }
+  if (document.scrollingElement.scrollTop === 0 && canReload == true) {
+    wasAtTop = true;
+    let ease = reloadEase(Math.min((y - startY) / 150, 1))
+    let indicatorStyle = `transform: translateY(calc(${(25 + 20) * ease}px + var(--section-header-height) / 6 * ${ease}))`
+
+    indicator.style = 'transition-duration: 0s; ' + indicatorStyle + ';';
+
+    transformOnReload.forEach((el) => {
+      el.style = `transform: translateY(${1.5 * ease}vw)`;
+      // filter: blur(${0.2 * ease}vw); 
+    })
+    if (y > (startY + 200)) {
+      reloading = true;
+      // body.style = 'overflow: hidden;'
+      indicator.style = indicatorStyle + ` rotate(360deg); transition-duration: ${reloadTime}ms;`;
+      setTimeout(function() {
+        indicator.style = `transition-duration: 0.1s; transform: translateY(0px) rotate(360deg);`;
+      }, reloadTime)
+      location.reload();
+    }
+  }
+}, {passive: true});
+
+function endReload(delay) {
+  setTimeout(function(){
+    indicator.style = 'transition-duration: 0.1s;';
+    transformOnReload.forEach((el) => {
+      el.style = 'transform: translateY(0);';
+    });
+  }, delay);
+}
+
+body.addEventListener('touchend', (event) => {
+  endReload(reloading == true ? reloadTime : 0);
+});
+
 function toggleNav() {
   let nav = document.getElementById('nav')
   let classes = nav.classList;

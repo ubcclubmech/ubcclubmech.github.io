@@ -124,6 +124,10 @@ body {
   overflow-x: hidden;
 }
 
+body:not(#leaderboard-body) {
+  overscroll-behavior: contain;
+}
+
 h1 { font-size: var(--h1-size); color: var(--primary-100); }
 h2 { font-size: var(--h2-size); color: var(--primary-100); margin: var(--h2-size) 0 1rem 0;}
 h3 { font-size: var(--h3-size); color: var(--primary-100); margin: 1rem 0 1rem 0; }
@@ -410,15 +414,20 @@ header nav .button.nav {
   filter: var(--section-filter);
 }
 
-.section-header::after {
-  z-index: 0;
+#reload-indicator {
+  z-index: 1;
   content: '';
-  background-color: var(--background);
-  position: fixed;
-  top: calc(var(--navbar-height) + var(--section-header-height));
-  bottom: 0;
-  left: 0;
-  right: 0;
+  font-size: var(--h3-size);
+  color: var(--text-alt);
+  text-shadow: var(--section-shadow);
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: calc(-25px - 0.5 * var(--navbar-height));
+  transform: translateY(0px);
+  transition-property: transform;
+  transition-duration: 0s;
+  transition-timing-function: ease-in-out;
 }
 
 .section-header h1 {
