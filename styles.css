@@ -11,7 +11,6 @@
   --h1-size: calc(pow(var(--type-scale), 5.6) * var(--body-size));
 
   /* constants */
-  --navbar-height: 80px;
   --icon-margin: 0.6em;
   --border-radius: 10px;
   --gap-width: 10px;
@@ -34,6 +33,7 @@
   --select-height: calc(1em * var(--line-height) + 0.6em); /* select ignores line height */
   
   /* variables */
+  --navbar-height: 80px;
   --section-header-height: 500px;
   --inner-width: clamp(30%, 1500px, 85%);
   --grid-width: clamp(60%, 1700px, 85%);
@@ -104,6 +104,7 @@
 @media (max-width: 600px) {
   :root {
     --type-scale: 1.22;
+    --navbar-height: 65px;
     --section-header-height: calc(2 / 3 * 100vw);
     --inner-width: 90%;
   }
@@ -124,6 +125,11 @@ body {
   overflow-y: scroll;
   overflow-x: hidden;
   overscroll-behavior: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
 }
 
 h1 { font-size: var(--h1-size); color: var(--primary-100); }
@@ -144,6 +150,7 @@ p { font-size: var(--body-size); margin: 1rem 0 1rem 0; }
   position: relative;
   background-color: var(--background);
   padding-bottom: 150px;
+  width: 100%;
 }
 
 header {
@@ -164,8 +171,7 @@ header {
 
 .logo {
   object-fit: contain;
-  width: 140px;
-  height: 60px;
+  height: calc(11 / 16 * var(--navbar-height));
   position: absolute;
   left: 15px;
 }
@@ -382,13 +388,15 @@ header nav .button.nav {
   top: var(--navbar-height);
   width: 100%;
   height: var(--section-header-height);
-  overflow: hidden;
+  overflow-x: visible;
+  overflow-y: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   background: none;
+  object-fit: cover;
 }
 
 .section-header > div {
@@ -420,19 +428,16 @@ header nav .button.nav {
   text-shadow: var(--section-shadow);
   width: 50px;
   height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: calc(-25px - 0.5 * var(--navbar-height));
   transform: translateY(0px);
   transition-property: transform;
   transition-duration: 0s;
   transition-timing-function: ease-in-out;
-}
-
-#reload-indicator.leaderboard {
-  color: var(--text);
-  text-shadow: none;
-  width: 100%;
-  text-align: center;
 }
 
 .section-header h1 {
@@ -1009,7 +1014,7 @@ form .button {
 
 /* LEADERBOARD */
 
-nav.leaderboard {
+#leaderboard nav {
   position: absolute;
   top: 20px;
   left: 20px;
@@ -1020,10 +1025,23 @@ nav.leaderboard {
   align-items: center;
 }
 
-nav.leaderboard .button.nav {
+#leaderboard nav .button.nav {
   color: var(--text);
   font-size: var(--h4-size);
   padding: var(--icon-padding);
+}
+
+#leaderboard #content > h1 {
+  margin: 20px 0 0 0;
+}
+
+#leaderboard #content > h2 {
+  margin: 0 0 4rem 0;
+}
+
+#leaderboard #reload-indicator {
+  color: var(--text);
+  text-shadow: none;
 }
 
 #live {
@@ -1055,7 +1073,7 @@ nav.leaderboard .button.nav {
   align-items: stretch;
 }
 
-.button.leaderboard {
+#leaderboard .button:not(.icon) {
   flex-grow: 1;
   padding: var(--thick-padding);
   line-height: inherit;
@@ -1066,12 +1084,12 @@ nav.leaderboard .button.nav {
   text-decoration: none;
 }
 
-.button.leaderboard:hover, .button.leaderboard.selected {
+#leaderboard .button:not(.icon):hover, #leaderboard .button:not(.icon).selected {
   background-color: var(--leaderboard-red);
   color: var(--text-alt);
 }
 
-.button.leaderboard i {
+#leaderboard .button:not(.icon) i {
   margin-right: var(--icon-margin);
 }
 
@@ -1125,29 +1143,17 @@ nav.leaderboard .button.nav {
   text-shadow: 0 0 0.25em var(--first-glow);
 }
 
-/* .player-card .rank.r1 ~ p {
-  font-size: calc(var(--body-size) * pow(var(--type-scale), 0.75));
-} */
-
 .player-card .rank.r2 {
   font-size: var(--h2-size);
   color: var(--second);
   text-shadow: 0 0 0.25em var(--second-glow);
 }
 
-/* .player-card .rank.r2 ~ p {
-  font-size: calc(var(--body-size) * pow(var(--type-scale), 0.5));
-} */
-
 .player-card .rank.r3 {
   font-size: var(--h3-size);
   color: var(--third);
   text-shadow: 0 0 0.25em var(--third-glow);
 }
-
-/* .player-card .rank.r3 ~ p {
-  font-size: calc(var(--body-size) * pow(var(--type-scale), 0.25));
-} */
 
 .player-card .name {
   flex: 1 1;

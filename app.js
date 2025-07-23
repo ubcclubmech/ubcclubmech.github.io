@@ -323,12 +323,12 @@ body.addEventListener('touchmove', (event) => {
     wasAtTop = true;
     let pullEase = ease(Math.min((y - startY) / (pullHeight * 7 / 8), 1), 'out', 'poly2');
     let scaleEase = ease(Math.min((y - startY) / (pullHeight * 7 / 8), 1), 'in', 'poly3')
-    let indicatorStyle = `transform: translateY(calc(${(25 + 20) * pullEase}px + var(--section-header-height) / 6 * ${pullEase})) scale(${1 + 0.2 * scaleEase})`;
+    let indicatorStyle = `transform: translateY(calc((25px + 0.25 * var(--navbar-height)) * ${pullEase} + var(--section-header-height) / 6 * ${pullEase})) scale(${1 + 0.2 * scaleEase})`;
 
     indicator.style = 'transition-duration: 0s; ' + indicatorStyle + ';';
 
     transformOnReload.forEach((el) => {
-      el.style = `transition-duration: 0s; transform: translateY(${2 * pullEase}vw)`;
+      el.style = `transition-duration: 0s; transform: translateY(${3 * pullEase}vw)`;
       // filter: blur(${0.5 * pullEase}vw);
     })
     if (y > (startY + pullHeight)) {
@@ -866,7 +866,7 @@ function changeLeaderboard(id) {
   document.querySelectorAll('.leaderboard-container').forEach(el => {
     el.style.display = 'none';
   });
-  document.querySelectorAll('.button.leaderboard').forEach(el => {
+  document.querySelectorAll('#leaderboard :not(nav) .button').forEach(el => {
     el.classList.remove('selected');
   });
   document.getElementById(id + '-board').style.display = '';
@@ -874,7 +874,7 @@ function changeLeaderboard(id) {
 
   localStorage.currentBoard = id;
 }
-document.querySelectorAll('.button.leaderboard').forEach(el => {
+document.querySelectorAll('#leaderboard :not(nav) .button').forEach(el => {
   el.addEventListener('click', event => {changeLeaderboard(el.getAttribute('id').substring(0, 4));});
 });
 
