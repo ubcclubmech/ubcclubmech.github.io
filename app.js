@@ -323,7 +323,7 @@ body.addEventListener('touchmove', (event) => {
     wasAtTop = true;
     let pullEase = ease(Math.min((y - startY) / (pullHeight * 7 / 8), 1), 'out', 'poly2');
     let scaleEase = ease(Math.min((y - startY) / (pullHeight * 7 / 8), 1), 'in', 'poly3')
-    let indicatorStyle = `transform: translateY(calc((25px + 0.25 * var(--navbar-height)) * ${pullEase} + var(--section-header-height) / 6 * ${pullEase})) scale(${1 + 0.2 * scaleEase})`;
+    let indicatorStyle = `filter: opacity(${Math.min(1, pullEase + 0.1)}); transform: translateY(calc((25px + 0.25 * var(--navbar-height)) * ${pullEase} + var(--section-header-height) / 6 * ${pullEase})) scale(${1 + 0.2 * scaleEase})`;
 
     indicator.style = 'transition-duration: 0s; ' + indicatorStyle + ';';
 
