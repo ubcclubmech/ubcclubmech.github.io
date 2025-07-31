@@ -1,203 +1,228 @@
 const QUERY = encodeURIComponent('Select *');
 
-const SHEET_ID = '15aAzBnPpvBR3ntpgvbLN9WE5ftH6mSTPElIBsFxefk0';
-const BASE = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?`;
-const EVENTS_SHEET = 'Events';
-const LINKS_SHEET = 'Links';
-const GALLERY_SHEET = 'Gallery';
-const COLLECTIONS_SHEET = 'Collections';
-const COUNCIL_SHEET = 'Council';
-const POSITIONS_SHEET = 'Positions';
-const MERCH_SHEET = 'Merch';
-const CONTACTS_SHEET = 'Contacts';
-const EVENTS_URL = `${BASE}&sheet=${EVENTS_SHEET}&tq=${QUERY}`;
-const LINKS_URL = `${BASE}&sheet=${LINKS_SHEET}&tq=${QUERY}`;
-const GALLERY_URL = `${BASE}&sheet=${GALLERY_SHEET}&tq=${QUERY}`;
-const COLLECTIONS_URL = `${BASE}&sheet=${COLLECTIONS_SHEET}&tq=${QUERY}`;
-const COUNCIL_URL = `${BASE}&sheet=${COUNCIL_SHEET}&tq=${QUERY}`;
-const POSITIONS_URL = `${BASE}&sheet=${POSITIONS_SHEET}&tq=${QUERY}`;
-const MERCH_URL = `${BASE}&sheet=${MERCH_SHEET}&tq=${QUERY}`;
-const CONTACTS_URL = `${BASE}&sheet=${CONTACTS_SHEET}&tq=${QUERY}`;
+const DATABASE_ID = '15aAzBnPpvBR3ntpgvbLN9WE5ftH6mSTPElIBsFxefk0';
+const GAMES_LOG_ID = '1r8BtslMkYsPrT3gRfWNOGKM8-QjrsfuN8ts8N5JqZXQ';
+const DATABASE_DOC = `https://docs.google.com/spreadsheets/d/${DATABASE_ID}/gviz/tq?`;
+const GAMES_LOG_DOC  = `https://docs.google.com/spreadsheets/d/${GAMES_LOG_ID}/gviz/tq?`;
 
-const MATCHES_ID = '1r8BtslMkYsPrT3gRfWNOGKM8-QjrsfuN8ts8N5JqZXQ';
-const MATCHES_BASE  = `https://docs.google.com/spreadsheets/d/${MATCHES_ID}/gviz/tq?`;
-const MATCHES_SHEET = 'Matches';
-const PLAYERS_SHEET = 'Players';
-const MATCHES_URL = `${MATCHES_BASE}&sheet=${MATCHES_SHEET}&tq=${QUERY}`;
-const PLAYERS_URL = `${MATCHES_BASE}&sheet=${PLAYERS_SHEET}&tq=${QUERY}`;
-
-//! UPDATE THESE IF SHEETS COLUMNS ARE REORDERED
-const EVENTS_COLS = {
-  "date": 0,
-  "start": 1,
-  "end": 2,
-  "name": 3,
-  "location": 4,
-  "type": 5,
-  "rsvp": 6,
-  "calendar": 7,
-  "instagram": 8,
-  "image": 9,
-  "show": 10
-}
-
-const LINKS_COLS = {
-  "name": 0,
-  "icon": 1,
-  "link": 2,
-  "show": 3
-}
-
-const GALLERY_COLS = {
-  "collection": 0,
-  "image": 1,
-  "caption": 2,
-  "show": 3
-}
-
-const COLLECTIONS_COLS = {
-  "name": 0,
-  "show": 1
-}
-
-const COUNCIL_COLS = {
-  "year": 0,
-  "name": 1,
-  "position": 2,
-  "photo": 3
-}
-
-const POSITIONS_COLS = {
-  "position": 0,
-  "type": 1,
-  "email": 2,
-  "key": 3,
-  "responsibilities": 4,
-  "filled": 5
-}
-
-const MERCH_COLS = {
-  "item": 0,
-  "price": 1,
-  "category": 2,
-  "sizes": 3,
-  "oos_sizes": 4,
-  "status": 5,
-  "image": 6,
-  "show": 7
-}
-
-const CONTACTS_COLS = {
-  "option": 0,
-  "email": 1,
-  "override": 2,
-  "show": 3
-}
-
-const MATCHES_COLS = {
-  "game": 1,
-  "p1_id": 2,
-  "p2_id": 3,
-  "p3_id": 4,
-  "p4_id": 5,
-  "winner": 6,
-  "p1_points": 7,
-  "p2_points": 8,
-  "p3_points": 9,
-  "p4_points": 10,
-  "time": 11
-}
-
-const PLAYERS_COLS = {
-  "id": 0,
-  "name": 1
-}
-//!
-
-const GAME_PARAMS = {
-  "Foosball": {
-    "INIT_RATING": 1000.0,
-    "BASE": 10.0,
-    "DIVISOR": 400.0,
-    "K": 100.0
+// ! UPDATE THESE IF COLUMNS ARE REORDERED, SHEET TAB IS RENAMED, OR IS MOVED TO ANOTHER DOC
+const SHEETS = {
+  "events": {
+    "SHEET": "Events",
+    "DOC": DATABASE_DOC,
+    "COLS": {
+      "date": 0,
+      "start": 1,
+      "end": 2,
+      "name": 3,
+      "location": 4,
+      "rsvp": 6,
+      "calendar": 7,
+      "instagram": 8,
+      "image": 9,
+      "show": 10
+    }
   },
-  "Pong": {
-    "INIT_RATING": 1000.0,
-    "BASE": 10.0,
-    "DIVISOR": 400.0,
-    "K": 100.0
+  "links": {
+    "SHEET": "Links",
+    "DOC": DATABASE_DOC,
+    "COLS": {
+      "name": 0,
+      "icon": 1,
+      "link": 2,
+      "show": 3
+    }
   },
-  "Mario Kart": {
-    "INIT_RATING": 1000.0,
-    "BASE": 10.0,
-    "DIVISOR": 400.0,
-    "K": 100.0
+  "gallery": {
+    "SHEET": "Gallery",
+    "DOC": DATABASE_DOC,
+    "COLS": {
+      "collection": 0,
+      "image": 1,
+      "caption": 2,
+      "show": 3
+    }
   },
-  "Smash Bros": {
-    "INIT_RATING": 1000.0,
-    "BASE": 10.0,
-    "DIVISOR": 400.0,
-    "K": 100.0
+  "collections": {
+    "SHEET": "Collections",
+    "DOC": DATABASE_DOC,
+    "COLS": {
+      "name": 0,
+      "show": 1
+    }
   },
-  "BOAT Race": {
-    "INIT_RATING": Number.POSITIVE_INFINITY
+  "council": {
+    "SHEET": "Council",
+    "DOC": DATABASE_DOC,
+    "COLS": {
+      "year": 0,
+      "name": 1,
+      "position": 2,
+      "photo": 3
+    }
+  },
+  "positions": {
+    "SHEET": "Positions",
+    "DOC": DATABASE_DOC,
+    "COLS": {
+      "position": 0,
+      "type": 1,
+      "email": 2,
+      "key": 3,
+      "responsibilities": 4,
+      "filled": 5
+    }
+  },
+  "merch": {
+    "SHEET": "Merch",
+    "DOC": DATABASE_DOC,
+    "COLS": {
+      "item": 0,
+      "price": 1,
+      "category": 2,
+      "sizes": 3,
+      "oos_sizes": 4,
+      "status": 5,
+      "image": 6,
+      "show": 7
+    }
+  },
+  "categories": {
+    "SHEET": "Categories",
+    "DOC": DATABASE_DOC,
+    "COLS": {
+      "name": 0,
+      "icon": 1,
+      "show": 2
+    }
+  },
+  "sponsors": {
+    "SHEET": "Sponsors",
+    "DOC": DATABASE_DOC,
+    "COLS": {
+      "name": 0,
+      "logo": 1,
+      "link": 2,
+      "show": 3
+    }
+  },
+  "contacts": {
+    "SHEET": "Contacts",
+    "DOC": DATABASE_DOC,
+    "COLS": {
+      "option": 0,
+      "email": 1,
+      "override": 2,
+      "show": 3
+    }
+  },
+  "matches": {
+    "SHEET": "Matches",
+    "DOC": GAMES_LOG_DOC,
+    "COLS": {
+      "timestamp": 0,
+      "game": 1,
+      "p1_id": 2,
+      "p2_id": 3,
+      "p3_id": 4,
+      "p4_id": 5,
+      "winner": 6,
+      "p1_points": 7,
+      "p2_points": 8,
+      "p3_points": 9,
+      "p4_points": 10,
+      "time": 11
+    }
+  },
+  "players": {
+    "SHEET": "Players",
+    "DOC": GAMES_LOG_DOC,
+    "COLS": {
+      "id": 0,
+      "name": 1
+    }
+  },
+  "games": {
+    "SHEET": "Games",
+    "DOC": GAMES_LOG_DOC,
+    "COLS": {
+      "name": 0,
+      "icon": 1,
+      "system": 2,
+      "rounding": 3,
+      "starts": 4,
+      "show": 5
+    }
+  },
+  "parameters": {
+    "SHEET": "Parameters",
+    "DOC": GAMES_LOG_DOC,
+    "COLS": {
+      "game": 0,
+      "init_rating": 1,
+      "base": 2,
+      "divisor": 3,
+      "k": 4,
+      "interpolation": 5,
+      "starts": 6
+    }
   }
-}
-
-const GAME_SHORTS = new Map([["Foosball", "foos"], ["Pong", "pong"], ["Mario Kart", "kart"], ["Smash Bros", "smsh"], ["BOAT Race", "boat"]]);
+};
 
 const MONTHS = new Map([[1, "Jan"], [2, "Feb"], [3, "Mar"], [4, "Apr"], [5, "May"], [6, "Jun"], [7, "Jul"], [8, "Aug"], [9, "Sep"], [10, "Oct"], [11, "Nov"], [12, "Dec"]]);
 
-let events;
-let links;
-let gallery;
-let collections;
-let council;
-let positions;
-let merch;
-let contacts;
+let data = {};
+fixNullData();
+
 let councilYears = [];
 let galleryYears = [];
 
-let gameData;
-let playerNameData;
-let playerRatings;
+let playerRatings = {};
 let playerNames;
 
 // GENERAL
 
+const body = document.querySelector('body');
+
 async function init() {
-  if (document.getElementById('exec-openings') != null) { // home page
-    await Promise.all([getLinks(), getPositions(), getEvents(), getCollections(), getGallery()]);
-    makeLinks();
-    makeOpenings();
-    makeEvents(3);
-    makeGallery();
+  let page = body.getAttribute('id');
+  switch (page) {
+    case 'home-page':
+      await Promise.all([fetchSheet('links'), fetchSheet('positions'), fetchSheet('events'), fetchSheet('collections'), fetchSheet('gallery')]);
+      makeLinks();
+      makeOpenings();
+      makeEvents(3);
+      makeGallery();
+      break;
+    case 'events-page':
+      await Promise.all([fetchSheet('events')]);
+      makeEvents(Number.POSITIVE_INFINITY);
+      break;
+    case 'council-page':
+      await Promise.all([fetchSheet('council'), fetchSheet('positions')]);
+      makeYearSelect();
+      makeCouncilGrid();
+      break;
+    case 'merch-page':
+      await Promise.all([fetchSheet('merch')]);
+      makeMerch();
+      break;
+    case 'contact-page':
+      await Promise.all([fetchSheet('contacts'), fetchSheet('positions')]);
+      makeContactOptions();
+      break;
+    case 'leaderboard-page':
+      await Promise.all([fetchSheet('matches'), fetchSheet('players'), fetchSheet('games'), fetchSheet('parameters')]);
+      makeLeaderboardGames();
+      setPlayerNames();
+      calculatePlayerRatings();
+      let currentBoard = localStorage.currentBoard != null ? localStorage.currentBoard : data.games[0].c[SHEETS.games.COLS.name].v;
+      changeLeaderboard(currentBoard);
+      break;
+    default:
+      break;
   }
-  else if (document.getElementById('events') != null && document.getElementById('exec-openings') == null) { // events page
-    await getEvents();
-    makeEvents(999);
-  }
-  else if (document.getElementById('council-grid') != null) { // council page
-    await Promise.all([getCouncil(), getPositions()]);
-    makeYearSelect();
-    makeCouncilGrid();
-  }
-  else if (document.getElementById('merch-categories') != null) { // merch page
-    await getMerch();
-    makeMerch();
-  }
-  else if (document.getElementById('form-type') != null) { // contact page
-    await Promise.all([getContacts(), getPositions()]);
-    makeContactOptions();
-  }
-  else if (document.getElementById('leaderboard-games') != null) { // leaderboard page
-    await Promise.all([getGameData(), getPlayerNameData()]);
-    setPlayerNames();
-    calculatePlayerRatings();
-    let currentBoard = localStorage.currentBoard != null ? localStorage.currentBoard : "foos";
-    changeLeaderboard(currentBoard);
-  }
+
   document.querySelectorAll(':has(>.tooltip)').forEach((el) => { handleTooltips(el); });
 
   window.addEventListener('resize', function() { document.querySelectorAll(':has(>.tooltip)').forEach((el) => { handleTooltips(el); }); });
@@ -208,44 +233,18 @@ async function init() {
 }
 window.addEventListener('DOMContentLoaded', init);
 
-async function getEvents() {
-  await fetch(EVENTS_URL).then((res) => res.text()).then((rep) => {events = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
+function fixNullData() {
+  Object.keys(SHEETS).forEach((key) => {
+    data[key] = [];
+  });
 }
 
-async function getLinks() {
-  await fetch(LINKS_URL).then((res) => res.text()).then((rep) => {links = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
+function makeSheetUrl(sheet) {
+  return `${SHEETS[sheet].DOC}&sheet=${SHEETS[sheet].SHEET}&tq=${QUERY}`;
 }
 
-async function getGallery() {
-  await fetch(GALLERY_URL).then((res) => res.text()).then((rep) => {gallery = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
-}
-
-async function getCollections() {
-  await fetch(COLLECTIONS_URL).then((res) => res.text()).then((rep) => {collections = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
-}
-
-async function getCouncil() {
-  await fetch(COUNCIL_URL).then((res) => res.text()).then((rep) => {council = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
-}
-
-async function getPositions() {
-  await fetch(POSITIONS_URL).then((res) => res.text()).then((rep) => {positions = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
-}
-
-async function getMerch() {
-  await fetch(MERCH_URL).then((res) => res.text()).then((rep) => {merch = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
-}
-
-async function getContacts() {
-  await fetch(CONTACTS_URL).then((res) => res.text()).then((rep) => {contacts = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
-}
-
-async function getGameData() {
-  await fetch(MATCHES_URL).then((res) => res.text()).then((rep) => {gameData = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
-}
-
-async function getPlayerNameData() {
-  await fetch(PLAYERS_URL).then((res) => res.text()).then((rep) => {playerNameData = JSON.parse(rep.substring(47).slice(0,-2)).table.rows});
+async function fetchSheet(sheet) {
+  await fetch(makeSheetUrl(sheet)).then((res) => res.text()).then((rep) => { data[sheet] = JSON.parse(rep.substring(47).slice(0,-2)).table.rows; });
 }
 
 let startY;
@@ -253,8 +252,9 @@ let mouseStartY;
 let canReload;
 let reloading = false;
 let wasAtTop;
-const pullHeight = 150;
-const reloadTime = 400;
+
+const PULL_HEIGHT = 150;
+const RELOAD_TIME = 400;
 
 function ease(x, dir, type) {
   switch (dir) {
@@ -286,15 +286,12 @@ function ease(x, dir, type) {
         default:
           break;
       }
-    case 'in-out':
-      break;
     default:
       break;
   }
   return 0;
 }
 
-const body = document.querySelector('body:not(#leaderboard-body)');
 const indicator = document.querySelector('#reload-indicator');
 indicator.innerHTML = '<i class="fa-solid fa-arrow-rotate-right"></i>'
 const transformOnReload = document.querySelectorAll('#content, .section-header > :not(#reload-indicator):not(img)');
@@ -321,8 +318,8 @@ body.addEventListener('touchmove', (event) => {
   }
   if (document.scrollingElement.scrollTop === 0 && canReload == true) {
     wasAtTop = true;
-    let pullEase = ease(Math.min((y - startY) / (pullHeight * 7 / 8), 1), 'out', 'poly2');
-    let scaleEase = ease(Math.min((y - startY) / (pullHeight * 7 / 8), 1), 'in', 'poly3')
+    let pullEase = ease(Math.min((y - startY) / (PULL_HEIGHT * 7 / 8), 1), 'out', 'poly2');
+    let scaleEase = ease(Math.min((y - startY) / (PULL_HEIGHT * 7 / 8), 1), 'in', 'poly3')
     let indicatorStyle = `filter: opacity(${Math.min(1, pullEase + 0.1)}); transform: translateY(calc((25px + 0.25 * var(--navbar-height)) * ${pullEase} + var(--section-header-height) / 6 * ${pullEase})) scale(${1 + 0.2 * scaleEase})`;
 
     indicator.style = 'transition-duration: 0s; ' + indicatorStyle + ';';
@@ -331,13 +328,13 @@ body.addEventListener('touchmove', (event) => {
       el.style = `transition-duration: 0s; transform: translateY(${3 * pullEase}vw)`;
       // filter: blur(${0.5 * pullEase}vw);
     })
-    if (y > (startY + pullHeight)) {
+    if (y > (startY + PULL_HEIGHT)) {
       reloading = true;
       // body.style = 'overflow: hidden;'
-      indicator.style = indicatorStyle + ` rotate(360deg); transition-duration: ${reloadTime}ms;`;
+      indicator.style = indicatorStyle + ` rotate(360deg); transition-duration: ${RELOAD_TIME}ms;`;
       setTimeout(function() {
         indicator.style = `transition-duration: 0.1s; transform: translateY(0px) rotate(360deg);`;
-      }, reloadTime)
+      }, RELOAD_TIME)
       location.reload();
     }
   }
@@ -353,7 +350,7 @@ function endReload(delay) {
 }
 
 body.addEventListener('touchend', (event) => {
-  endReload(reloading == true ? reloadTime : 0);
+  endReload(reloading == true ? RELOAD_TIME : 0);
 });
 
 function toggleNav() {
@@ -389,14 +386,14 @@ function handleTooltips(el) {
 // HOME
 
 function makeOpenings() {
-  for (let i = 0; i < positions.length; i ++) {
-    if (positions[i].c[POSITIONS_COLS.position] == null) { break; } // skip blank entries
-    if (positions[i].c[POSITIONS_COLS.filled].v == false) { // if position not filled
-      if (positions[i].c[POSITIONS_COLS.type].v == 'Executive') {
-        document.getElementById('exec-openings').innerHTML += '<li><div>' + positions[i].c[POSITIONS_COLS.position].v + '</div><i class="fa-solid fa-circle-info"><div class="tooltip">' + positions[i].c[POSITIONS_COLS.responsibilities].v + '</div></i></li>';
+  for (let i = 0; i < data.positions.length; i ++) {
+    if (data.positions[i].c[SHEETS.positions.COLS.position] == null) { break; } // skip blank entries
+    if (data.positions[i].c[SHEETS.positions.COLS.filled].v == false) { // if position not filled
+      if (data.positions[i].c[SHEETS.positions.COLS.type].v == 'Executive') {
+        document.getElementById('exec-openings').innerHTML += '<li><div>' + data.positions[i].c[SHEETS.positions.COLS.position].v + '</div><i class="fa-solid fa-circle-info"><div class="tooltip">' + data.positions[i].c[SHEETS.positions.COLS.responsibilities].v + '</div></i></li>';
       }
       else {
-        document.getElementById('exo-openings').innerHTML += '<li><div>' + positions[i].c[POSITIONS_COLS.position].v + '</div><i class="fa-solid fa-circle-info"><div class="tooltip">' + positions[i].c[POSITIONS_COLS.responsibilities].v + '</div></i></li>';
+        document.getElementById('exo-openings').innerHTML += '<li><div>' + data.positions[i].c[SHEETS.positions.COLS.position].v + '</div><i class="fa-solid fa-circle-info"><div class="tooltip">' + data.positions[i].c[SHEETS.positions.COLS.responsibilities].v + '</div></i></li>';
       }
     }
   }
@@ -404,19 +401,19 @@ function makeOpenings() {
 
 function makeLinks() {
   let html = '';
-  for (let i = 0; i < links.length; i ++) {
-    if (links[i].c[LINKS_COLS.name] == null || links[i].c[LINKS_COLS.link] == null || links[i].c[LINKS_COLS.show].v == false) { continue; } // skip blank entries
-    let icon = (links[i].c[LINKS_COLS.icon] != null) ? '<i class="fa-solid fa-' + links[i].c[LINKS_COLS.icon].v + '"></i>' : '';
-    html += '<li><a class="button link" href="' + links[i].c[LINKS_COLS.link].v + '" target="_blank">' + (icon + links[i].c[LINKS_COLS.name].v) + '</a></li>';
+  for (let i = 0; i < data.links.length; i ++) {
+    if (data.links[i].c[SHEETS.links.COLS.name] == null || data.links[i].c[SHEETS.links.COLS.link] == null || data.links[i].c[SHEETS.links.COLS.show].v == false) { continue; } // skip blank entries
+    let icon = (data.links[i].c[SHEETS.links.COLS.icon] != null) ? '<i class="fa-solid fa-' + data.links[i].c[SHEETS.links.COLS.icon].v + '"></i>' : '';
+    html += '<li><a class="button link" href="' + data.links[i].c[SHEETS.links.COLS.link].v + '" target="_blank">' + (icon + data.links[i].c[SHEETS.links.COLS.name].v) + '</a></li>';
   }
   document.getElementById('links').innerHTML = html;
 }
 
 function makeGallery() {
   let yearsSet = new Set();
-  for (let i = 0; i < collections.length; i ++) { // loops through collections entries and gets the most recent year
-    if (collections[i].c[COLLECTIONS_COLS.name] == null || collections[i].c[COLLECTIONS_COLS.show].v == false) { continue; }
-    let currYear = Number(collections[i].c[COLLECTIONS_COLS.name].v.split(' ')[0].split('/')[0]);
+  for (let i = 0; i < data.collections.length; i ++) { // loops through collections entries and gets the most recent year
+    if (data.collections[i].c[SHEETS.collections.COLS.name] == null || data.collections[i].c[SHEETS.collections.COLS.show].v == false) { continue; }
+    let currYear = Number(data.collections[i].c[SHEETS.collections.COLS.name].v.split(' ')[0].split('/')[0]);
     yearsSet.add(currYear);
   }
 
@@ -431,22 +428,22 @@ function makeGallery() {
 
   for (let i = 0; i < galleryYears.length; i ++) {
     html += '<h3>' + galleryYears[i] + '–' + (galleryYears[i] + 1) + '</h3>';
-    for (let j = 0; j < collections.length; j ++) {
-      if (collections[j].c[COLLECTIONS_COLS.name] == null || collections[j].c[COLLECTIONS_COLS.show].v == false) { continue; }
-      let currYear = Number(collections[j].c[COLLECTIONS_COLS.name].v.split(' ')[0].split('/')[0]);
+    for (let j = 0; j < data.collections.length; j ++) {
+      if (data.collections[j].c[SHEETS.collections.COLS.name] == null || data.collections[j].c[SHEETS.collections.COLS.show].v == false) { continue; }
+      let currYear = Number(data.collections[j].c[SHEETS.collections.COLS.name].v.split(' ')[0].split('/')[0]);
       if (galleryYears[i] != currYear) { continue; }
-      let collectionName = collections[j].c[COLLECTIONS_COLS.name].v;
+      let collectionName = data.collections[j].c[SHEETS.collections.COLS.name].v;
       html += '<h4>' + collectionName.substring(collectionName.indexOf(' ') + 1) + '</h4>';
       html += '<ul class="collection">';
 
-      for (let k = 0; k < gallery.length; k ++) {
-        if (gallery[k].c[GALLERY_COLS.image] == null || gallery[k].c[GALLERY_COLS.collection] == null || gallery[k].c[GALLERY_COLS.show].v == false) { continue; }
-        if (gallery[k].c[GALLERY_COLS.collection].v != collections[j].c[COLLECTIONS_COLS.name].v) { continue; }
-        let imgURL = gallery[k].c[GALLERY_COLS.image].v;
+      for (let k = 0; k < data.gallery.length; k ++) {
+        if (data.gallery[k].c[SHEETS.gallery.COLS.image] == null || data.gallery[k].c[SHEETS.gallery.COLS.collection] == null || data.gallery[k].c[SHEETS.gallery.COLS.show].v == false) { continue; }
+        if (data.gallery[k].c[SHEETS.gallery.COLS.collection].v != data.collections[j].c[SHEETS.collections.COLS.name].v) { continue; }
+        let imgURL = data.gallery[k].c[SHEETS.gallery.COLS.image].v;
         let imgSrc = 'https://drive.google.com/thumbnail?id=' + imgURL.substring(imgURL.indexOf('/d/') + 3, imgURL.indexOf('/view')) + '&sz=w1080';
         html += '<li><figure><img src="' + imgSrc + '">';
-        if (gallery[k].c[GALLERY_COLS.caption] != null) {
-          html += '<figcaption>' + gallery[k].c[GALLERY_COLS.caption].v + '</figcaption>';
+        if (data.gallery[k].c[SHEETS.gallery.COLS.caption] != null) {
+          html += '<figcaption>' + data.gallery[k].c[SHEETS.gallery.COLS.caption].v + '</figcaption>';
         }
         html += '</figure></li>';
       }
@@ -462,9 +459,9 @@ function makeGallery() {
 function makeEvents(num) {
   let upcoming = new Map();
   let today = Date.now() - 1000 * 60 * 60 * 24;
-  for (let i = 0; i < events.length; i ++) {
-    if (events[i].c[EVENTS_COLS.show].v == false || events[i].c[EVENTS_COLS.date] == null || events[i].c[EVENTS_COLS.name] == null) { continue; } // skip blank entries
-    let date = events[i].c[EVENTS_COLS.date].v.substring(5).split(')')[0].split(',');
+  for (let i = 0; i < data.events.length; i ++) {
+    if (data.events[i].c[SHEETS.events.COLS.show].v == false || data.events[i].c[SHEETS.events.COLS.date] == null || data.events[i].c[SHEETS.events.COLS.name] == null) { continue; } // skip blank entries
+    let date = data.events[i].c[SHEETS.events.COLS.date].v.substring(5).split(')')[0].split(',');
     let utc = Date.UTC(date[0], date[1], date[2]);
     if (utc < today) { continue; }
     upcoming.set(i, utc);
@@ -473,33 +470,33 @@ function makeEvents(num) {
 
   let html = '';
   for (let i = 0; i < sorted.length; i ++) {
-    let currEvent = events[sorted[i][0]];
-    let date = currEvent.c[EVENTS_COLS.date].v.substring(5).split(')')[0].split(',');
+    let currEvent = data.events[sorted[i][0]];
+    let date = currEvent.c[SHEETS.events.COLS.date].v.substring(5).split(')')[0].split(',');
     html += '<li class="event">';
 
     let imgSrc = '/media/events/none.jpg';
-    if (currEvent.c[EVENTS_COLS.image] != null) {
-      let imgURL = currEvent.c[EVENTS_COLS.image].v;
+    if (currEvent.c[SHEETS.events.COLS.image] != null) {
+      let imgURL = currEvent.c[SHEETS.events.COLS.image].v;
       imgSrc = 'https://drive.google.com/thumbnail?id=' + imgURL.substring(imgURL.indexOf('/d/') + 3, imgURL.indexOf('/view')) + '&sz=w1080';
     }
 
-    if (currEvent.c[EVENTS_COLS.instagram] != null) {
-      html += '<a href="' + currEvent.c[EVENTS_COLS.instagram].v + '" target="_blank">';
+    if (currEvent.c[SHEETS.events.COLS.instagram] != null) {
+      html += '<a href="' + currEvent.c[SHEETS.events.COLS.instagram].v + '" target="_blank">';
     }
-    html += '<img src="' + imgSrc + '" alt="' + currEvent.c[EVENTS_COLS.name].v + '">';
-    html += (currEvent.c[EVENTS_COLS.instagram] != null) ? '</a>' : '';
+    html += '<img src="' + imgSrc + '" alt="' + currEvent.c[SHEETS.events.COLS.name].v + '">';
+    html += (currEvent.c[SHEETS.events.COLS.instagram] != null) ? '</a>' : '';
     
-    html += '<h2>' + currEvent.c[EVENTS_COLS.name].v + '</h2>';
+    html += '<h2>' + currEvent.c[SHEETS.events.COLS.name].v + '</h2>';
     html += '<ul class="event-dtl">';
     html += '<li><i class="fa-solid fa-calendar"></i>' + date[2] + ' ' + MONTHS.get(Number(date[1]) + 1) + ' ' + date[0] + '</li>';
-    let eventTime = (currEvent.c[EVENTS_COLS.start] == null ? 'TBD' : (currEvent.c[EVENTS_COLS.start].f + (currEvent.c[EVENTS_COLS.end] == null ? '' : ('–' + currEvent.c[EVENTS_COLS.end].f))));
+    let eventTime = (currEvent.c[SHEETS.events.COLS.start] == null ? 'TBD' : (currEvent.c[SHEETS.events.COLS.start].f + (currEvent.c[SHEETS.events.COLS.end] == null ? '' : ('–' + currEvent.c[SHEETS.events.COLS.end].f))));
     html += '<li><i class="fa-solid fa-clock"></i>' + eventTime + '</li>';
-    html += '<li><i class="fa-solid fa-location-dot"></i>' + (currEvent.c[EVENTS_COLS.location] != null ? currEvent.c[EVENTS_COLS.location].v : 'TBD') + '</li>';
+    html += '<li><i class="fa-solid fa-location-dot"></i>' + (currEvent.c[SHEETS.events.COLS.location] != null ? currEvent.c[SHEETS.events.COLS.location].v : 'TBD') + '</li>';
     html += '</ul>';
-    if (currEvent.c[EVENTS_COLS.rsvp] != null || currEvent.c[EVENTS_COLS.calendar] != null) {
+    if (currEvent.c[SHEETS.events.COLS.rsvp] != null || currEvent.c[SHEETS.events.COLS.calendar] != null) {
       html += '<ul class="event-links">';
-      html += (currEvent.c[EVENTS_COLS.rsvp] != null ? ('<li><a class="button link" href="' + currEvent.c[EVENTS_COLS.rsvp].v + '" target="_blank"><i class="fa-solid fa-reply"></i>RSVP</a></li>') : '');
-      html += (currEvent.c[EVENTS_COLS.calendar] != null ? ('<li><a class="button link" href="' + currEvent.c[EVENTS_COLS.calendar].v + '" target="_blank"><i class="fa-brands fa-google"></i>Add to Calendar</a></li>') : '');
+      html += (currEvent.c[SHEETS.events.COLS.rsvp] != null ? ('<li><a class="button link" href="' + currEvent.c[SHEETS.events.COLS.rsvp].v + '" target="_blank"><i class="fa-solid fa-reply"></i>RSVP</a></li>') : '');
+      html += (currEvent.c[SHEETS.events.COLS.calendar] != null ? ('<li><a class="button link" href="' + currEvent.c[SHEETS.events.COLS.calendar].v + '" target="_blank"><i class="fa-brands fa-google"></i>Add to Calendar</a></li>') : '');
       html += '</ul>';
     }
     html += '</li>';
@@ -511,9 +508,9 @@ function makeEvents(num) {
 
 function makeYearSelect() {
   let yearsSet = new Set();
-  for (let i = 0; i < council.length; i ++) { // loops through council entries and gets the most recent year
-    if (council[i].c[COUNCIL_COLS.year] == null) { break; } // skip blank entries
-    let currYear = Number(council[i].c[COUNCIL_COLS.year].v.split('/')[0]);
+  for (let i = 0; i < data.council.length; i ++) { // loops through council entries and gets the most recent year
+    if (data.council[i].c[SHEETS.council.COLS.year] == null) { break; } // skip blank entries
+    let currYear = Number(data.council[i].c[SHEETS.council.COLS.year].v.split('/')[0]);
     if (isNaN(currYear) == true) { continue; } //! FOR SOME REASON, HEADER IS GETTING FETCHED TOO
     yearsSet.add(currYear);
   }
@@ -537,28 +534,28 @@ function makeCouncilGrid() {
   let selectedYear = selectObj.options[selectObj.selectedIndex].value;
   
   let html = '';
-  for (let p = 0; p < positions.length; p ++) { // looping through the positions sheet allows for heirarchical ordering even if the 'Council' sheet entries are out of order
-    for (let i = 0; i < council.length; i ++) {
-      if (council[i].c[COUNCIL_COLS.year] == null) { break; } // skip blank entries
-      let currYear = Number(council[i].c[COUNCIL_COLS.year].v.split('/')[0]); // current year
+  for (let p = 0; p < data.positions.length; p ++) { // looping through the positions sheet allows for heirarchical ordering even if the 'Council' sheet entries are out of order
+    for (let i = 0; i < data.council.length; i ++) {
+      if (data.council[i].c[SHEETS.council.COLS.year] == null) { break; } // skip blank entries
+      let currYear = Number(data.council[i].c[SHEETS.council.COLS.year].v.split('/')[0]); // current year
       if (isNaN(currYear) == true) { continue; }
-      let currPositions = council[i].c[COUNCIL_COLS.position].v.split(', '); // creates an array of positions held by the member
-      if (currYear == selectedYear && currPositions[0] == positions[p].c[POSITIONS_COLS.position].v) { // heirarchical ordering done by *first* position in list
+      let currPositions = data.council[i].c[SHEETS.council.COLS.position].v.split(', '); // creates an array of positions held by the member
+      if (currYear == selectedYear && currPositions[0] == data.positions[p].c[SHEETS.positions.COLS.position].v) { // heirarchical ordering done by *first* position in list
         html += '<li class="council-member">';
 
         let imgSrc = '/media/council/none.jpg';
-        if (council[i].c[COUNCIL_COLS.photo].v != null) { //! THIS '.v' SHOULD BE REMOVED IF A COLUMN IS PLACED AFTER PHOTO
-          let imgURL = council[i].c[COUNCIL_COLS.photo].v;
+        if (data.council[i].c[SHEETS.council.COLS.photo].v != null) { //! THIS '.v' SHOULD BE REMOVED IF A COLUMN IS PLACED AFTER PHOTO
+          let imgURL = data.council[i].c[SHEETS.council.COLS.photo].v;
           imgSrc = 'https://drive.google.com/thumbnail?id=' + imgURL.substring(imgURL.indexOf('/d/') + 3, imgURL.indexOf('/view')) + '&sz=w1080';
         }
 
-        html += ('<img src="' + imgSrc + '" alt="' + council[i].c[COUNCIL_COLS.name].v + '">'); // photo
-        html += '<h2>' + council[i].c[COUNCIL_COLS.name].v + '</h2>'; // name
+        html += ('<img src="' + imgSrc + '" alt="' + data.council[i].c[SHEETS.council.COLS.name].v + '">'); // photo
+        html += '<h2>' + data.council[i].c[SHEETS.council.COLS.name].v + '</h2>'; // name
         html += '<h3>';
         for (let j = 0; j < currPositions.length; j ++) {
-          for (let k = 0; k < positions.length; k ++) {
-            if (currPositions[j] == positions[k].c[POSITIONS_COLS.position].v) {
-              html += '<span>' + currPositions[j] + '<i class="fa-solid fa-circle-info"><div class="tooltip">' + positions[k].c[POSITIONS_COLS.responsibilities].v + '</div></i></span>';
+          for (let k = 0; k < data.positions.length; k ++) {
+            if (currPositions[j] == data.positions[k].c[SHEETS.positions.COLS.position].v) {
+              html += '<span>' + currPositions[j] + '<i class="fa-solid fa-circle-info"><div class="tooltip">' + data.positions[k].c[SHEETS.positions.COLS.responsibilities].v + '</div></i></span>';
               break;
             }
           }
@@ -570,15 +567,15 @@ function makeCouncilGrid() {
         if (currYear == councilYears[0]) { // only list emails for current council
           let firstEmail = true; // in the event of no emails, we dont want to create empty lists
           for (let j = 0; j < currPositions.length; j ++) {
-            for (let k = 0; k < positions.length; k ++) {
-              if (currPositions[j] == positions[k].c[POSITIONS_COLS.position].v) {
-                if (positions[k].c[POSITIONS_COLS.email] != null) {
+            for (let k = 0; k < data.positions.length; k ++) {
+              if (currPositions[j] == data.positions[k].c[SHEETS.positions.COLS.position].v) {
+                if (data.positions[k].c[SHEETS.positions.COLS.email] != null) {
                   if (firstEmail == true) {
                     html += '<ul>';
                     firstEmail = false;
                   }
                   html += '<li>';
-                  html += '<a class="button link" href="mailto:' + positions[k].c[POSITIONS_COLS.email].v + '">' + positions[k].c[POSITIONS_COLS.email].v + '</a>';
+                  html += '<a class="button link" href="mailto:' + data.positions[k].c[SHEETS.positions.COLS.email].v + '">' + data.positions[k].c[SHEETS.positions.COLS.email].v + '</a>';
                   html += '</li>';
                 }
                 break;
@@ -606,15 +603,15 @@ function makeMerch() {
   let html = '';
 
   let categories = new Set(["ALL"]);
-  for (let i = 0; i < merch.length; i ++) {
-    if (merch[i].c[MERCH_COLS.item] == null || merch[i].c[MERCH_COLS.price] == null || merch[i].c[MERCH_COLS.show].v == false) { continue; } // skip blank entries
-    html += '<li class="merch-item' + ((merch[i].c[MERCH_COLS.category] != null) ? (' ' + merch[i].c[MERCH_COLS.category].v.toLowerCase()) : '') + '">';
-    html += '<img src="media/merch/' + merch[i].c[MERCH_COLS.item].v + '.jpg">';
-    html += '<h2>' + merch[i].c[MERCH_COLS.item].v + '</h2>';
-    html += '<div><p class="price">$' + Number(merch[i].c[MERCH_COLS.price].v).toFixed(2) + '</p>';
-    if (merch[i].c[MERCH_COLS.sizes] != null) {
-      let sizes = merch[i].c[MERCH_COLS.sizes].v.split(', ');
-      let oosSizes = (merch[i].c[MERCH_COLS.oos_sizes] != null) ? merch[i].c[MERCH_COLS.oos_sizes].v.split(', ') : [];
+  for (let i = 0; i < data.merch.length; i ++) {
+    if (data.merch[i].c[SHEETS.merch.COLS.item] == null || data.merch[i].c[SHEETS.merch.COLS.price] == null || data.merch[i].c[SHEETS.merch.COLS.show].v == false) { continue; } // skip blank entries
+    html += '<li class="merch-item' + ((data.merch[i].c[SHEETS.merch.COLS.category] != null) ? (' ' + data.merch[i].c[SHEETS.merch.COLS.category].v.toLowerCase()) : '') + '">';
+    html += '<img src="media/merch/' + data.merch[i].c[SHEETS.merch.COLS.item].v + '.jpg">';
+    html += '<h2>' + data.merch[i].c[SHEETS.merch.COLS.item].v + '</h2>';
+    html += '<div><p class="price">$' + Number(data.merch[i].c[SHEETS.merch.COLS.price].v).toFixed(2) + '</p>';
+    if (data.merch[i].c[SHEETS.merch.COLS.sizes] != null) {
+      let sizes = data.merch[i].c[SHEETS.merch.COLS.sizes].v.split(', ');
+      let oosSizes = (data.merch[i].c[SHEETS.merch.COLS.oos_sizes] != null) ? data.merch[i].c[SHEETS.merch.COLS.oos_sizes].v.split(', ') : [];
       html += '<ul class="sizes">';
       for (let j = 0; j < sizes.length; j ++) {
         let isOutOfStock = false;
@@ -625,14 +622,14 @@ function makeMerch() {
       }
       html += '</ul>';
     }
-    else if (merch[i].c[MERCH_COLS.status] != null && merch[i].c[MERCH_COLS.status].v == 'Out of stock') {
+    else if (data.merch[i].c[SHEETS.merch.COLS.status] != null && data.merch[i].c[SHEETS.merch.COLS.status].v == 'Out of stock') {
       html += '<p class="out-of-stock">Out of stock</p>';
     }
     html += '</div>';
     html += '</li>'
 
-    if (merch[i].c[MERCH_COLS.category] != null) { // create categories set
-      categories.add(merch[i].c[MERCH_COLS.category].v.toUpperCase());
+    if (data.merch[i].c[SHEETS.merch.COLS.category] != null) { // create categories set
+      categories.add(data.merch[i].c[SHEETS.merch.COLS.category].v.toUpperCase());
     }
   }
   document.getElementById('merch-grid').innerHTML = html;
@@ -667,21 +664,21 @@ document.querySelectorAll('#merch-categories').forEach((el) => {
 
 function makeContactOptions() {
   let html = '';
-  for (let i = 0; i < contacts.length; i ++) {
-    if (contacts[i].c[CONTACTS_COLS.option] == null || contacts[i].c[CONTACTS_COLS.show].v == false) { continue; } // skip blank entries
-    html += '<option value="' + contacts[i].c[CONTACTS_COLS.option].v + '">' + contacts[i].c[CONTACTS_COLS.option].v + '</option>';
+  for (let i = 0; i < data.contacts.length; i ++) {
+    if (data.contacts[i].c[SHEETS.contacts.COLS.option] == null || data.contacts[i].c[SHEETS.contacts.COLS.show].v == false) { continue; } // skip blank entries
+    html += '<option value="' + data.contacts[i].c[SHEETS.contacts.COLS.option].v + '">' + data.contacts[i].c[SHEETS.contacts.COLS.option].v + '</option>';
   }
 
   let key;
-  for (let i = 0; i < positions.length; i ++) {
-    if (positions[i].c[POSITIONS_COLS.email] != null && contacts[0].c[CONTACTS_COLS.email].v == positions[i].c[POSITIONS_COLS.email].v) {
-      key = positions[i].c[POSITIONS_COLS.key].v;
+  for (let i = 0; i < data.positions.length; i ++) {
+    if (data.positions[i].c[SHEETS.positions.COLS.email] != null && data.contacts[0].c[SHEETS.contacts.COLS.email].v == data.positions[i].c[SHEETS.positions.COLS.email].v) {
+      key = data.positions[i].c[SHEETS.positions.COLS.key].v;
       break;
     }
   }
 
   document.getElementById('form-key').setAttribute('value', key);
-  document.getElementById('form-subject').setAttribute('value', contacts[0].c[CONTACTS_COLS.option].v);
+  document.getElementById('form-subject').setAttribute('value', `Website Contact Message (${data.contacts[0].c[SHEETS.contacts.COLS.option].v})`);
 
   document.getElementById('form-type').innerHTML = html;
 }
@@ -691,19 +688,19 @@ function updateContactForm() {
   let type = selectObj.options[selectObj.selectedIndex].value;
 
   let key;
-  for (let i = 0; i < contacts.length; i ++) {
-    if (contacts[i].c[CONTACTS_COLS.option] == null || contacts[i].c[CONTACTS_COLS.show].v == false) { continue; } // skip blank entries
-    if (contacts[i].c[CONTACTS_COLS.option].v == type) {
-      let searchEmail = (contacts[i].c[CONTACTS_COLS.override] != null) ? contacts[i].c[CONTACTS_COLS.override].v : (contacts[i].c[CONTACTS_COLS.email] != null) ? contacts[i].c[CONTACTS_COLS.email].v : contacts[0].c[CONTACTS_COLS.email].v; // take preference for override, otherwise use regular email, if both blank, default to first entry
-      for (let j = 0; j < positions.length; j ++) {
-        if (positions[j].c[POSITIONS_COLS.email] != null && positions[j].c[POSITIONS_COLS.email].v == searchEmail) {
-          key = (positions[j].c[POSITIONS_COLS.key] != null) ? positions[j].c[POSITIONS_COLS.key].v : positions[0].c[POSITIONS_COLS.key].v; // lowermost default to president
+  for (let i = 0; i < data.contacts.length; i ++) {
+    if (data.contacts[i].c[SHEETS.contacts.COLS.option] == null || data.contacts[i].c[SHEETS.contacts.COLS.show].v == false) { continue; } // skip blank entries
+    if (data.contacts[i].c[SHEETS.contacts.COLS.option].v == type) {
+      let searchEmail = (data.contacts[i].c[SHEETS.contacts.COLS.override] != null) ? data.contacts[i].c[SHEETS.contacts.COLS.override].v : (data.contacts[i].c[SHEETS.contacts.COLS.email] != null) ? data.contacts[i].c[SHEETS.contacts.COLS.email].v : data.contacts[0].c[SHEETS.contacts.COLS.email].v; // take preference for override, otherwise use regular email, if both blank, default to first entry
+      for (let j = 0; j < data.positions.length; j ++) {
+        if (data.positions[j].c[SHEETS.positions.COLS.email] != null && data.positions[j].c[SHEETS.positions.COLS.email].v == searchEmail) {
+          key = (data.positions[j].c[SHEETS.positions.COLS.key] != null) ? data.positions[j].c[SHEETS.positions.COLS.key].v : data.positions[0].c[SHEETS.positions.COLS.key].v; // lowermost default to president
           break;
         }
       }
     }
   }
-  let subject = 'Website Contact Message (' + type + ')';
+  let subject = `Website Contact Message (${type})`;
 
   document.getElementById('form-key').setAttribute('value', key);
   document.getElementById('form-subject').setAttribute('value', subject);
@@ -714,21 +711,57 @@ document.querySelectorAll('#form-type').forEach((el) => {
 
 // LEADERBOARD
 
-function setPlayerNames() {
-  playerNames = new Map();
-  for (let i = 0; i < playerNameData.length; i ++) {
-    let id = Number(playerNameData[i].c[PLAYERS_COLS.id].v);
-    let name = playerNameData[i].c[PLAYERS_COLS.name].v;
-    playerNames.set(id, name);
+function dateToUTC(date) {
+  let splitDate = date.split('(')[1].split(')')[0].split(',');
+  if (splitDate.length > 3) {
+    return Date.UTC(splitDate[0], splitDate[1], splitDate[2], splitDate[3], splitDate[4]);
+  }
+  else {
+    return Date.UTC(splitDate[0], splitDate[1], splitDate[2]);
   }
 }
 
-function getPlayerRating(game, id) {
-  if (playerRatings[game].has(id)) {
-    return playerRatings[game].get(id);
+function getParamsAtDate(game, date) {
+  let searchUtc = dateToUTC(date);
+
+  let latestIndex = -1;
+  let firstOfGame = true;
+
+  for (let i = 0; i < data.parameters.length; i ++) {
+    if (data.parameters[i].c[SHEETS.parameters.COLS.game] == null || data.parameters[i].c[SHEETS.parameters.COLS.game].v != game || data.parameters[i].c[SHEETS.parameters.COLS.starts] == null) { continue; }
+
+    let paramUtc = dateToUTC(data.parameters[i].c[SHEETS.parameters.COLS.starts].v);
+
+    if (firstOfGame == true) {
+      firstOfGame = false;
+      latestIndex = i;
+    }
+    else if (searchUtc >= paramUtc) {
+      latestIndex = i;
+    }
   }
-  playerRatings[game].set(id, GAME_PARAMS[game].INIT_RATING);
-  return GAME_PARAMS[game].INIT_RATING;
+
+  return data.parameters[latestIndex];
+}
+
+function setPlayerNames() {
+  playerNames = new Map();
+  for (let i = 0; i < data.players.length; i ++) {
+    if (data.players[i].c[SHEETS.players.COLS.id] == null || data.players[i].c[SHEETS.players.COLS.name] == null) { continue; }
+    playerNames.set(data.players[i].c[SHEETS.players.COLS.id].v, data.players[i].c[SHEETS.players.COLS.name].v);
+  }
+}
+
+function minMaxLerp(a, b, t) {
+  return Math.max(0, Math.min(1, t)) * (Math.max(a, b) - Math.min(a, b)) + Math.min(a, b);
+}
+
+function getPlayerRating(game, id, timestamp) {
+  if (playerRatings[game].has(id) == false) {
+    let latestInitRating = getParamsAtDate(game, timestamp).c[SHEETS.parameters.COLS.init_rating].v;
+    playerRatings[game].set(id, latestInitRating);
+  }
+  return playerRatings[game].get(id);
 }
 
 function setPlayerRating(game, id, rating) {
@@ -736,33 +769,41 @@ function setPlayerRating(game, id, rating) {
 }
 
 function calculatePlayerRatings() {
-  playerRatings = {
-    "Foosball": new Map(),
-    "Pong": new Map(),
-    "Mario Kart": new Map(),
-    "Smash Bros": new Map(),
-    "BOAT Race": new Map()
-  };
+  for (let i = 0; i < data.games.length; i ++) {
+    if (data.games[i].c[SHEETS.games.COLS.name] == null || data.games[i].c[SHEETS.games.COLS.system] == null || data.games[i].c[SHEETS.games.COLS.starts] == null || dateToUTC(data.games[i].c[SHEETS.games.COLS.starts].v) > Date.now() || data.games[i].c[SHEETS.games.COLS.show].v == false) { continue; }
+    playerRatings[data.games[i].c[SHEETS.games.COLS.name].v] = new Map();
+  }
 
-  for (let r = 0; r < gameData.length; r ++) {
+  for (let r = 0; r < data.matches.length; r ++) {
+    if (data.matches[r].c[SHEETS.matches.COLS.timestamp] == null) { continue; }
     // get game
-    let game = gameData[r].c[MATCHES_COLS.game].v;
+    let game = data.matches[r].c[SHEETS.matches.COLS.game].v;
+    let timestamp = data.matches[r].c[SHEETS.matches.COLS.timestamp].v;
+
+    let system = '';
+    for (let i = 0; i < data.games.length; i ++) {
+      if (data.games[i].c[SHEETS.games.COLS.name] != null && data.games[i].c[SHEETS.games.COLS.name].v == game && data.games[i].c[SHEETS.games.COLS.show].v == true && data.games[i].c[SHEETS.games.COLS.system] != null && data.games[i].c[SHEETS.games.COLS.starts] != null && dateToUTC(data.games[i].c[SHEETS.games.COLS.starts].v) <= dateToUTC(timestamp)) {
+        system = data.games[i].c[SHEETS.games.COLS.system].v;
+        break;
+      }
+    }
+    if (system == '') { continue; } // if no game record being tracked, don't bother
 
     // get player ids
     let ids = [];
     // team A
-    ids[0] = Number(gameData[r].c[MATCHES_COLS.p1_id].v); // P1
-    ids[1] = gameData[r].c[MATCHES_COLS.p2_id] != null ? Number(gameData[r].c[MATCHES_COLS.p2_id].v) : 0; // P2
+    ids[0] = Number(data.matches[r].c[SHEETS.matches.COLS.p1_id].v); // P1
+    ids[1] = data.matches[r].c[SHEETS.matches.COLS.p2_id] != null ? Number(data.matches[r].c[SHEETS.matches.COLS.p2_id].v) : 0; // P2
     // team B
-    ids[2] = gameData[r].c[MATCHES_COLS.p3_id] != null ? Number(gameData[r].c[MATCHES_COLS.p3_id].v) : 0; // P3
-    ids[3] = gameData[r].c[MATCHES_COLS.p4_id] != null ? Number(gameData[r].c[MATCHES_COLS.p4_id].v) : 0; // P4
+    ids[2] = data.matches[r].c[SHEETS.matches.COLS.p3_id] != null ? Number(data.matches[r].c[SHEETS.matches.COLS.p3_id].v) : 0; // P3
+    ids[3] = data.matches[r].c[SHEETS.matches.COLS.p4_id] != null ? Number(data.matches[r].c[SHEETS.matches.COLS.p4_id].v) : 0; // P4
 
-    // get player ratings (or set to 1000 if new)
+    // get player ratings (or set to init value if new)
     let Rs = []; // prior ratings
     let playerCount = 0;
     for (let i = 0; i < 4; i ++) {
       if (ids[i] != 0) {
-        Rs[i] = getPlayerRating(game, ids[i]);
+        Rs[i] = getPlayerRating(game, ids[i], timestamp);
         playerCount ++;
       }
       else {
@@ -770,16 +811,18 @@ function calculatePlayerRatings() {
       }
     }
 
-    if (game == 'BOAT Race') {
-      let time = gameData[r].c[MATCHES_COLS.time].v;
+    let gameParams = getParamsAtDate(game, timestamp);
+
+    if (system == 'Best Time') {
+      let time = data.matches[r].c[SHEETS.matches.COLS.time].v;
       if (time < Rs[0]) {
         setPlayerRating(game, ids[0], time);
       }
     }
-    else if (game == 'Mario Kart' || game == 'Smash Bros') {
+    else if (system == 'Elo FFA') {
       let Qs = []; // q values
       for (let i = 0; i < playerCount; i ++) {
-        Qs[i] = Math.pow(GAME_PARAMS[game].BASE, Rs[i] / GAME_PARAMS[game].DIVISOR);
+        Qs[i] = Math.pow(gameParams.c[SHEETS.parameters.COLS.base].v, Rs[i] / gameParams.c[SHEETS.parameters.COLS.divisor].v);
       }
 
       let Es = [new Array(playerCount), new Array(playerCount), new Array(playerCount), new Array(playerCount)]; // estimated scores
@@ -789,7 +832,7 @@ function calculatePlayerRatings() {
         }
       }
 
-      let Ss = [gameData[r].c[MATCHES_COLS.p1_points] != null ? Number(gameData[r].c[MATCHES_COLS.p1_points].v) : 0, gameData[r].c[MATCHES_COLS.p2_points] != null ? Number(gameData[r].c[MATCHES_COLS.p2_points].v) : 0, gameData[r].c[MATCHES_COLS.p3_points] != null ? Number(gameData[r].c[MATCHES_COLS.p3_points].v) : 0, gameData[r].c[MATCHES_COLS.p4_points] != null ? Number(gameData[r].c[MATCHES_COLS.p4_points].v) : 0]; // actual scores
+      let Ss = [data.matches[r].c[SHEETS.matches.COLS.p1_points] != null ? Number(data.matches[r].c[SHEETS.matches.COLS.p1_points].v) : 0, data.matches[r].c[SHEETS.matches.COLS.p2_points] != null ? Number(data.matches[r].c[SHEETS.matches.COLS.p2_points].v) : 0, data.matches[r].c[SHEETS.matches.COLS.p3_points] != null ? Number(data.matches[r].c[SHEETS.matches.COLS.p3_points].v) : 0, data.matches[r].c[SHEETS.matches.COLS.p4_points] != null ? Number(data.matches[r].c[SHEETS.matches.COLS.p4_points].v) : 0]; // actual scores
 
       for (let i = 0; i < playerCount; i ++) {
         let mult = 0;
@@ -798,18 +841,18 @@ function calculatePlayerRatings() {
           let wld = Ss[i] > Ss[j] ? 1 : Ss[i] < Ss[j] ? 0 : 0.5; // win-lose-draw
           mult += wld - Es[i][j];
         }
-        setPlayerRating(game, ids[i], Rs[i] + GAME_PARAMS[game].K / (playerCount - 1) * mult);
+        setPlayerRating(game, ids[i], Rs[i] + gameParams.c[SHEETS.parameters.COLS.k].v / (playerCount - 1) * mult);
       }
     }
-    else { // foos & pong
-      let Rt = [Math.max(Rs[0], Rs[1]), Math.max(Rs[2], Rs[3])]; // ratings for team A and B
-      let Qs = [Math.pow(GAME_PARAMS[game].BASE, Rt[0] / GAME_PARAMS[game].DIVISOR), Math.pow(GAME_PARAMS[game].BASE, Rt[1] / GAME_PARAMS[game].DIVISOR)];
+    else if (system == 'Elo Teams') {
+      let Rt = [minMaxLerp(Rs[0], Rs[1], gameParams.c[SHEETS.parameters.COLS.interpolation].v), minMaxLerp(Rs[2], Rs[3], gameParams.c[SHEETS.parameters.COLS.interpolation].v)]; // ratings for team A and B
+      let Qs = [Math.pow(gameParams.c[SHEETS.parameters.COLS.base].v, Rt[0] / gameParams.c[SHEETS.parameters.COLS.divisor].v), Math.pow(gameParams.c[SHEETS.parameters.COLS.base].v, Rt[1] / gameParams.c[SHEETS.parameters.COLS.divisor].v)];
       let Es = [Qs[0] / (Qs[0] + Qs[1]), Qs[1] / (Qs[0] + Qs[1])]; // estimated scores for team A and B
-      let Ss = [gameData[r].c[MATCHES_COLS.winner].v == 'Team A' ? 1 : 0, gameData[r].c[MATCHES_COLS.winner].v == 'Team B' ? 1 : 0]; // actual scores for team A and B
+      let Ss = [data.matches[r].c[SHEETS.matches.COLS.winner].v == 'Team A' ? 1 : 0, data.matches[r].c[SHEETS.matches.COLS.winner].v == 'Team B' ? 1 : 0]; // actual scores for team A and B
 
       for (let i = 0; i < 4; i ++) {
         if (ids[i] == 0) { continue; }
-        setPlayerRating(game, ids[i], Rs[i] + GAME_PARAMS[game].K * (Ss[Math.floor(i / 2)] - Es[Math.floor(i / 2)]));
+        setPlayerRating(game, ids[i], Rs[i] + gameParams.c[SHEETS.parameters.COLS.k].v * (Ss[Math.floor(i / 2)] - Es[Math.floor(i / 2)]));
       }
     }
   }
@@ -818,43 +861,79 @@ function calculatePlayerRatings() {
 }
 
 function refreshLeaderboard() {
-  for (let i = 0; i < Array.from(GAME_SHORTS.keys()).length; i ++) {
+  for (let i = 0; i < data.games.length; i ++) {
+    if (data.games[i].c[SHEETS.games.COLS.name] == null || data.games[i].c[SHEETS.games.COLS.system] == null || data.games[i].c[SHEETS.games.COLS.starts] == null || dateToUTC(data.games[i].c[SHEETS.games.COLS.starts].v) > Date.now() || data.games[i].c[SHEETS.games.COLS.show].v == false) { continue; }
 
-    let game = Array.from(GAME_SHORTS.values())[i];
+    let game = data.games[i].c[SHEETS.games.COLS.name].v;
+    let system = data.games[i].c[SHEETS.games.COLS.system].v;
+    let rounding = (data.games[i].c[SHEETS.games.COLS.rounding] != null) ? Math.round(data.games[i].c[SHEETS.games.COLS.rounding].v): 0;
     let rankedMap;
 
-    if (game == 'boat') {
-      rankedMap = new Map(Array.from(playerRatings[Array.from(GAME_SHORTS.keys())[i]]).sort((a, b) => a[1] - b[1]));
+    if (system == 'Best Time') {
+      rankedMap = new Map(Array.from(playerRatings[game]).sort((a, b) => a[1] - b[1]));
     }
     else {
-      rankedMap = new Map(Array.from(playerRatings[Array.from(GAME_SHORTS.keys())[i]]).sort((b, a) => a[1] - b[1]));
+      rankedMap = new Map(Array.from(playerRatings[game]).sort((b, a) => a[1] - b[1]));
     }
-    document.getElementById(game + '-board').innerHTML = makeLeaderboardHTML(Array.from(rankedMap.values()), Array.from(rankedMap.keys()), game == 'boat' ? 2 : 0);
+    document.getElementById(game + '-board').innerHTML = makeLeaderboardHTML(Array.from(rankedMap.values()), Array.from(rankedMap.keys()), rounding);
   }
 
   // let cards = document.querySelectorAll(".player-card");
   // cards.forEach((el) => observer.observe(el));
 }
 
+let shownGames = [];
+
+function makeLeaderboardGames() {
+  let buttonsHTML = '';
+  let boardsHTML = '';
+  for (let i = 0; i < data.games.length; i ++) {
+    if (data.games[i].c[SHEETS.games.COLS.name] == null || data.games[i].c[SHEETS.games.COLS.system] == null || data.games[i].c[SHEETS.games.COLS.starts] == null || data.games[i].c[SHEETS.games.COLS.show].v == false) { continue; }
+
+    shownGames.push(data.games[i].c[SHEETS.games.COLS.name].v);
+
+    buttonsHTML += `<li><button class="button" id="${data.games[i].c[SHEETS.games.COLS.name].v}-button">`;
+    if (data.games[i].c[SHEETS.games.COLS.icon] != null) {
+      buttonsHTML += `<i class="fa-solid fa-${data.games[i].c[SHEETS.games.COLS.icon].v}"></i>`;
+    }
+    buttonsHTML += `${data.games[i].c[SHEETS.games.COLS.name].v}</button></li>`;
+
+    boardsHTML += `<ul class="leaderboard-container" id="${data.games[i].c[SHEETS.games.COLS.name].v}-board" style="display: none;">`;
+    
+    if (dateToUTC(data.games[i].c[SHEETS.games.COLS.starts].v) > Date.now()) {
+      let date = data.games[i].c[SHEETS.games.COLS.starts].v.split('(')[1].split(')')[0].split(',');
+      boardsHTML += `<li class="player-card message"><div>This leaderboard starts on ${date[2]} ${MONTHS.get(Number(date[1]) + 1)} ${date[0]}!</div></li>`;
+    }
+    
+    boardsHTML += `</ul>`;
+  }
+  document.getElementById('leaderboard-games').innerHTML = buttonsHTML;
+  document.getElementById('leaderboards').innerHTML = boardsHTML;
+
+  document.querySelectorAll('#leaderboard-page :not(nav) .button').forEach(el => {
+    el.addEventListener('click', event => { changeLeaderboard(el.getAttribute('id').split('-')[0]); });
+  });
+}
+
 function makeLeaderboardHTML(values, keys, round) {
   let html = '';
+
+  if (keys.length == 0) {
+      return `<li class="player-card message"><div>No contenders yet. Be the first!</div></li>`;
+  }
 
   for (let i = 0; i < keys.length; i ++) {
     let playerName = playerNames.get(keys[i]) ? playerNames.get(keys[i]) : 'Anonymous';
 
-    let delay = i * 0; // ms
-
-    let rating = Math.round(values[i] * Math.pow(10, round)) / Math.pow(10, round);
+    let rating = Math.round(values[i] * Math.pow(10, -round)) / Math.pow(10, -round);
 
     let tieCount = 0;
-    while (i > 0 && rating == Math.round(values[i - 1] * Math.pow(10, round)) / Math.pow(10, round)) {
+    while (i > 0 && rating == Math.round(values[i - 1] * Math.pow(10, -round)) / Math.pow(10, -round)) {
       i --;
       tieCount ++;
     }
 
-    // html += "<div class='player-card' style='transition-delay: " + delay + "ms;'><div class='player-ranking";
-
-    html += '<li class="player-card"><p class="rank r' + (i + 1) + '">' + (i + 1) + '</p><p class="name">' + playerName + '</p><p class="rating">' + rating.toFixed(round) + '</p></li>';
+    html += '<li class="player-card"><div class="rank r' + (i + 1) + '">' + (i + 1) + '</div><div class="name">' + playerName + '</div><div class="rating">' + rating.toFixed(Math.max(-round, 0)) + '</div></li>';
 
     i += tieCount;
   }
@@ -866,7 +945,7 @@ function changeLeaderboard(id) {
   document.querySelectorAll('.leaderboard-container').forEach(el => {
     el.style.display = 'none';
   });
-  document.querySelectorAll('#leaderboard :not(nav) .button').forEach(el => {
+  document.querySelectorAll('#leaderboard-page :not(nav) .button').forEach(el => {
     el.classList.remove('selected');
   });
   document.getElementById(id + '-board').style.display = '';
@@ -874,15 +953,14 @@ function changeLeaderboard(id) {
 
   localStorage.currentBoard = id;
 }
-document.querySelectorAll('#leaderboard :not(nav) .button').forEach(el => {
-  el.addEventListener('click', event => {changeLeaderboard(el.getAttribute('id').substring(0, 4));});
-});
 
 function filterSearch() {
   let cards = document.querySelectorAll('.player-card');
   let input = document.getElementById('leaderboard-search').value.toUpperCase();
   for (let i = 0; i < cards.length; i ++) {
-    let name = cards[i].getElementsByClassName('name')[0].innerHTML;
+    let nameObj = cards[i].querySelector('.name');
+    if (nameObj == null) { continue; }
+    let name = nameObj.innerHTML;
     if (name.toUpperCase().indexOf(input) > -1) {
       cards[i].style.display = '';
     }

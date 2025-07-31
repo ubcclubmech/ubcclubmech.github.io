@@ -24,13 +24,13 @@
     <link rel="icon" type="image/x-icon" href="favicon/favicon.ico" />
     <link rel="manifest" href="favicon/manifest.webmanifest" />
     <!-- STYLING -->
-    <link rel="stylesheet" href="styles.css?version=6" />
+    <link rel="stylesheet" href="styles.css?version=7" />
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
     </style>
     <script src="https://kit.fontawesome.com/4d3e104d1c.js" crossorigin="anonymous"></script>
   </head>
-  <body tabindex="0" id="leaderboard">
+  <body id="leaderboard-page" tabindex="0">
     <div id="reload-indicator"></div>
     <nav id="nav">
       <a class="button nav icon" href="."><i class="fa-solid fa-chevron-left"></i></a>
@@ -38,26 +38,14 @@
     </nav>
     <div id="content">
       <h1>Club MECH</h1>
-      <h2><a id="live" href="./leaderboard" content="live">LIVE</a> Leaderboard</h2>
+      <h2><span id="live">LIVE</span> Leaderboard</h2>
 
       <div class="inner" style="max-width: 1200px;">
-        <ul id="leaderboard-games">
-          <li><button class="button" id="foos-button"><i class="fa-solid fa-futbol"></i>Foosball</button></li>
-          <li><button class="button" id="pong-button"><i class="fa-solid fa-table-tennis-paddle-ball"></i>Pong</button></li>
-          <li><button class="button" id="kart-button"><i class="fa-solid fa-flag-checkered"></i>Mario Kart</button></li>
-          <li><button class="button" id="smsh-button"><i class="fa-solid fa-trophy"></i>Smash Bros</button></li>
-          <!-- <li><button class="button" id="bevk-button"><i class="fa-solid fa-beer-mug-empty"></i>BEvERage Kart</button></li> -->
-          <li><button class="button" id="boat-button"><i class="fa-solid fa-whiskey-glass"></i>BOAT Race</button></li>
-        </ul>
+        <ul id="leaderboard-games"></ul>
 
         <input class="search-box" type="text" placeholder="Search leaderboard" id="leaderboard-search">
 
-        <ul class="leaderboard-container" id="foos-board" style="display: none;"></ul>
-        <ul class="leaderboard-container" id="pong-board" style="display: none;"></ul>
-        <ul class="leaderboard-container" id="kart-board" style="display: none;"></ul>
-        <ul class="leaderboard-container" id="bevk-board" style="display: none;"></ul>
-        <ul class="leaderboard-container" id="smsh-board" style="display: none;"></ul>
-        <ul class="leaderboard-container" id="boat-board" style="display: none;"></ul>
+        <div id="leaderboards"></div>
       </div>
     </div>
     <script type="module" src="app.js"></script>

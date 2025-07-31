@@ -39,6 +39,7 @@
   --grid-width: clamp(60%, 1700px, 85%);
   --gallery-width: clamp(60%, 1700px, 85%);
   --grid-columns: 3;
+  --sponsor-cols: 5;
   
   /* colours */
   --text-light: hsl(0, 0%, 98%);
@@ -54,15 +55,15 @@
   --nav: hsl(0, 0%, 98%);
   --section: hsl(0, 0%, 98%);
   
-  --primary-50: hsl(235, 45%, 5%);
-  --primary-100: hsl(235, 45%, 15%);
-  --primary-150: hsl(235, 40%, 25%);
-  --primary-200: hsl(235, 35%, 35%);
-  --primary-250: hsl(235, 30%, 45%);
-  --primary-300: hsl(235, 35%, 55%);
-  --primary-350: hsl(235, 40%, 65%);
-  --primary-400: hsl(235, 45%, 75%);
-  --primary-450: hsl(235, 45%, 85%);
+  --primary-5: hsl(235, 45%, 5%);
+  --primary-15: hsl(235, 45%, 15%);
+  --primary-25: hsl(235, 40%, 25%);
+  --primary-35: hsl(235, 35%, 35%);
+  --primary-45: hsl(235, 30%, 45%);
+  --primary-55: hsl(235, 35%, 55%);
+  --primary-65: hsl(235, 40%, 65%);
+  --primary-75: hsl(235, 45%, 75%);
+  --primary-85: hsl(235, 45%, 85%);
 
   --secondary: hsl(0, 0%, 92%);
 
@@ -132,11 +133,11 @@ body {
   position: relative;
 }
 
-h1 { font-size: var(--h1-size); color: var(--primary-100); line-height: var(--heading-line-height); margin: 1em 0 0.5em 0; }
-h2 { font-size: var(--h2-size); color: var(--primary-100); line-height: var(--heading-line-height); margin: 1em 0 0.5em 0; }
-h3 { font-size: var(--h3-size); color: var(--primary-100); line-height: var(--heading-line-height); margin: 1em 0 0.5em 0; }
-h4 { font-size: var(--h4-size); color: var(--primary-100); line-height: var(--heading-line-height); margin: 1em 0 0.5em 0; }
-h5 { font-size: var(--h5-size); color: var(--primary-100); line-height: var(--heading-line-height); margin: 1em 0 0.5em 0; }
+h1 { font-size: var(--h1-size); color: var(--primary-15); line-height: var(--heading-line-height); margin: 1em 0 0.5em 0; }
+h2 { font-size: var(--h2-size); color: var(--primary-15); line-height: var(--heading-line-height); margin: 1em 0 0.5em 0; }
+h3 { font-size: var(--h3-size); color: var(--primary-15); line-height: var(--heading-line-height); margin: 1em 0 0.5em 0; }
+h4 { font-size: var(--h4-size); color: var(--primary-15); line-height: var(--heading-line-height); margin: 1em 0 0.5em 0; }
+h5 { font-size: var(--h5-size); color: var(--primary-15); line-height: var(--heading-line-height); margin: 1em 0 0.5em 0; }
 p { font-size: var(--body-size); margin: 1rem 0 1rem 0; }
 
 #content {
@@ -226,16 +227,16 @@ header nav {
 
 a.link:not(.button) {
   text-decoration: none;
-  color: var(--primary-300);
-  /* text-decoration: underline dotted var(--primary-300) 3px; */
+  color: var(--primary-55);
+  /* text-decoration: underline dotted var(--primary-55) 3px; */
   transition-property: color text-decoration;
   transition-duration: 0.1s;
   transition-timing-function: ease-in-out;
 }
 
 a.link:not(.button):hover {
-  color: var(--primary-150);
-  text-decoration: underline dotted var(--primary-150) 3px;
+  color: var(--primary-25);
+  text-decoration: underline dotted var(--primary-25) 3px;
 }
 
 #links {
@@ -293,8 +294,8 @@ option {
 
 .button.link {
   text-decoration: none;
-  color: var(--primary-100);
-  background-color: var(--primary-450);
+  color: var(--primary-15);
+  background-color: var(--primary-85);
   transition-property: color background-color;
   transition-duration: 0.1s;
   transition-timing-function: ease-in-out;
@@ -306,12 +307,12 @@ option {
 }
 
 .button.link:hover {
-  background-color: var(--primary-150);
+  background-color: var(--primary-25);
   color: var(--text-alt);
 }
 
 .button.important {
-  background-color: var(--primary-150);
+  background-color: var(--primary-25);
   color: var(--text-alt);
   /* padding: var(--thick-padding); */
   transition-property: background-color color;
@@ -320,7 +321,7 @@ option {
 }
 
 .button.important:hover {
-  background-color: var(--primary-250);
+  background-color: var(--primary-45);
   color: var(--text-alt);
 }
 
@@ -366,7 +367,7 @@ header nav .button.nav {
   }
 
   header nav .button.nav:hover {
-    background-color: var(--primary-150);
+    background-color: var(--primary-25);
   }
 
   #open-nav {
@@ -527,7 +528,7 @@ header nav .button.nav {
   border: 1px solid var(--tooltip-border);
   border-radius: var(--border-radius);
   content: attr(tooltip);
-  background-color: var(--secondary);
+  background-color: var(--background);
   box-shadow: 0px 5px 9px var(--card-shadow);
   font-family: 'Lexend', sans-serif;
   font-weight: 400;
@@ -582,7 +583,7 @@ header nav .button.nav {
   margin-bottom: 1rem;
 }
 
-#welcome-blurb {
+#welcome-container > div:first-child { /* blurb container */
   flex: 1 1 0px;
   text-align: left;
 }
@@ -607,7 +608,7 @@ header nav .button.nav {
     align-items: center;
     gap: 0;
   }
-  #welcome-blurb {
+  #welcome-container > div:first-child { /* blurb container */
     margin-bottom: 1rem;
   }
   #welcome-openings {
@@ -650,10 +651,10 @@ header nav .button.nav {
 
 .openings li > i {
   flex: 0 0 calc(var(--body-size) * 1.25);
-  color: var(--primary-100);
+  color: var(--primary-15);
 }
 
-#land-acknowledgement {
+#land-acknowledgement-container {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
@@ -663,7 +664,7 @@ header nav .button.nav {
   margin: calc(var(--h2-size)) 0 1rem 0;
 }
 
-#land-acknowledgement > :nth-child(2) { /* flags container */
+#flags-container {
   flex: 0 0 14rem;
   display: flex;
   flex-direction: column;
@@ -672,7 +673,7 @@ header nav .button.nav {
   gap: 1rem;
 }
 
-#land-acknowledgement a.flag {
+#flags-container > a {
   overflow: hidden;
   border-radius: var(--border-radius);
   line-height: 0;
@@ -683,16 +684,16 @@ header nav .button.nav {
   transition-timing-function: ease-in-out;
 }
 
-#land-acknowledgement a.flag:hover {
+#flags-container > a:hover {
   transform: translateY(-5px);
   box-shadow: 0 9px 13px var(--card-shadow);
 }
 
-#land-acknowledgement a.flag img {
+#flags-container > a img {
   width: 100%;
 }
 
-#land-acknowledgement > :nth-child(1) { /* text */
+#land-acknowledgement-container > div:nth-child(1) { /* text */
   flex: 1 1;
   text-align: left;
   display: flex;
@@ -701,20 +702,20 @@ header nav .button.nav {
   align-items: stretch;
 }
 
-#land-acknowledgement h2 {
+#land-acknowledgement-container h2 {
   margin-top: 0;
 }
 
-#land-acknowledgement p {
+#land-acknowledgement-container p {
   margin-top: 0;
 }
 
 @media (max-width: 1300px) {
-  #land-acknowledgement {
+  #land-acknowledgement-container {
     flex-direction: column;
   }
 
-  #land-acknowledgement > :nth-child(2) {
+  #flags-container {
     flex-basis: auto;
     flex-direction: row;
     justify-content: center;
@@ -723,23 +724,68 @@ header nav .button.nav {
 }
 
 @media (max-width: 925px) {
-  #land-acknowledgement > :nth-child(2) {
+  #flags-container {
     flex-wrap: wrap;
   }
 
-  #land-acknowledgement a.flag {
+  #flags-container > a {
     height: 20vw;
   }
 }
 
 @media (max-width: 600px) {
-  #land-acknowledgement > :nth-child(2) {
+  #flags-container {
     gap: var(--gap-width);
   }
 
-  #land-acknowledgement a.flag {
+  #flags-container > a {
     height: 24vw;
   }
+}
+
+#sponsors {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  gap: var(--gap-width);
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+#sponsors li {
+  /* calc((100% - var(--gap-width) * (var(--sponsor-cols) - 1)) / var(--sponsor-cols)) */
+  flex: 0 0 min(11rem, calc((100% - 10px * (3 - 1)) / 3));
+  aspect-ratio: 1;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transform: translateY(0);
+  transition-property: transform box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+
+#sponsors li:has(a):hover {
+  cursor: pointer;
+  transform: translateY(-5px);
+  box-shadow: 0 5px 9px var(--card-shadow);
+}
+
+#sponsors li a {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  object-fit: cover;
+}
+
+#sponsors li img {
+  width: 100%;
 }
 
 #gallery {
@@ -962,7 +1008,7 @@ header nav .button.nav {
 .council-member h3 i {
   margin-left: var(--icon-margin);
   font-size: var(--body-size);
-  color: var(--primary-100);
+  color: var(--primary-15);
 }
 
 .council-member ul {
@@ -1133,7 +1179,7 @@ form .button {
 
 /* LEADERBOARD */
 
-#leaderboard nav {
+#leaderboard-page nav {
   position: absolute;
   top: 20px;
   left: 20px;
@@ -1144,21 +1190,21 @@ form .button {
   align-items: center;
 }
 
-#leaderboard nav .button.nav {
+#leaderboard-page nav .button.nav {
   color: var(--text);
   font-size: var(--h4-size);
   padding: var(--icon-padding);
 }
 
-#leaderboard #content > h1 {
+#leaderboard-page #content > h1 {
   margin: 1.5rem 0 0.5rem 0;
 }
 
-#leaderboard #content > h2 {
+#leaderboard-page #content > h2 {
   margin: 0 0 4rem 0;
 }
 
-#leaderboard #reload-indicator {
+#leaderboard-page #reload-indicator {
   color: var(--text);
   text-shadow: none;
 }
@@ -1169,6 +1215,7 @@ form .button {
   border-radius: 0.4em;
   padding: 0.125em 0.25em;
   text-decoration: none;
+  cursor: pointer;
 }
 
 #leaderboard-games {
@@ -1192,7 +1239,7 @@ form .button {
   align-items: stretch;
 }
 
-#leaderboard .button:not(.icon) {
+#leaderboard-page .button:not(.icon) {
   flex-grow: 1;
   padding: var(--thick-padding);
   line-height: inherit;
@@ -1203,12 +1250,12 @@ form .button {
   text-decoration: none;
 }
 
-#leaderboard .button:not(.icon):hover, #leaderboard .button:not(.icon).selected {
+#leaderboard-page .button:not(.icon):hover, #leaderboard-page .button:not(.icon).selected {
   background-color: var(--leaderboard-red);
   color: var(--text-alt);
 }
 
-#leaderboard .button:not(.icon) i {
+#leaderboard-page .button:not(.icon) i {
   margin-right: var(--icon-margin);
 }
 
@@ -1224,6 +1271,10 @@ form .button {
   text-align: center;
   box-sizing: border-box;
   margin: var(--gap-width) 0;
+}
+
+#leaderboards {
+  width: 100%;
 }
 
 .leaderboard-container {
@@ -1248,12 +1299,24 @@ form .button {
   width: 100%;
 }
 
+.player-card.message {
+  min-height: calc(var(--h1-size) * var(--heading-line-height));
+}
+
+.player-card.message div {
+  flex: 1 1;
+  text-align: center;
+  font-size: var(--body-size);
+  margin: 1rem max(2vw, 20px);
+}
+
 .player-card .rank {
   margin: 0 0 0 max(2vw, 20px);
   text-align: center;
   flex: 0 0 3.5rem;
   font-weight: 600;
   font-size: var(--h5-size);
+  line-height: var(--heading-line-height);
 }
 
 .player-card .rank.r1{
@@ -1277,10 +1340,13 @@ form .button {
 .player-card .name {
   flex: 1 1;
   text-align: center;
+  font-size: var(--body-size);
+  margin: 1rem 0;
 }
 
 .player-card .rating {
   margin: 0 max(2vw, 20px) 0 0;
   flex: 0 0 3.5rem;
   text-align: center;
+  font-size: var(--body-size);
 }
