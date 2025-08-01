@@ -25,8 +25,8 @@
   --section-filter: brightness(0.9) blur(calc(var(--section-header-height) / 55));
 
   /* padding */
-  --standard-padding: 0.3em 0.9em;
-  --thin-padding: 0.2em 0.8em;
+  --standard-padding: 0.35em 0.9em;
+  --thin-padding: 0.25em 0.9em;
   --thick-padding: 0.5em 1.2em;
   --icon-padding: 0.3em 0.3em;
   --tooltip-padding: 0.5rem 0.8rem;
@@ -70,16 +70,16 @@
   --card-shadow: hsl(0, 0%, 0%, 10%);
   --tooltip-border: hsl(0, 0%, 70%);
 
-  --leaderboard-red: hsl(0, 70%, 55%);
-  --leaderboard-red-light: hsl(0, 70%, 85%);
-  --leaderboard-red-dark: hsl(0, 70%, 15%);
+  --red: hsl(0, 70%, 55%);
+  --green: hsl(120, 55%, 38%);
+  --yellow: hsl(25, 70%, 50%);
 
-  --first: hsl(40, 87%, 59%);
-  --first-glow: hsl(40, 87%, 59%, 25%);
-  --second: hsl(197, 77%, 55%);
-  --second-glow: hsl(197, 77%, 55%, 25%);
-  --third: hsl(40, 59%, 37%);
-  --third-glow: hsl(40, 59%, 37%, 25%);
+  --first: hsl(40, 90%, 60%);
+  --first-glow: hsl(40, 90%, calc(50% + 60% / 2), 100%);
+  --second: hsl(200, 70%, 62%);
+  --second-glow: hsl(200, 75%, calc(50% + 62% / 2), 100%);
+  --third: hsl(40, 60%, 43%);
+  --third-glow: hsl(40, 60%, calc(50% + 43% / 2), 100%);
 }
 /* } */
 
@@ -273,6 +273,10 @@ select {
   padding-inline: 0;
 }
 
+select:hover {
+  cursor: pointer;
+}
+
 option {
   padding-block: 0;
   padding-inline: 0;
@@ -286,9 +290,14 @@ option {
   border-radius: var(--border-radius);
   background-color: var(--secondary);
   padding: var(--standard-padding);
+  transition-property: backgound-color color;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
 }
 
-.button:hover {
+.button:hover, .button.selected {
+  background-color: var(--primary-25);
+  color: var(--text-alt);
   cursor: pointer;
 }
 
@@ -296,14 +305,7 @@ option {
   text-decoration: none;
   color: var(--primary-15);
   background-color: var(--primary-85);
-  transition-property: color background-color;
-  transition-duration: 0.1s;
-  transition-timing-function: ease-in-out;
   text-align: center;
-}
-
-.button.link i {
-  margin-right: var(--icon-margin);
 }
 
 .button.link:hover {
@@ -311,13 +313,18 @@ option {
   color: var(--text-alt);
 }
 
+.button:not(.icon) i {
+  margin-right: var(--icon-margin);
+}
+
+.button:not(.icon) i+span {
+   margin-right: calc(var(--icon-margin) * 1);
+}
+
 .button.important {
   background-color: var(--primary-25);
   color: var(--text-alt);
   /* padding: var(--thick-padding); */
-  transition-property: background-color color;
-  transition-duration: 0.1s;
-  transition-timing-function: ease-in-out;
 }
 
 .button.important:hover {
@@ -331,6 +338,12 @@ header nav .button.nav {
   font-size: var(--nav-size);
   text-decoration: none;
   padding: var(--thin-padding);
+  transform: scale(1);
+  transition: transform 0.2s ease-in-out;
+}
+
+header nav .button.nav:hover {
+  transform: scale(1.1);
 }
 
 .button.icon {
@@ -343,6 +356,25 @@ header nav .button.nav {
   display: inline-block;
   /* font-size: 24px; */
   font-size: calc(var(--nav-size) * 1.5);
+}
+
+@keyframes icon-click {
+  20% { transform: scale(0.85); }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.button i {
+  transform: scale(1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.button.animating i {
+  animation: icon-click 0.5s ease-in-out 0s 1 forwards;
+}
+
+.button:not(.selected):not(.animating):not(.mouseover):hover i {
+  transform: scale(1.12);
 }
 
 #open-nav {
@@ -358,9 +390,7 @@ header nav .button.nav {
     padding: 1em;
     margin: 0;
     border-radius: 0;
-    transition-property: background-color;
-    transition-duration: 0.1s;
-    transition-timing-function: ease-in-out;
+    transition: background-color 0.1s ease-in-out, transform 0.2s ease-in-out;
     text-decoration: none;
     text-align: center;
     box-sizing: border-box;
@@ -368,6 +398,7 @@ header nav .button.nav {
 
   header nav .button.nav:hover {
     background-color: var(--primary-25);
+    transform: scale(1.06);
   }
 
   #open-nav {
@@ -478,8 +509,13 @@ header nav .button.nav {
   font-weight: 600;
   color: var(--section);
   font-family: inherit;
-  cursor: pointer;
   text-shadow: var(--section-shadow);
+  transform: scale(1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.section-header select:hover {
+  transform: scale(1.05);
 }
 
 .section-header select:focus {
@@ -1110,6 +1146,28 @@ form .button {
 
 /* MERCH */
 
+#merch-categories {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: var(--gap-width);
+  width: 100%;
+  flex-wrap: wrap;
+  margin-top: var(--grid-margin-top);
+}
+
+#merch-categories li {
+  flex-grow: 1;
+}
+
+#merch-categories li button {
+  width: 100%;
+  padding: var(--thick-padding);
+}
+
 #merch-grid {
   display: grid;
   width: var(--grid-width);
@@ -1117,7 +1175,7 @@ form .button {
   grid-template-rows: auto;
   column-gap: var(--grid-col-gap);
   row-gap: var(--grid-row-gap);
-  margin-top: var(--grid-margin-top);
+  margin-top: calc(var(--grid-margin-top) / 2);
   padding: 0;
   list-style: none;
 }
@@ -1135,7 +1193,7 @@ form .button {
   margin: var(--item-name-margin);
 }
 
-.merch-item div {
+.merch-item > div {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -1144,7 +1202,7 @@ form .button {
   margin: 0.5rem 0 0 0;
 }
 
-.merch-item p, ul {
+.merch-item ul {
   margin: 0;
 }
 
@@ -1163,17 +1221,27 @@ form .button {
   padding: 0;
 }
 
-.merch-item li, .merch-item .out-of-stock {
+.merch-item li, .merch-item .status {
   font-size: var(--body-size);
   line-height: inherit;
-  background-color: var(--secondary);
-  color: var(--text);
+  background-color: var(--green);
+  color: var(--text-alt);
   padding: var(--thin-padding);
   border-radius: var(--border-radius);
 }
 
 .merch-item .out-of-stock {
-  background-color: var(--leaderboard-red);
+  background-color: var(--red);
+  color: var(--text-alt);
+}
+
+.merch-item .running-low {
+  background-color: var(--yellow);
+  color: var(--text-alt);
+}
+
+.merch-item .coming-soon {
+  background-color: var(--primary-45);
   color: var(--text-alt);
 }
 
@@ -1210,7 +1278,7 @@ form .button {
 }
 
 #live {
-  background-color: var(--leaderboard-red);
+  background-color: var(--red);
   color: var(--text-alt);
   border-radius: 0.4em;
   padding: 0.125em 0.25em;
@@ -1251,7 +1319,7 @@ form .button {
 }
 
 #leaderboard-page .button:not(.icon):hover, #leaderboard-page .button:not(.icon).selected {
-  background-color: var(--leaderboard-red);
+  background-color: var(--red);
   color: var(--text-alt);
 }
 
@@ -1322,19 +1390,19 @@ form .button {
 .player-card .rank.r1{
   font-size: var(--h1-size);
   color: var(--first);
-  text-shadow: 0 0 0.25em var(--first-glow);
+  text-shadow: 0 0 0.3em var(--first-glow);
 }
 
 .player-card .rank.r2 {
   font-size: var(--h2-size);
   color: var(--second);
-  text-shadow: 0 0 0.25em var(--second-glow);
+  text-shadow: 0 0 0.3em var(--second-glow);
 }
 
 .player-card .rank.r3 {
   font-size: var(--h3-size);
   color: var(--third);
-  text-shadow: 0 0 0.25em var(--third-glow);
+  text-shadow: 0 0 0.3em var(--third-glow);
 }
 
 .player-card .name {

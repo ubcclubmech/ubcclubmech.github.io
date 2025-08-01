@@ -204,7 +204,8 @@ async function init() {
       makeCouncilGrid();
       break;
     case 'merch-page':
-      await Promise.all([fetchSheet('merch')]);
+      await Promise.all([fetchSheet('merch'), fetchSheet('categories')]);
+      makeMerchCategories();
       makeMerch();
       break;
     case 'contact-page':
@@ -226,6 +227,25 @@ async function init() {
   document.querySelectorAll(':has(>.tooltip)').forEach((el) => { handleTooltips(el); });
 
   window.addEventListener('resize', function() { document.querySelectorAll(':has(>.tooltip)').forEach((el) => { handleTooltips(el); }); });
+
+  document.querySelectorAll('.button:has(i)').forEach((el) => {
+    el.addEventListener('click', (event) => {
+      el.classList.add('animating','mouseover');
+      setTimeout(() => {
+        el.classList.remove('animating');
+      }, 500);
+    });
+    el.addEventListener('mouseleave', (event) => {
+      if (el.classList.contains('animating')) {
+        setTimeout(() => {
+          el.classList.remove('mouseover');
+        }, 500);
+      }
+      else {
+        el.classList.remove('mouseover');
+      }
+    });
+  });
   
   // document.querySelectorAll(':has(>.tooltip)').forEach((el) => {
   //   el.addEventListener('mouseover', (event) => { fixTooltipPosition(el); });
@@ -383,6 +403,10 @@ function handleTooltips(el) {
   }
 }
 
+function driveUrlToThumb(url) {
+  return 'https://drive.google.com/thumbnail?id=' + url.substring(url.indexOf('/d/') + 3, url.indexOf('/view')) + '&sz=w1080';
+}
+
 // HOME
 
 function makeOpenings() {
@@ -404,7 +428,7 @@ function makeLinks() {
   for (let i = 0; i < data.links.length; i ++) {
     if (data.links[i].c[SHEETS.links.COLS.name] == null || data.links[i].c[SHEETS.links.COLS.link] == null || data.links[i].c[SHEETS.links.COLS.show].v == false) { continue; } // skip blank entries
     let icon = (data.links[i].c[SHEETS.links.COLS.icon] != null) ? '<i class="fa-solid fa-' + data.links[i].c[SHEETS.links.COLS.icon].v + '"></i>' : '';
-    html += '<li><a class="button link" href="' + data.links[i].c[SHEETS.links.COLS.link].v + '" target="_blank">' + (icon + data.links[i].c[SHEETS.links.COLS.name].v) + '</a></li>';
+    html += `<li><a class="button link" href="${data.links[i].c[SHEETS.links.COLS.link].v}" target="_blank">${icon + data.links[i].c[SHEETS.links.COLS.name].v}</a></li>`;
   }
   document.getElementById('links').innerHTML = html;
 }
@@ -439,8 +463,7 @@ function makeGallery() {
       for (let k = 0; k < data.gallery.length; k ++) {
         if (data.gallery[k].c[SHEETS.gallery.COLS.image] == null || data.gallery[k].c[SHEETS.gallery.COLS.collection] == null || data.gallery[k].c[SHEETS.gallery.COLS.show].v == false) { continue; }
         if (data.gallery[k].c[SHEETS.gallery.COLS.collection].v != data.collections[j].c[SHEETS.collections.COLS.name].v) { continue; }
-        let imgURL = data.gallery[k].c[SHEETS.gallery.COLS.image].v;
-        let imgSrc = 'https://drive.google.com/thumbnail?id=' + imgURL.substring(imgURL.indexOf('/d/') + 3, imgURL.indexOf('/view')) + '&sz=w1080';
+        let imgSrc = driveUrlToThumb(data.gallery[k].c[SHEETS.gallery.COLS.image].v);
         html += '<li><figure><img src="' + imgSrc + '">';
         if (data.gallery[k].c[SHEETS.gallery.COLS.caption] != null) {
           html += '<figcaption>' + data.gallery[k].c[SHEETS.gallery.COLS.caption].v + '</figcaption>';
@@ -476,8 +499,7 @@ function makeEvents(num) {
 
     let imgSrc = '/media/events/none.jpg';
     if (currEvent.c[SHEETS.events.COLS.image] != null) {
-      let imgURL = currEvent.c[SHEETS.events.COLS.image].v;
-      imgSrc = 'https://drive.google.com/thumbnail?id=' + imgURL.substring(imgURL.indexOf('/d/') + 3, imgURL.indexOf('/view')) + '&sz=w1080';
+      imgSrc = driveUrlToThumb(currEvent.c[SHEETS.events.COLS.image].v);
     }
 
     if (currEvent.c[SHEETS.events.COLS.instagram] != null) {
@@ -545,8 +567,7 @@ function makeCouncilGrid() {
 
         let imgSrc = '/media/council/none.jpg';
         if (data.council[i].c[SHEETS.council.COLS.photo].v != null) { //! THIS '.v' SHOULD BE REMOVED IF A COLUMN IS PLACED AFTER PHOTO
-          let imgURL = data.council[i].c[SHEETS.council.COLS.photo].v;
-          imgSrc = 'https://drive.google.com/thumbnail?id=' + imgURL.substring(imgURL.indexOf('/d/') + 3, imgURL.indexOf('/view')) + '&sz=w1080';
+          imgSrc = driveUrlToThumb(data.council[i].c[SHEETS.council.COLS.photo].v);
         }
 
         html += ('<img src="' + imgSrc + '" alt="' + data.council[i].c[SHEETS.council.COLS.name].v + '">'); // photo
@@ -575,7 +596,7 @@ function makeCouncilGrid() {
                     firstEmail = false;
                   }
                   html += '<li>';
-                  html += '<a class="button link" href="mailto:' + data.positions[k].c[SHEETS.positions.COLS.email].v + '">' + data.positions[k].c[SHEETS.positions.COLS.email].v + '</a>';
+                  html += `<a class="button link" href="mailto:${data.positions[k].c[SHEETS.positions.COLS.email].v}">${data.positions[k].c[SHEETS.positions.COLS.email].v}</a>`;
                   html += '</li>';
                 }
                 break;
@@ -598,20 +619,57 @@ document.querySelectorAll('#council-year').forEach((el) => {
 
 // MERCH
 
-function makeMerch() {
-  let selectObj = document.getElementById('merch-categories');
+function makeMerchCategories() {
   let html = '';
 
-  let categories = new Set(["ALL"]);
+  let firstCategory = true;
+  for (let i = 0; i < data.categories.length; i ++) {
+    if (data.categories[i].c[SHEETS.categories.COLS.name] == null || data.categories[i].c[SHEETS.categories.COLS.show].v == false) { continue; }
+
+    html += `<li><button class="button`;
+
+    if (firstCategory == true) {
+      firstCategory = false;
+      html += ' selected';
+    }
+
+    html += `" id="${data.categories[i].c[SHEETS.categories.COLS.name].v}-button">`;
+    
+    if (data.categories[i].c[SHEETS.categories.COLS.icon] != null) {
+      html += `<i class="fa-solid fa-${data.categories[i].c[SHEETS.categories.COLS.icon].v}"></i>`;
+    }
+
+    html += `${data.categories[i].c[SHEETS.categories.COLS.name].v}</button></li>`
+  }
+
+  document.getElementById('merch-categories').innerHTML = html;
+
+  document.querySelectorAll('#merch-categories button').forEach((el) => {
+    el.addEventListener('click', (event) => { filterMerch(el.getAttribute('id').split('-')[0]); });
+  });
+}
+
+function makeMerch() {
+  let html = '';
+
   for (let i = 0; i < data.merch.length; i ++) {
     if (data.merch[i].c[SHEETS.merch.COLS.item] == null || data.merch[i].c[SHEETS.merch.COLS.price] == null || data.merch[i].c[SHEETS.merch.COLS.show].v == false) { continue; } // skip blank entries
-    html += '<li class="merch-item' + ((data.merch[i].c[SHEETS.merch.COLS.category] != null) ? (' ' + data.merch[i].c[SHEETS.merch.COLS.category].v.toLowerCase()) : '') + '">';
-    html += '<img src="media/merch/' + data.merch[i].c[SHEETS.merch.COLS.item].v + '.jpg">';
+
+    html += '<li class="merch-item' + ((data.merch[i].c[SHEETS.merch.COLS.category] != null) ? (' ' + data.merch[i].c[SHEETS.merch.COLS.category].v) : '') + '">';
+
+    let imgSrc = '/media/events/none.jpg';
+    if (data.merch[i].c[SHEETS.merch.COLS.image] != null) {
+      imgSrc = driveUrlToThumb(data.merch[i].c[SHEETS.merch.COLS.image].v);
+    }
+
+    html += `<img src="${imgSrc}">`;
     html += '<h2>' + data.merch[i].c[SHEETS.merch.COLS.item].v + '</h2>';
-    html += '<div><p class="price">$' + Number(data.merch[i].c[SHEETS.merch.COLS.price].v).toFixed(2) + '</p>';
+    html += '<div><div class="price">$' + Number(data.merch[i].c[SHEETS.merch.COLS.price].v).toFixed(2) + '</div>';
+
     if (data.merch[i].c[SHEETS.merch.COLS.sizes] != null) {
       let sizes = data.merch[i].c[SHEETS.merch.COLS.sizes].v.split(', ');
       let oosSizes = (data.merch[i].c[SHEETS.merch.COLS.oos_sizes] != null) ? data.merch[i].c[SHEETS.merch.COLS.oos_sizes].v.split(', ') : [];
+
       html += '<ul class="sizes">';
       for (let j = 0; j < sizes.length; j ++) {
         let isOutOfStock = false;
@@ -622,37 +680,55 @@ function makeMerch() {
       }
       html += '</ul>';
     }
-    else if (data.merch[i].c[SHEETS.merch.COLS.status] != null && data.merch[i].c[SHEETS.merch.COLS.status].v == 'Out of stock') {
-      html += '<p class="out-of-stock">Out of stock</p>';
+    else if (data.merch[i].c[SHEETS.merch.COLS.status] != null) {
+      switch (data.merch[i].c[SHEETS.merch.COLS.status].v) {
+        case 'In stock':
+          html += '<div class="status in-stock">In stock</div>';
+          break;
+        case 'Out of stock':
+          html += '<div class="status out-of-stock">Out of stock</div>';
+          break;
+        // case 'Running low':
+        //   html += '<div class="status running-low">Running low</div>';
+        //   break;
+        // case 'Coming soon':
+        //   html += '<div class="status coming-soon">Coming soon</div>';
+        //   break;
+        default:
+          break;
+      }
     }
     html += '</div>';
-    html += '</li>'
-
-    if (data.merch[i].c[SHEETS.merch.COLS.category] != null) { // create categories set
-      categories.add(data.merch[i].c[SHEETS.merch.COLS.category].v.toUpperCase());
-    }
+    html += '</li>';
   }
+
   document.getElementById('merch-grid').innerHTML = html;
-
-  categories = Array.from(categories);
-  
-  for (let i = 0; i < categories.length; i ++) {
-    selectObj.innerHTML += '<option value="' + categories[i] + '">' + categories[i] + '</option>';
-  }
 }
 
-function filterMerch() {
-  let selectObj = document.getElementById('merch-categories');
-  let category = selectObj.options[selectObj.selectedIndex].value.toLowerCase();
-
+function filterMerch(category) {
   let merchItems = document.querySelectorAll('.merch-item');
 
+  let defaultCategory;
+  for (let i = 0; i < data.categories.length; i ++) {
+    if (data.categories[i].c[SHEETS.categories.COLS.name] == null || data.categories[i].c[SHEETS.categories.COLS.show].v == false) { continue; }
+    defaultCategory = data.categories[i].c[SHEETS.categories.COLS.name].v;
+    break;
+  }
+
   for (let i = 0; i < merchItems.length; i ++) {
-    if (category == 'all' || merchItems[i].classList.contains(category)) {
+    if (category == defaultCategory || merchItems[i].classList.contains(category)) {
       merchItems[i].style.display = '';
     }
     else {
       merchItems[i].style.display = 'none';
+    }
+  }
+
+  let categoryButtons = document.querySelectorAll('#merch-categories button');
+  for (let i = 0; i < categoryButtons.length; i ++) {
+    categoryButtons[i].classList.remove('selected');
+    if (categoryButtons[i].id.split('-')[0] == category) {
+      categoryButtons[i].classList.add('selected');
     }
   }
 }
