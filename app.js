@@ -1,175 +1,181 @@
 const QUERY = encodeURIComponent('Select *');
 
-const DATABASE_ID = '15aAzBnPpvBR3ntpgvbLN9WE5ftH6mSTPElIBsFxefk0';
-const GAMES_LOG_ID = '1r8BtslMkYsPrT3gRfWNOGKM8-QjrsfuN8ts8N5JqZXQ';
-const DATABASE_DOC = `https://docs.google.com/spreadsheets/d/${DATABASE_ID}/gviz/tq?`;
-const GAMES_LOG_DOC  = `https://docs.google.com/spreadsheets/d/${GAMES_LOG_ID}/gviz/tq?`;
+const DATABASE_DOC = '15aAzBnPpvBR3ntpgvbLN9WE5ftH6mSTPElIBsFxefk0';
+const GAMES_LOG_DOC = '1r8BtslMkYsPrT3gRfWNOGKM8-QjrsfuN8ts8N5JqZXQ';
 
 // ! UPDATE THESE IF COLUMNS ARE REORDERED, SHEET TAB IS RENAMED, OR IS MOVED TO ANOTHER DOC
 const SHEETS = {
   "events": {
     "SHEET": "Events",
     "DOC": DATABASE_DOC,
-    "COLS": {
-      "date": 0,
-      "start": 1,
-      "end": 2,
-      "name": 3,
-      "location": 4,
-      "rsvp": 6,
-      "calendar": 7,
-      "instagram": 8,
-      "image": 9,
-      "show": 10
-    }
+    "COLS": [
+      "date",
+      "start",
+      "end",
+      "name",
+      "location",
+      "type",
+      "rsvp",
+      "calendar",
+      "instagram",
+      "image",
+      "show"
+    ]
   },
   "links": {
     "SHEET": "Links",
     "DOC": DATABASE_DOC,
-    "COLS": {
-      "name": 0,
-      "icon": 1,
-      "link": 2,
-      "show": 3
-    }
+    "COLS": [
+      "name",
+      "icon",
+      "link",
+      "show"
+    ]
+  },
+  "socials": {
+    "SHEET": "Socials",
+    "DOC": DATABASE_DOC,
+    "COLS": [
+      "link",
+      "icon",
+      "show"
+    ]
   },
   "gallery": {
     "SHEET": "Gallery",
     "DOC": DATABASE_DOC,
-    "COLS": {
-      "collection": 0,
-      "image": 1,
-      "caption": 2,
-      "show": 3
-    }
+    "COLS": [
+      "collection",
+      "image",
+      "caption",
+      "show"
+    ]
   },
   "collections": {
     "SHEET": "Collections",
     "DOC": DATABASE_DOC,
-    "COLS": {
-      "name": 0,
-      "show": 1
-    }
+    "COLS": [
+      "name",
+      "show"
+    ]
   },
   "council": {
     "SHEET": "Council",
     "DOC": DATABASE_DOC,
-    "COLS": {
-      "year": 0,
-      "name": 1,
-      "position": 2,
-      "photo": 3
-    }
+    "COLS": [
+      "year",
+      "name",
+      "position",
+      "photo"
+    ]
   },
   "positions": {
     "SHEET": "Positions",
     "DOC": DATABASE_DOC,
-    "COLS": {
-      "position": 0,
-      "type": 1,
-      "email": 2,
-      "key": 3,
-      "responsibilities": 4,
-      "filled": 5
-    }
+    "COLS": [
+      "position",
+      "type",
+      "email",
+      "key",
+      "responsibilities",
+      "filled"
+    ]
   },
   "merch": {
     "SHEET": "Merch",
     "DOC": DATABASE_DOC,
-    "COLS": {
-      "item": 0,
-      "price": 1,
-      "category": 2,
-      "sizes": 3,
-      "oos_sizes": 4,
-      "status": 5,
-      "image": 6,
-      "show": 7
-    }
+    "COLS": [
+      "item",
+      "price",
+      "category",
+      "sizes",
+      "oos_sizes",
+      "status",
+      "image",
+      "show"
+    ]
   },
   "categories": {
     "SHEET": "Categories",
     "DOC": DATABASE_DOC,
-    "COLS": {
-      "name": 0,
-      "icon": 1,
-      "show": 2
-    }
+    "COLS": [
+      "name",
+      "icon",
+      "show"
+    ]
   },
   "sponsors": {
     "SHEET": "Sponsors",
     "DOC": DATABASE_DOC,
-    "COLS": {
-      "name": 0,
-      "logo": 1,
-      "link": 2,
-      "show": 3
-    }
+    "COLS": [
+      "name",
+      "logo",
+      "link",
+      "show"
+    ]
   },
   "contacts": {
     "SHEET": "Contacts",
     "DOC": DATABASE_DOC,
-    "COLS": {
-      "option": 0,
-      "email": 1,
-      "override": 2,
-      "show": 3
-    }
+    "COLS": [
+      "option",
+      "email",
+      "override",
+      "show"
+    ]
   },
   "matches": {
     "SHEET": "Matches",
     "DOC": GAMES_LOG_DOC,
-    "COLS": {
-      "timestamp": 0,
-      "game": 1,
-      "p1_id": 2,
-      "p2_id": 3,
-      "p3_id": 4,
-      "p4_id": 5,
-      "winner": 6,
-      "p1_points": 7,
-      "p2_points": 8,
-      "p3_points": 9,
-      "p4_points": 10,
-      "time": 11
-    }
+    "COLS": [
+      "timestamp",
+      "game",
+      "p1_id",
+      "p2_id",
+      "p3_id",
+      "p4_id",
+      "winner",
+      "p1_points",
+      "p2_points",
+      "p3_points",
+      "p4_points",
+      "time"
+    ]
   },
   "players": {
     "SHEET": "Players",
     "DOC": GAMES_LOG_DOC,
-    "COLS": {
-      "id": 0,
-      "name": 1
-    }
+    "COLS": [
+      "id",
+      "name"
+    ]
   },
   "games": {
     "SHEET": "Games",
     "DOC": GAMES_LOG_DOC,
-    "COLS": {
-      "name": 0,
-      "icon": 1,
-      "system": 2,
-      "rounding": 3,
-      "starts": 4,
-      "show": 5
-    }
+    "COLS": [
+      "name",
+      "icon",
+      "system",
+      "rounding",
+      "starts",
+      "show"
+    ]
   },
   "parameters": {
     "SHEET": "Parameters",
     "DOC": GAMES_LOG_DOC,
-    "COLS": {
-      "game": 0,
-      "init_rating": 1,
-      "base": 2,
-      "divisor": 3,
-      "k": 4,
-      "interpolation": 5,
-      "starts": 6
-    }
+    "COLS": [
+      "game",
+      "init_rating",
+      "base",
+      "divisor",
+      "k",
+      "interpolation",
+      "starts"
+    ]
   }
 };
-
-const MONTHS = new Map([[1, "Jan"], [2, "Feb"], [3, "Mar"], [4, "Apr"], [5, "May"], [6, "Jun"], [7, "Jul"], [8, "Aug"], [9, "Sep"], [10, "Oct"], [11, "Nov"], [12, "Dec"]]);
 
 let data = {};
 fixNullData();
@@ -180,45 +186,63 @@ let galleryYears = [];
 let playerRatings = {};
 let playerNames;
 
+// CONSTANTS
+
+// general
+const MONTHS = new Map([[1, "Jan"], [2, "Feb"], [3, "Mar"], [4, "Apr"], [5, "May"], [6, "Jun"], [7, "Jul"], [8, "Aug"], [9, "Sep"], [10, "Oct"], [11, "Nov"], [12, "Dec"]]);
+
+// animation
+const POP_IN_DELAY = 75; // ms
+const POP_IN_VARIANCE = 300; // ms
+
+// reloading
+const PULL_HEIGHT = 150; // px
+const RELOAD_TIME = 400; // ms
+
 // GENERAL
 
 const body = document.querySelector('body');
 
 async function init() {
+  let prefetchedData = localStorage.prefetchedData;
+
   let page = body.getAttribute('id');
   switch (page) {
     case 'home-page':
-      await Promise.all([fetchSheet('links'), fetchSheet('positions'), fetchSheet('events'), fetchSheet('collections'), fetchSheet('gallery')]);
-      makeLinks();
-      makeOpenings();
-      makeEvents(3);
-      makeGallery();
+      fetchSheet('socials', makeSocials);
+      fetchSheet('links', makeLinks);
+      fetchSheet('positions', makeOpenings);
+      fetchSheet('events', () => { makeEvents(3); });
+      fetchSheets(['collections', 'gallery'], makeGallery);
       break;
     case 'events-page':
-      await Promise.all([fetchSheet('events')]);
-      makeEvents(Number.POSITIVE_INFINITY);
+      fetchSheet('socials', makeSocials);
+      fetchSheet('events', () => { makeEvents(Number.POSITIVE_INFINITY); });
       break;
     case 'council-page':
-      await Promise.all([fetchSheet('council'), fetchSheet('positions')]);
-      makeYearSelect();
-      makeCouncilGrid();
+      fetchSheet('socials', makeSocials);
+      fetchSheets(['council', 'positions'], () => { makeYearSelect(); makeCouncilGrid(); });
       break;
     case 'merch-page':
-      await Promise.all([fetchSheet('merch'), fetchSheet('categories')]);
-      makeMerchCategories();
-      makeMerch();
+      fetchSheet('socials', makeSocials);
+      fetchSheets(['merch', 'categories'], () => { makeMerchCategories(); makeMerch(); })
       break;
     case 'contact-page':
-      await Promise.all([fetchSheet('contacts'), fetchSheet('positions')]);
-      makeContactOptions();
+      fetchSheet('socials', makeSocials);
+      fetchSheets(['contacts', 'positions'], makeContactOptions);
       break;
     case 'leaderboard-page':
-      await Promise.all([fetchSheet('matches'), fetchSheet('players'), fetchSheet('games'), fetchSheet('parameters')]);
-      makeLeaderboardGames();
-      setPlayerNames();
-      calculatePlayerRatings();
-      let currentBoard = localStorage.currentBoard != null ? localStorage.currentBoard : data.games[0].c[SHEETS.games.COLS.name].v;
-      changeLeaderboard(currentBoard);
+      fetchSheets(['games', 'players', 'matches', 'parameters'], () => {
+        makeLeaderboardGames();
+        setPlayerNames();
+        calculatePlayerRatings();
+        let currentBoard = (localStorage.currentBoard != null) ? localStorage.currentBoard : getCell('games', 0, 'name');
+        try {
+          changeLeaderboard(currentBoard);
+        } catch (error) {
+          changeLeaderboard(getCell('games', 0, 'name'));
+        }
+      });
       break;
     default:
       break;
@@ -254,27 +278,155 @@ async function init() {
 window.addEventListener('DOMContentLoaded', init);
 
 function fixNullData() {
+  let prefetchedData = {};
+  if (localStorage.prefetchedData != null) {
+    try {
+      prefetchedData = JSON.parse(localStorage.prefetchedData);
+    } catch (error) {
+      prefetchedData = {};
+    }
+  }
+
   Object.keys(SHEETS).forEach((key) => {
     data[key] = [];
   });
+
+  localStorage.prefetchedData = JSON.stringify(prefetchedData);
 }
 
 function makeSheetUrl(sheet) {
-  return `${SHEETS[sheet].DOC}&sheet=${SHEETS[sheet].SHEET}&tq=${QUERY}`;
+  return `https://docs.google.com/spreadsheets/d/${SHEETS[sheet].DOC}/gviz/tq?&sheet=${SHEETS[sheet].SHEET}&tq=${QUERY}`;
 }
 
-async function fetchSheet(sheet) {
-  await fetch(makeSheetUrl(sheet)).then((res) => res.text()).then((rep) => { data[sheet] = JSON.parse(rep.substring(47).slice(0,-2)).table.rows; });
+async function fetchSheet(sheet, func = () => {}, afterFetchFunc = () => {}) {
+  let prefetchedData = JSON.parse(localStorage.prefetchedData);
+
+  if (prefetchedData[sheet] != null) {
+    data[sheet] = prefetchedData[sheet];
+    func();
+    fetch(makeSheetUrl(sheet)).then((res) => res.text()).then((rep) => {
+      data[sheet] = JSON.parse(rep.substring(47).slice(0,-2)).table.rows;
+      afterFetch(sheet, func, afterFetchFunc);
+    });
+  }
+  else {
+    await fetch(makeSheetUrl(sheet)).then((res) => res.text()).then((rep) => {
+      data[sheet] = JSON.parse(rep.substring(47).slice(0,-2)).table.rows;
+      afterFetch(sheet, func, afterFetchFunc);
+    });
+  }
 }
+
+async function afterFetch(sheet, func = () => {}, afterFetchFunc = () => {}) {
+  let prefetchedData = JSON.parse(localStorage.prefetchedData);
+  if (JSON.stringify(data[sheet]) != JSON.stringify(prefetchedData[sheet])) {
+    prefetchedData[sheet] = data[sheet];
+    localStorage.prefetchedData = JSON.stringify(prefetchedData);
+    func();
+  }
+  afterFetchFunc();
+}
+
+async function fetchSheets(sheets, func = () => {}) {
+  let promises = [];
+  let haveData = new Set();
+  let fetched = new Set();
+
+  let firstCall = true;
+  let needReCall = false;
+
+  for (let i = 0; i < sheets.length; i ++) {
+    promises.push(fetchSheet(sheets[i], () => { // before fetch
+      if (haveData.has(sheets[i])) { // if re-call is needed
+        needReCall = true;
+      }
+      haveData.add(sheets[i]);
+      if (firstCall && haveData.size == sheets.length) {
+        firstCall = false;
+        func();
+      }
+    }, () => { // after fetch
+      fetched.add(sheets[i]);
+      
+      if ((needReCall || firstCall) && fetched.size == sheets.length) {
+        func();
+      }
+    }));
+  }
+}
+
+function getCell(sheet, row, col, formattedString = false) {
+  if (data[sheet][row].c[SHEETS[sheet].COLS.indexOf(col)] != null) {
+    if (formattedString == true) {
+      return data[sheet][row].c[SHEETS[sheet].COLS.indexOf(col)].f;
+    }
+    else {
+      return data[sheet][row].c[SHEETS[sheet].COLS.indexOf(col)].v;
+    }
+  }
+  return null;
+}
+
+function anyCellNull(sheet, row, cols) {
+  for (let i = 0; i < cols.length; i ++) {
+    if (getCell(sheet, row, cols[i]) == null) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function dateToUTC(date) {
+  let splitDate = date.split('(')[1].split(')')[0].split(',');
+  if (splitDate.length > 3) {
+    return Date.UTC(splitDate[0], splitDate[1], splitDate[2], splitDate[3], splitDate[4]);
+  }
+  else {
+    return Date.UTC(splitDate[0], splitDate[1], splitDate[2]);
+  }
+}
+
+function toggleNav() {
+  let nav = document.getElementById('nav')
+  let classes = nav.classList;
+
+  if (classes.contains('hidden')) {
+    nav.classList.remove('hidden');
+  }
+  else
+  {
+    nav.classList.add('hidden');
+  }
+}
+document.querySelectorAll('#open-nav').forEach((el) => {
+  el.addEventListener('click', toggleNav);
+});
+
+function handleTooltips(el) {
+  let ibound = el.getBoundingClientRect();
+  let tooltip = el.children[0];
+  // let ttbound = tooltip.getBoundingClientRect();
+
+  tooltip.classList.remove('left', 'right');
+  if (ibound.x + ibound.width / 2 <= window.outerWidth / 2) {
+    tooltip.classList.add('right');
+  }
+  else {
+    tooltip.classList.add('left');
+  }
+}
+
+function driveUrlToThumb(url) {
+  return `https://drive.google.com/thumbnail?id=${url.substring(url.indexOf('/d/') + 3, url.indexOf('/view'))}&sz=w1080`;
+}
+
+// RELOADING
 
 let startY;
 let mouseStartY;
 let canReload;
 let reloading = false;
 let wasAtTop;
-
-const PULL_HEIGHT = 150;
-const RELOAD_TIME = 400;
 
 function ease(x, dir, type) {
   switch (dir) {
@@ -373,62 +525,52 @@ body.addEventListener('touchend', (event) => {
   endReload(reloading == true ? RELOAD_TIME : 0);
 });
 
-function toggleNav() {
-  let nav = document.getElementById('nav')
-  let classes = nav.classList;
-
-  if (classes.contains('hidden')) {
-    nav.classList.remove('hidden');
-  }
-  else
-  {
-    nav.classList.add('hidden');
-  }
-}
-document.querySelectorAll('#open-nav').forEach((el) => {
-  el.addEventListener('click', toggleNav);
-});
-
-function handleTooltips(el) {
-  let ibound = el.getBoundingClientRect();
-  let tooltip = el.children[0];
-  // let ttbound = tooltip.getBoundingClientRect();
-
-  tooltip.classList.remove('left', 'right');
-  if (ibound.x + ibound.width / 2 <= window.outerWidth / 2) {
-    tooltip.classList.add('right');
-  }
-  else {
-    tooltip.classList.add('left');
-  }
-}
-
-function driveUrlToThumb(url) {
-  return 'https://drive.google.com/thumbnail?id=' + url.substring(url.indexOf('/d/') + 3, url.indexOf('/view')) + '&sz=w1080';
-}
-
 // HOME
 
 function makeOpenings() {
+  let execIdx = 0;
+  let exoIdx = 1;
+
+  let execHTML = '';
+  let exoHTML = '';
+
   for (let i = 0; i < data.positions.length; i ++) {
-    if (data.positions[i].c[SHEETS.positions.COLS.position] == null) { break; } // skip blank entries
-    if (data.positions[i].c[SHEETS.positions.COLS.filled].v == false) { // if position not filled
-      if (data.positions[i].c[SHEETS.positions.COLS.type].v == 'Executive') {
-        document.getElementById('exec-openings').innerHTML += '<li><div>' + data.positions[i].c[SHEETS.positions.COLS.position].v + '</div><i class="fa-solid fa-circle-info"><div class="tooltip">' + data.positions[i].c[SHEETS.positions.COLS.responsibilities].v + '</div></i></li>';
+    if (getCell('positions', i, 'position') == null) { continue; } // skip blank entries
+    if (getCell('positions', i, 'filled') == false) { // if position not filled
+      if (getCell('positions', i, 'type') == 'Executive') {
+        execHTML += `<li style="animation-delay: ${execIdx * POP_IN_DELAY}ms;"><div>${getCell('positions', i, 'position')}</div><i class="fa-solid fa-circle-info"><div class="tooltip">${getCell('positions', i, 'responsibilities')}</div></i></li>`;
+        execIdx ++;
       }
       else {
-        document.getElementById('exo-openings').innerHTML += '<li><div>' + data.positions[i].c[SHEETS.positions.COLS.position].v + '</div><i class="fa-solid fa-circle-info"><div class="tooltip">' + data.positions[i].c[SHEETS.positions.COLS.responsibilities].v + '</div></i></li>';
+        exoHTML += `<li style="animation-delay: ${exoIdx * POP_IN_DELAY}ms;"><div>${getCell('positions', i, 'position')}</div><i class="fa-solid fa-circle-info"><div class="tooltip">${getCell('positions', i, 'responsibilities')}</div></i></li>`;
+        exoIdx ++;
       }
     }
   }
+
+  document.getElementById('exec-openings').innerHTML = execHTML;
+  document.getElementById('exo-openings').innerHTML = exoHTML;
+}
+
+function makeSocials() {
+  let html = '';
+  for (let i = 0; i < data.socials.length; i ++) {
+    if (anyCellNull('socials', i, ['link', 'icon']) == true || getCell('socials', i, 'show') == false) { continue; }
+
+    html += `<a class="button icon" href="${getCell('socials', i, 'link')}" target="_blank"><i class="fa-brands fa-${getCell('socials', i, 'icon')}"></i></a>`;
+  }
+
+  document.getElementById('socials').innerHTML = html;
 }
 
 function makeLinks() {
   let html = '';
+  let linkIdx = 0;
   for (let i = 0; i < data.links.length; i ++) {
-    if (data.links[i].c[SHEETS.links.COLS.name] == null || data.links[i].c[SHEETS.links.COLS.link] == null || data.links[i].c[SHEETS.links.COLS.show].v == false) { continue; } // skip blank entries
-    let icon = (data.links[i].c[SHEETS.links.COLS.icon] != null) ? '<i class="fa-solid fa-' + data.links[i].c[SHEETS.links.COLS.icon].v + '"></i>' : '';
-    html += `<li><a class="button link" href="${data.links[i].c[SHEETS.links.COLS.link].v}" target="_blank">${icon + data.links[i].c[SHEETS.links.COLS.name].v}</a></li>`;
+    if (anyCellNull('links', i, ['name', 'link']) == true || getCell('links', i, 'show') == false) { continue; } // skip blank entries
+    let icon = (getCell('links', i, 'icon') != null) ? `<i class="fa-solid fa-${getCell('links', i, 'icon')}"></i>` : '';
+    html += `<li style="animation-delay: ${linkIdx * POP_IN_DELAY}ms;"><a class="button link" href="${getCell('links', i, 'link')}" target="_blank">${icon + getCell('links', i, 'name')}</a></li>`;
+    linkIdx ++;
   }
   document.getElementById('links').innerHTML = html;
 }
@@ -436,8 +578,8 @@ function makeLinks() {
 function makeGallery() {
   let yearsSet = new Set();
   for (let i = 0; i < data.collections.length; i ++) { // loops through collections entries and gets the most recent year
-    if (data.collections[i].c[SHEETS.collections.COLS.name] == null || data.collections[i].c[SHEETS.collections.COLS.show].v == false) { continue; }
-    let currYear = Number(data.collections[i].c[SHEETS.collections.COLS.name].v.split(' ')[0].split('/')[0]);
+    if (getCell('collections', i, 'name') == null || getCell('collections', i, 'show') == false) { continue; }
+    let currYear = Number(getCell('collections', i, 'name').split(' ')[0].split('/')[0]);
     yearsSet.add(currYear);
   }
 
@@ -451,22 +593,22 @@ function makeGallery() {
   let html = '';
 
   for (let i = 0; i < galleryYears.length; i ++) {
-    html += '<h3>' + galleryYears[i] + '–' + (galleryYears[i] + 1) + '</h3>';
+    html += `<h3>${galleryYears[i]}–${(galleryYears[i] + 1)}</h3>`;
     for (let j = 0; j < data.collections.length; j ++) {
-      if (data.collections[j].c[SHEETS.collections.COLS.name] == null || data.collections[j].c[SHEETS.collections.COLS.show].v == false) { continue; }
-      let currYear = Number(data.collections[j].c[SHEETS.collections.COLS.name].v.split(' ')[0].split('/')[0]);
+      if (getCell('collections', j, 'name') == null || getCell('collections', j, 'show') == false) { continue; }
+      let currYear = Number(getCell('collections', j, 'name').split(' ')[0].split('/')[0]);
       if (galleryYears[i] != currYear) { continue; }
-      let collectionName = data.collections[j].c[SHEETS.collections.COLS.name].v;
-      html += '<h4>' + collectionName.substring(collectionName.indexOf(' ') + 1) + '</h4>';
+      let collectionName = getCell('collections', j, 'name');
+      html += `<h4>${collectionName.substring(collectionName.indexOf(' ') + 1)}</h4>`;
       html += '<ul class="collection">';
 
       for (let k = 0; k < data.gallery.length; k ++) {
-        if (data.gallery[k].c[SHEETS.gallery.COLS.image] == null || data.gallery[k].c[SHEETS.gallery.COLS.collection] == null || data.gallery[k].c[SHEETS.gallery.COLS.show].v == false) { continue; }
-        if (data.gallery[k].c[SHEETS.gallery.COLS.collection].v != data.collections[j].c[SHEETS.collections.COLS.name].v) { continue; }
-        let imgSrc = driveUrlToThumb(data.gallery[k].c[SHEETS.gallery.COLS.image].v);
-        html += '<li><figure><img src="' + imgSrc + '">';
-        if (data.gallery[k].c[SHEETS.gallery.COLS.caption] != null) {
-          html += '<figcaption>' + data.gallery[k].c[SHEETS.gallery.COLS.caption].v + '</figcaption>';
+        if (anyCellNull('gallery', k, ['image', 'collection']) == true || getCell('gallery', k, 'show') == false) { continue; }
+        if (getCell('gallery', k, 'collection') != getCell('collections', j, 'name')) { continue; }
+        let imgSrc = driveUrlToThumb(getCell('gallery', k, 'image'));
+        html += `<li style="animation-delay: ${Math.random() * POP_IN_VARIANCE}ms;"><figure><img src="${imgSrc}">`;
+        if (getCell('gallery', k, 'caption') != null) {
+          html += `<figcaption>${getCell('gallery', k, 'caption')}</figcaption>`;
         }
         html += '</figure></li>';
       }
@@ -483,8 +625,8 @@ function makeEvents(num) {
   let upcoming = new Map();
   let today = Date.now() - 1000 * 60 * 60 * 24;
   for (let i = 0; i < data.events.length; i ++) {
-    if (data.events[i].c[SHEETS.events.COLS.show].v == false || data.events[i].c[SHEETS.events.COLS.date] == null || data.events[i].c[SHEETS.events.COLS.name] == null) { continue; } // skip blank entries
-    let date = data.events[i].c[SHEETS.events.COLS.date].v.substring(5).split(')')[0].split(',');
+    if (getCell('events', i, 'show') == false || anyCellNull('events', i, ['date', 'name']) == true) { continue; } // skip blank entries
+    let date = getCell('events', i, 'date').substring(5).split(')')[0].split(',');
     let utc = Date.UTC(date[0], date[1], date[2]);
     if (utc < today) { continue; }
     upcoming.set(i, utc);
@@ -493,32 +635,32 @@ function makeEvents(num) {
 
   let html = '';
   for (let i = 0; i < sorted.length; i ++) {
-    let currEvent = data.events[sorted[i][0]];
-    let date = currEvent.c[SHEETS.events.COLS.date].v.substring(5).split(')')[0].split(',');
-    html += '<li class="event">';
+    let currEvent = sorted[i][0];
+    let date = getCell('events', currEvent, 'date').substring(5).split(')')[0].split(',');
+    html += `<li class="event" style="animation-delay: ${Math.random() * POP_IN_VARIANCE}ms;">`;
 
     let imgSrc = '/media/events/none.jpg';
-    if (currEvent.c[SHEETS.events.COLS.image] != null) {
-      imgSrc = driveUrlToThumb(currEvent.c[SHEETS.events.COLS.image].v);
+    if (getCell('events', currEvent, 'image') != null) {
+      imgSrc = driveUrlToThumb(getCell('events', currEvent, 'image'));
     }
 
-    if (currEvent.c[SHEETS.events.COLS.instagram] != null) {
-      html += '<a href="' + currEvent.c[SHEETS.events.COLS.instagram].v + '" target="_blank">';
+    if (getCell('events', currEvent, 'instagram') != null) {
+      html += `<a href="${getCell('events', currEvent, 'instagram')}" target="_blank">`;
     }
-    html += '<img src="' + imgSrc + '" alt="' + currEvent.c[SHEETS.events.COLS.name].v + '">';
-    html += (currEvent.c[SHEETS.events.COLS.instagram] != null) ? '</a>' : '';
+    html += `<img src="${imgSrc}" alt="${getCell('events', currEvent, 'name')}">`;
+    html += (getCell('events', currEvent, 'instagram') != null) ? '</a>' : '';
     
-    html += '<h2>' + currEvent.c[SHEETS.events.COLS.name].v + '</h2>';
+    html += `<h2>${getCell('events', currEvent, 'name')}</h2>`;
     html += '<ul class="event-dtl">';
-    html += '<li><i class="fa-solid fa-calendar"></i>' + date[2] + ' ' + MONTHS.get(Number(date[1]) + 1) + ' ' + date[0] + '</li>';
-    let eventTime = (currEvent.c[SHEETS.events.COLS.start] == null ? 'TBD' : (currEvent.c[SHEETS.events.COLS.start].f + (currEvent.c[SHEETS.events.COLS.end] == null ? '' : ('–' + currEvent.c[SHEETS.events.COLS.end].f))));
-    html += '<li><i class="fa-solid fa-clock"></i>' + eventTime + '</li>';
-    html += '<li><i class="fa-solid fa-location-dot"></i>' + (currEvent.c[SHEETS.events.COLS.location] != null ? currEvent.c[SHEETS.events.COLS.location].v : 'TBD') + '</li>';
+    html += `<li><i class="fa-solid fa-calendar"></i>${date[2]} ${MONTHS.get(Number(date[1]) + 1)} ${date[0]}</li>`;
+    let eventTime = (getCell('events', currEvent, 'start', true) == null ? 'TBD' : (getCell('events', currEvent, 'start', true) + (getCell('events', currEvent, 'end', true) == null ? '' : `–${getCell('events', currEvent, 'end', true)}`)));
+    html += `<li><i class="fa-solid fa-clock"></i>${eventTime}</li>`;
+    html += `<li><i class="fa-solid fa-location-dot"></i>${(getCell('events', currEvent, 'location') != null) ? getCell('events', currEvent, 'location') : 'TBD'}</li>`;
     html += '</ul>';
-    if (currEvent.c[SHEETS.events.COLS.rsvp] != null || currEvent.c[SHEETS.events.COLS.calendar] != null) {
+    if (getCell('events', currEvent, 'rsvp') != null || getCell('events', currEvent, 'calendar') != null) {
       html += '<ul class="event-links">';
-      html += (currEvent.c[SHEETS.events.COLS.rsvp] != null ? ('<li><a class="button link" href="' + currEvent.c[SHEETS.events.COLS.rsvp].v + '" target="_blank"><i class="fa-solid fa-reply"></i>RSVP</a></li>') : '');
-      html += (currEvent.c[SHEETS.events.COLS.calendar] != null ? ('<li><a class="button link" href="' + currEvent.c[SHEETS.events.COLS.calendar].v + '" target="_blank"><i class="fa-brands fa-google"></i>Add to Calendar</a></li>') : '');
+      html += (getCell('events', currEvent, 'rsvp') != null ? (`<li><a class="button link" href="${getCell('events', currEvent, 'rsvp')}" target="_blank"><i class="fa-solid fa-reply"></i>RSVP</a></li>`) : '');
+      html += (getCell('events', currEvent, 'calendar') != null ? (`<li><a class="button link" href="${getCell('events', currEvent, 'calendar')}" target="_blank"><i class="fa-brands fa-google"></i>Add to Calendar</a></li>`) : '');
       html += '</ul>';
     }
     html += '</li>';
@@ -531,8 +673,8 @@ function makeEvents(num) {
 function makeYearSelect() {
   let yearsSet = new Set();
   for (let i = 0; i < data.council.length; i ++) { // loops through council entries and gets the most recent year
-    if (data.council[i].c[SHEETS.council.COLS.year] == null) { break; } // skip blank entries
-    let currYear = Number(data.council[i].c[SHEETS.council.COLS.year].v.split('/')[0]);
+    if (getCell('council', i, 'year') == null) { break; } // skip blank entries
+    let currYear = Number(getCell('council', i, 'year').split('/')[0]);
     if (isNaN(currYear) == true) { continue; } //! FOR SOME REASON, HEADER IS GETTING FETCHED TOO
     yearsSet.add(currYear);
   }
@@ -546,7 +688,7 @@ function makeYearSelect() {
 
   let selectHTML = '';
   for (let i = 0; i < councilYears.length; i ++) {
-    selectHTML += '<option value="' + councilYears[i] + '">' + councilYears[i] + '–' + (councilYears[i] + 1) + '</option>';
+    selectHTML += `<option value="${councilYears[i]}">${councilYears[i]}–${councilYears[i] + 1}</option>`;
   }
   document.getElementById('council-year').innerHTML = selectHTML;
 }
@@ -558,25 +700,25 @@ function makeCouncilGrid() {
   let html = '';
   for (let p = 0; p < data.positions.length; p ++) { // looping through the positions sheet allows for heirarchical ordering even if the 'Council' sheet entries are out of order
     for (let i = 0; i < data.council.length; i ++) {
-      if (data.council[i].c[SHEETS.council.COLS.year] == null) { break; } // skip blank entries
-      let currYear = Number(data.council[i].c[SHEETS.council.COLS.year].v.split('/')[0]); // current year
+      if (getCell('council', i, 'year') == null) { break; } // skip blank entries
+      let currYear = Number(getCell('council', i, 'year').split('/')[0]); // current year
       if (isNaN(currYear) == true) { continue; }
-      let currPositions = data.council[i].c[SHEETS.council.COLS.position].v.split(', '); // creates an array of positions held by the member
-      if (currYear == selectedYear && currPositions[0] == data.positions[p].c[SHEETS.positions.COLS.position].v) { // heirarchical ordering done by *first* position in list
-        html += '<li class="council-member">';
+      let currPositions = getCell('council', i, 'position').split(', '); // creates an array of positions held by the member
+      if (currYear == selectedYear && currPositions[0] == getCell('positions', p, 'position')) { // heirarchical ordering done by *first* position in list
+        html += `<li class="council-member visible" style="animation-delay: ${Math.random() * POP_IN_VARIANCE}ms;">`;
 
         let imgSrc = '/media/council/none.jpg';
-        if (data.council[i].c[SHEETS.council.COLS.photo].v != null) { //! THIS '.v' SHOULD BE REMOVED IF A COLUMN IS PLACED AFTER PHOTO
-          imgSrc = driveUrlToThumb(data.council[i].c[SHEETS.council.COLS.photo].v);
+        if (getCell('council', i, 'photo') != null) {
+          imgSrc = driveUrlToThumb(getCell('council', i, 'photo'));
         }
 
-        html += ('<img src="' + imgSrc + '" alt="' + data.council[i].c[SHEETS.council.COLS.name].v + '">'); // photo
-        html += '<h2>' + data.council[i].c[SHEETS.council.COLS.name].v + '</h2>'; // name
+        html += (`<img src="${imgSrc}" alt="${getCell('council', i, 'name')}">`); // photo
+        html += `<h2>${getCell('council', i, 'name')}</h2>`; // name
         html += '<h3>';
         for (let j = 0; j < currPositions.length; j ++) {
           for (let k = 0; k < data.positions.length; k ++) {
-            if (currPositions[j] == data.positions[k].c[SHEETS.positions.COLS.position].v) {
-              html += '<span>' + currPositions[j] + '<i class="fa-solid fa-circle-info"><div class="tooltip">' + data.positions[k].c[SHEETS.positions.COLS.responsibilities].v + '</div></i></span>';
+            if (currPositions[j] == getCell('positions', k, 'position')) {
+              html += `<span>${currPositions[j]}<i class="fa-solid fa-circle-info"><div class="tooltip">${getCell('positions', k, 'responsibilities')}</div></i></span>`;
               break;
             }
           }
@@ -589,14 +731,14 @@ function makeCouncilGrid() {
           let firstEmail = true; // in the event of no emails, we dont want to create empty lists
           for (let j = 0; j < currPositions.length; j ++) {
             for (let k = 0; k < data.positions.length; k ++) {
-              if (currPositions[j] == data.positions[k].c[SHEETS.positions.COLS.position].v) {
-                if (data.positions[k].c[SHEETS.positions.COLS.email] != null) {
+              if (currPositions[j] == getCell('positions', k, 'position')) {
+                if (getCell('positions', k, 'email') != null) {
                   if (firstEmail == true) {
                     html += '<ul>';
                     firstEmail = false;
                   }
                   html += '<li>';
-                  html += `<a class="button link" href="mailto:${data.positions[k].c[SHEETS.positions.COLS.email].v}">${data.positions[k].c[SHEETS.positions.COLS.email].v}</a>`;
+                  html += `<a class="button link" href="mailto:${getCell('positions', k, 'email')}">${getCell('positions', k, 'email')}</a>`;
                   html += '</li>';
                 }
                 break;
@@ -624,22 +766,22 @@ function makeMerchCategories() {
 
   let firstCategory = true;
   for (let i = 0; i < data.categories.length; i ++) {
-    if (data.categories[i].c[SHEETS.categories.COLS.name] == null || data.categories[i].c[SHEETS.categories.COLS.show].v == false) { continue; }
+    if (getCell('categories', i, 'name') == null || getCell('categories', i, 'show') == false) { continue; }
 
-    html += `<li><button class="button`;
+    html += '<li><button class="button';
 
     if (firstCategory == true) {
       firstCategory = false;
       html += ' selected';
     }
 
-    html += `" id="${data.categories[i].c[SHEETS.categories.COLS.name].v}-button">`;
+    html += `" id="${getCell('categories', i, 'name')}-button">`;
     
-    if (data.categories[i].c[SHEETS.categories.COLS.icon] != null) {
-      html += `<i class="fa-solid fa-${data.categories[i].c[SHEETS.categories.COLS.icon].v}"></i>`;
+    if (getCell('categories', i, 'icon') != null) {
+      html += `<i class="fa-solid fa-${getCell('categories', i, 'icon')}"></i>`;
     }
 
-    html += `${data.categories[i].c[SHEETS.categories.COLS.name].v}</button></li>`
+    html += `${getCell('categories', i, 'name')}</button></li>`;
   }
 
   document.getElementById('merch-categories').innerHTML = html;
@@ -653,22 +795,22 @@ function makeMerch() {
   let html = '';
 
   for (let i = 0; i < data.merch.length; i ++) {
-    if (data.merch[i].c[SHEETS.merch.COLS.item] == null || data.merch[i].c[SHEETS.merch.COLS.price] == null || data.merch[i].c[SHEETS.merch.COLS.show].v == false) { continue; } // skip blank entries
+    if (anyCellNull('merch', i, ['item', 'price']) == true || getCell('merch', i, 'show') == false) { continue; } // skip blank entries
 
-    html += '<li class="merch-item' + ((data.merch[i].c[SHEETS.merch.COLS.category] != null) ? (' ' + data.merch[i].c[SHEETS.merch.COLS.category].v) : '') + '">';
+    html += `<li class="merch-item${(getCell('merch', i, 'category') != null) ? (` ${getCell('merch', i, 'category')}`) : ''}">`;
 
     let imgSrc = '/media/events/none.jpg';
-    if (data.merch[i].c[SHEETS.merch.COLS.image] != null) {
-      imgSrc = driveUrlToThumb(data.merch[i].c[SHEETS.merch.COLS.image].v);
+    if (getCell('merch', i, 'image') != null) {
+      imgSrc = driveUrlToThumb(getCell('merch', i, 'image'));
     }
 
     html += `<img src="${imgSrc}">`;
-    html += '<h2>' + data.merch[i].c[SHEETS.merch.COLS.item].v + '</h2>';
-    html += '<div><div class="price">$' + Number(data.merch[i].c[SHEETS.merch.COLS.price].v).toFixed(2) + '</div>';
+    html += `<h2>${getCell('merch', i, 'item')}</h2>`;
+    html += `<div><div class="price">$${Number(getCell('merch', i, 'price')).toFixed(2)}</div>`;
 
-    if (data.merch[i].c[SHEETS.merch.COLS.sizes] != null) {
-      let sizes = data.merch[i].c[SHEETS.merch.COLS.sizes].v.split(', ');
-      let oosSizes = (data.merch[i].c[SHEETS.merch.COLS.oos_sizes] != null) ? data.merch[i].c[SHEETS.merch.COLS.oos_sizes].v.split(', ') : [];
+    if (getCell('merch', i, 'sizes') != null) {
+      let sizes = getCell('merch', i, 'sizes').split(', ');
+      let oosSizes = (getCell('merch', i, 'oos_sizes') != null) ? getCell('merch', i, 'oos_sizes').split(', ') : [];
 
       html += '<ul class="sizes">';
       for (let j = 0; j < sizes.length; j ++) {
@@ -676,12 +818,12 @@ function makeMerch() {
         for (let k = 0; k < oosSizes.length; k ++) {
           if (sizes[j] == oosSizes[k]) { isOutOfStock = true; }
         }
-        html += '<li' + ((isOutOfStock == true) ? ' class="out-of-stock"' : '') + '>' + sizes[j] + '</li>';
+        html += `<li${(isOutOfStock == true) ? ' class="out-of-stock"' : ''}>${sizes[j]}</li>`;
       }
       html += '</ul>';
     }
-    else if (data.merch[i].c[SHEETS.merch.COLS.status] != null) {
-      switch (data.merch[i].c[SHEETS.merch.COLS.status].v) {
+    else if (getCell('merch', i, 'status') != null) {
+      switch (getCell('merch', i, 'status')) {
         case 'In stock':
           html += '<div class="status in-stock">In stock</div>';
           break;
@@ -710,8 +852,8 @@ function filterMerch(category) {
 
   let defaultCategory;
   for (let i = 0; i < data.categories.length; i ++) {
-    if (data.categories[i].c[SHEETS.categories.COLS.name] == null || data.categories[i].c[SHEETS.categories.COLS.show].v == false) { continue; }
-    defaultCategory = data.categories[i].c[SHEETS.categories.COLS.name].v;
+    if (getCell('categories', i, 'name') == null || getCell('categories', i, 'show') == false) { continue; }
+    defaultCategory = getCell('categories', i, 'name');
     break;
   }
 
@@ -741,20 +883,20 @@ document.querySelectorAll('#merch-categories').forEach((el) => {
 function makeContactOptions() {
   let html = '';
   for (let i = 0; i < data.contacts.length; i ++) {
-    if (data.contacts[i].c[SHEETS.contacts.COLS.option] == null || data.contacts[i].c[SHEETS.contacts.COLS.show].v == false) { continue; } // skip blank entries
-    html += '<option value="' + data.contacts[i].c[SHEETS.contacts.COLS.option].v + '">' + data.contacts[i].c[SHEETS.contacts.COLS.option].v + '</option>';
+    if (getCell('contacts', i, 'option') == null || getCell('contacts', i, 'show') == false) { continue; } // skip blank entries
+    html += `<option value="${getCell('contacts', i, 'option')}">${getCell('contacts', i, 'option')}</option>`;
   }
 
   let key;
   for (let i = 0; i < data.positions.length; i ++) {
-    if (data.positions[i].c[SHEETS.positions.COLS.email] != null && data.contacts[0].c[SHEETS.contacts.COLS.email].v == data.positions[i].c[SHEETS.positions.COLS.email].v) {
-      key = data.positions[i].c[SHEETS.positions.COLS.key].v;
+    if (getCell('positions', i, 'email') != null && getCell('contacts', 0, 'email') == getCell('positions', i, 'email')) {
+      key = getCell('positions', i, 'key');
       break;
     }
   }
 
   document.getElementById('form-key').setAttribute('value', key);
-  document.getElementById('form-subject').setAttribute('value', `Website Contact Message (${data.contacts[0].c[SHEETS.contacts.COLS.option].v})`);
+  document.getElementById('form-subject').setAttribute('value', `Website Contact Message (${getCell('contacts', 0, 'option')})`);
 
   document.getElementById('form-type').innerHTML = html;
 }
@@ -765,12 +907,12 @@ function updateContactForm() {
 
   let key;
   for (let i = 0; i < data.contacts.length; i ++) {
-    if (data.contacts[i].c[SHEETS.contacts.COLS.option] == null || data.contacts[i].c[SHEETS.contacts.COLS.show].v == false) { continue; } // skip blank entries
-    if (data.contacts[i].c[SHEETS.contacts.COLS.option].v == type) {
-      let searchEmail = (data.contacts[i].c[SHEETS.contacts.COLS.override] != null) ? data.contacts[i].c[SHEETS.contacts.COLS.override].v : (data.contacts[i].c[SHEETS.contacts.COLS.email] != null) ? data.contacts[i].c[SHEETS.contacts.COLS.email].v : data.contacts[0].c[SHEETS.contacts.COLS.email].v; // take preference for override, otherwise use regular email, if both blank, default to first entry
+    if (getCell('contacts', i, 'option') == null || getCell('contacts', i, 'show') == false) { continue; } // skip blank entries
+    if (getCell('contacts', i, 'option') == type) {
+      let searchEmail = (getCell('contacts', i, 'override') != null) ? getCell('contacts', i, 'override') : (getCell('contacts', i, 'email') != null) ? getCell('contacts', i, 'email') : getCell('contacts', 0, 'email'); // take preference for override, otherwise use regular email, if both blank, default to first entry
       for (let j = 0; j < data.positions.length; j ++) {
-        if (data.positions[j].c[SHEETS.positions.COLS.email] != null && data.positions[j].c[SHEETS.positions.COLS.email].v == searchEmail) {
-          key = (data.positions[j].c[SHEETS.positions.COLS.key] != null) ? data.positions[j].c[SHEETS.positions.COLS.key].v : data.positions[0].c[SHEETS.positions.COLS.key].v; // lowermost default to president
+        if (getCell('positions', j, 'email') != null && getCell('positions', j, 'email') == searchEmail) {
+          key = (getCell('positions', j, 'key') != null) ? getCell('positions', j, 'key') : getCell('positions', 0, 'key'); // lowermost default to president
           break;
         }
       }
@@ -787,16 +929,6 @@ document.querySelectorAll('#form-type').forEach((el) => {
 
 // LEADERBOARD
 
-function dateToUTC(date) {
-  let splitDate = date.split('(')[1].split(')')[0].split(',');
-  if (splitDate.length > 3) {
-    return Date.UTC(splitDate[0], splitDate[1], splitDate[2], splitDate[3], splitDate[4]);
-  }
-  else {
-    return Date.UTC(splitDate[0], splitDate[1], splitDate[2]);
-  }
-}
-
 function getParamsAtDate(game, date) {
   let searchUtc = dateToUTC(date);
 
@@ -804,9 +936,9 @@ function getParamsAtDate(game, date) {
   let firstOfGame = true;
 
   for (let i = 0; i < data.parameters.length; i ++) {
-    if (data.parameters[i].c[SHEETS.parameters.COLS.game] == null || data.parameters[i].c[SHEETS.parameters.COLS.game].v != game || data.parameters[i].c[SHEETS.parameters.COLS.starts] == null) { continue; }
+    if (anyCellNull('parameters', i, ['game', 'starts']) == true || getCell('parameters', i, 'game') != game) { continue; }
 
-    let paramUtc = dateToUTC(data.parameters[i].c[SHEETS.parameters.COLS.starts].v);
+    let paramUtc = dateToUTC(getCell('parameters', i, 'starts'));
 
     if (firstOfGame == true) {
       firstOfGame = false;
@@ -817,14 +949,14 @@ function getParamsAtDate(game, date) {
     }
   }
 
-  return data.parameters[latestIndex];
+  return latestIndex;
 }
 
 function setPlayerNames() {
   playerNames = new Map();
   for (let i = 0; i < data.players.length; i ++) {
-    if (data.players[i].c[SHEETS.players.COLS.id] == null || data.players[i].c[SHEETS.players.COLS.name] == null) { continue; }
-    playerNames.set(data.players[i].c[SHEETS.players.COLS.id].v, data.players[i].c[SHEETS.players.COLS.name].v);
+    if (anyCellNull('players', i, ['id', 'name']) == true) { continue; }
+    playerNames.set(getCell('players', i, 'id'), getCell('players', i, 'name'));
   }
 }
 
@@ -834,7 +966,7 @@ function minMaxLerp(a, b, t) {
 
 function getPlayerRating(game, id, timestamp) {
   if (playerRatings[game].has(id) == false) {
-    let latestInitRating = getParamsAtDate(game, timestamp).c[SHEETS.parameters.COLS.init_rating].v;
+    let latestInitRating = getCell('parameters', getParamsAtDate(game, timestamp), 'init_rating');
     playerRatings[game].set(id, latestInitRating);
   }
   return playerRatings[game].get(id);
@@ -846,20 +978,20 @@ function setPlayerRating(game, id, rating) {
 
 function calculatePlayerRatings() {
   for (let i = 0; i < data.games.length; i ++) {
-    if (data.games[i].c[SHEETS.games.COLS.name] == null || data.games[i].c[SHEETS.games.COLS.system] == null || data.games[i].c[SHEETS.games.COLS.starts] == null || dateToUTC(data.games[i].c[SHEETS.games.COLS.starts].v) > Date.now() || data.games[i].c[SHEETS.games.COLS.show].v == false) { continue; }
-    playerRatings[data.games[i].c[SHEETS.games.COLS.name].v] = new Map();
+    if (anyCellNull('games', i, ['name', 'system', 'starts']) == true || dateToUTC(getCell('games', i, 'starts')) > Date.now() || getCell('games', i, 'show') == false) { continue; }
+    playerRatings[getCell('games', i, 'name')] = new Map();
   }
 
   for (let r = 0; r < data.matches.length; r ++) {
-    if (data.matches[r].c[SHEETS.matches.COLS.timestamp] == null) { continue; }
+    if (getCell('matches', r, 'timestamp') == null) { continue; }
     // get game
-    let game = data.matches[r].c[SHEETS.matches.COLS.game].v;
-    let timestamp = data.matches[r].c[SHEETS.matches.COLS.timestamp].v;
+    let game = getCell('matches', r, 'game');
+    let timestamp = getCell('matches', r, 'timestamp');
 
     let system = '';
     for (let i = 0; i < data.games.length; i ++) {
-      if (data.games[i].c[SHEETS.games.COLS.name] != null && data.games[i].c[SHEETS.games.COLS.name].v == game && data.games[i].c[SHEETS.games.COLS.show].v == true && data.games[i].c[SHEETS.games.COLS.system] != null && data.games[i].c[SHEETS.games.COLS.starts] != null && dateToUTC(data.games[i].c[SHEETS.games.COLS.starts].v) <= dateToUTC(timestamp)) {
-        system = data.games[i].c[SHEETS.games.COLS.system].v;
+      if (getCell('games', i, 'name') != null && getCell('games', i, 'name') == game && getCell('games', i, 'show') == true && getCell('games', i, 'system') != null && getCell('games', i, 'starts') != null && dateToUTC(getCell('games', i, 'starts')) <= dateToUTC(timestamp)) {
+        system = getCell('games', i, 'system');
         break;
       }
     }
@@ -868,11 +1000,11 @@ function calculatePlayerRatings() {
     // get player ids
     let ids = [];
     // team A
-    ids[0] = Number(data.matches[r].c[SHEETS.matches.COLS.p1_id].v); // P1
-    ids[1] = data.matches[r].c[SHEETS.matches.COLS.p2_id] != null ? Number(data.matches[r].c[SHEETS.matches.COLS.p2_id].v) : 0; // P2
+    ids[0] = Number(getCell('matches', r, 'p1_id')); // P1
+    ids[1] = getCell('matches', r, 'p2_id') != null ? Number(getCell('matches', r, 'p2_id')) : 0; // P2
     // team B
-    ids[2] = data.matches[r].c[SHEETS.matches.COLS.p3_id] != null ? Number(data.matches[r].c[SHEETS.matches.COLS.p3_id].v) : 0; // P3
-    ids[3] = data.matches[r].c[SHEETS.matches.COLS.p4_id] != null ? Number(data.matches[r].c[SHEETS.matches.COLS.p4_id].v) : 0; // P4
+    ids[2] = getCell('matches', r, 'p3_id') != null ? Number(getCell('matches', r, 'p3_id')) : 0; // P3
+    ids[3] = getCell('matches', r, 'p4_id') != null ? Number(getCell('matches', r, 'p4_id')) : 0; // P4
 
     // get player ratings (or set to init value if new)
     let Rs = []; // prior ratings
@@ -890,7 +1022,7 @@ function calculatePlayerRatings() {
     let gameParams = getParamsAtDate(game, timestamp);
 
     if (system == 'Best Time') {
-      let time = data.matches[r].c[SHEETS.matches.COLS.time].v;
+      let time = getCell('matches', r, 'time');
       if (time < Rs[0]) {
         setPlayerRating(game, ids[0], time);
       }
@@ -898,7 +1030,7 @@ function calculatePlayerRatings() {
     else if (system == 'Elo FFA') {
       let Qs = []; // q values
       for (let i = 0; i < playerCount; i ++) {
-        Qs[i] = Math.pow(gameParams.c[SHEETS.parameters.COLS.base].v, Rs[i] / gameParams.c[SHEETS.parameters.COLS.divisor].v);
+        Qs[i] = Math.pow(getCell('parameters', gameParams, 'base'), Rs[i] / getCell('parameters', gameParams, 'divisor'));
       }
 
       let Es = [new Array(playerCount), new Array(playerCount), new Array(playerCount), new Array(playerCount)]; // estimated scores
@@ -908,7 +1040,7 @@ function calculatePlayerRatings() {
         }
       }
 
-      let Ss = [data.matches[r].c[SHEETS.matches.COLS.p1_points] != null ? Number(data.matches[r].c[SHEETS.matches.COLS.p1_points].v) : 0, data.matches[r].c[SHEETS.matches.COLS.p2_points] != null ? Number(data.matches[r].c[SHEETS.matches.COLS.p2_points].v) : 0, data.matches[r].c[SHEETS.matches.COLS.p3_points] != null ? Number(data.matches[r].c[SHEETS.matches.COLS.p3_points].v) : 0, data.matches[r].c[SHEETS.matches.COLS.p4_points] != null ? Number(data.matches[r].c[SHEETS.matches.COLS.p4_points].v) : 0]; // actual scores
+      let Ss = [getCell('matches', r, 'p1_points') != null ? Number(getCell('matches', r, 'p1_points')) : 0, getCell('matches', r, 'p2_points') != null ? Number(getCell('matches', r, 'p2_points')) : 0, getCell('matches', r, 'p3_points') != null ? Number(getCell('matches', r, 'p3_points')) : 0, getCell('matches', r, 'p4_points') != null ? Number(getCell('matches', r, 'p4_points')) : 0]; // actual scores
 
       for (let i = 0; i < playerCount; i ++) {
         let mult = 0;
@@ -917,18 +1049,18 @@ function calculatePlayerRatings() {
           let wld = Ss[i] > Ss[j] ? 1 : Ss[i] < Ss[j] ? 0 : 0.5; // win-lose-draw
           mult += wld - Es[i][j];
         }
-        setPlayerRating(game, ids[i], Rs[i] + gameParams.c[SHEETS.parameters.COLS.k].v / (playerCount - 1) * mult);
+        setPlayerRating(game, ids[i], Rs[i] + getCell('parameters', gameParams, 'k') / (playerCount - 1) * mult);
       }
     }
     else if (system == 'Elo Teams') {
-      let Rt = [minMaxLerp(Rs[0], Rs[1], gameParams.c[SHEETS.parameters.COLS.interpolation].v), minMaxLerp(Rs[2], Rs[3], gameParams.c[SHEETS.parameters.COLS.interpolation].v)]; // ratings for team A and B
-      let Qs = [Math.pow(gameParams.c[SHEETS.parameters.COLS.base].v, Rt[0] / gameParams.c[SHEETS.parameters.COLS.divisor].v), Math.pow(gameParams.c[SHEETS.parameters.COLS.base].v, Rt[1] / gameParams.c[SHEETS.parameters.COLS.divisor].v)];
+      let Rt = [minMaxLerp(Rs[0], Rs[1], getCell('parameters', gameParams, 'interpolation')), minMaxLerp(Rs[2], Rs[3], getCell('parameters', gameParams, 'interpolation'))]; // ratings for team A and B
+      let Qs = [Math.pow(getCell('parameters', gameParams, 'base'), Rt[0] / getCell('parameters', gameParams, 'divisor')), Math.pow(getCell('parameters', gameParams, 'base'), Rt[1] / getCell('parameters', gameParams, 'divisor'))];
       let Es = [Qs[0] / (Qs[0] + Qs[1]), Qs[1] / (Qs[0] + Qs[1])]; // estimated scores for team A and B
-      let Ss = [data.matches[r].c[SHEETS.matches.COLS.winner].v == 'Team A' ? 1 : 0, data.matches[r].c[SHEETS.matches.COLS.winner].v == 'Team B' ? 1 : 0]; // actual scores for team A and B
+      let Ss = [getCell('matches', r, 'winner') == 'Team A' ? 1 : 0, getCell('matches', r, 'winner') == 'Team B' ? 1 : 0]; // actual scores for team A and B
 
       for (let i = 0; i < 4; i ++) {
         if (ids[i] == 0) { continue; }
-        setPlayerRating(game, ids[i], Rs[i] + gameParams.c[SHEETS.parameters.COLS.k].v * (Ss[Math.floor(i / 2)] - Es[Math.floor(i / 2)]));
+        setPlayerRating(game, ids[i], Rs[i] + getCell('parameters', gameParams, 'k') * (Ss[Math.floor(i / 2)] - Es[Math.floor(i / 2)]));
       }
     }
   }
@@ -938,11 +1070,11 @@ function calculatePlayerRatings() {
 
 function refreshLeaderboard() {
   for (let i = 0; i < data.games.length; i ++) {
-    if (data.games[i].c[SHEETS.games.COLS.name] == null || data.games[i].c[SHEETS.games.COLS.system] == null || data.games[i].c[SHEETS.games.COLS.starts] == null || dateToUTC(data.games[i].c[SHEETS.games.COLS.starts].v) > Date.now() || data.games[i].c[SHEETS.games.COLS.show].v == false) { continue; }
+    if (anyCellNull('games', i, ['name', 'system', 'starts']) == true || dateToUTC(getCell('games', i, 'starts')) > Date.now() || getCell('games', i, 'show') == false) { continue; }
 
-    let game = data.games[i].c[SHEETS.games.COLS.name].v;
-    let system = data.games[i].c[SHEETS.games.COLS.system].v;
-    let rounding = (data.games[i].c[SHEETS.games.COLS.rounding] != null) ? Math.round(data.games[i].c[SHEETS.games.COLS.rounding].v): 0;
+    let game = getCell('games', i, 'name');
+    let system = getCell('games', i, 'system');
+    let rounding = (getCell('games', i, 'rounding') != null) ? Math.round(getCell('games', i, 'rounding')): 0;
     let rankedMap;
 
     if (system == 'Best Time') {
@@ -953,9 +1085,6 @@ function refreshLeaderboard() {
     }
     document.getElementById(game + '-board').innerHTML = makeLeaderboardHTML(Array.from(rankedMap.values()), Array.from(rankedMap.keys()), rounding);
   }
-
-  // let cards = document.querySelectorAll(".player-card");
-  // cards.forEach((el) => observer.observe(el));
 }
 
 let shownGames = [];
@@ -964,21 +1093,25 @@ function makeLeaderboardGames() {
   let buttonsHTML = '';
   let boardsHTML = '';
   for (let i = 0; i < data.games.length; i ++) {
-    if (data.games[i].c[SHEETS.games.COLS.name] == null || data.games[i].c[SHEETS.games.COLS.system] == null || data.games[i].c[SHEETS.games.COLS.starts] == null || data.games[i].c[SHEETS.games.COLS.show].v == false) { continue; }
+    if (anyCellNull('games', i, ['name', 'system', 'starts']) == true || getCell('games', i, 'show') == false) { continue; }
 
-    shownGames.push(data.games[i].c[SHEETS.games.COLS.name].v);
+    shownGames.push(getCell('games', i, 'name'));
 
-    buttonsHTML += `<li><button class="button" id="${data.games[i].c[SHEETS.games.COLS.name].v}-button">`;
-    if (data.games[i].c[SHEETS.games.COLS.icon] != null) {
-      buttonsHTML += `<i class="fa-solid fa-${data.games[i].c[SHEETS.games.COLS.icon].v}"></i>`;
+    buttonsHTML += `<li><button class="button" id="${getCell('games', i, 'name')}-button">`;
+    if (getCell('games', i, 'icon') != null) {
+      buttonsHTML += `<i class="fa-solid fa-${getCell('games', i, 'icon')}"></i>`;
     }
-    buttonsHTML += `${data.games[i].c[SHEETS.games.COLS.name].v}</button></li>`;
+    buttonsHTML += `${getCell('games', i, 'name')}</button></li>`;
 
-    boardsHTML += `<ul class="leaderboard-container" id="${data.games[i].c[SHEETS.games.COLS.name].v}-board" style="display: none;">`;
+    boardsHTML += `<ul class="leaderboard-container" id="${getCell('games', i, 'name')}-board" style="display: none;">`;
     
-    if (dateToUTC(data.games[i].c[SHEETS.games.COLS.starts].v) > Date.now()) {
-      let date = data.games[i].c[SHEETS.games.COLS.starts].v.split('(')[1].split(')')[0].split(',');
+    if (dateToUTC(getCell('games', i, 'starts')) > Date.now()) {
+      let date = getCell('games', i, 'starts').split('(')[1].split(')')[0].split(',');
       boardsHTML += `<li class="player-card message"><div>This leaderboard starts on ${date[2]} ${MONTHS.get(Number(date[1]) + 1)} ${date[0]}!</div></li>`;
+
+      // for (let x = 1; x <= 20; x ++) {
+      //   boardsHTML += `<li class="player-card" style="animation-delay: ${(x - 1) * POP_IN_DELAY}ms;"><div class="rank r${x}">${x}</div><div class="name">Player ${x}</div><div class="rating">${1000 - 10 * x}</div></li>`;
+      // }
     }
     
     boardsHTML += `</ul>`;
@@ -1009,7 +1142,7 @@ function makeLeaderboardHTML(values, keys, round) {
       tieCount ++;
     }
 
-    html += '<li class="player-card"><div class="rank r' + (i + 1) + '">' + (i + 1) + '</div><div class="name">' + playerName + '</div><div class="rating">' + rating.toFixed(Math.max(-round, 0)) + '</div></li>';
+    html += `<li class="player-card" style="animation-delay: ${i * POP_IN_DELAY}ms;"><div class="rank r${i + 1}">${i + 1}</div><div class="name">${playerName}</div><div class="rating">${rating.toFixed(Math.max(-round, 0))}</div></li>`;
 
     i += tieCount;
   }
@@ -1031,17 +1164,29 @@ function changeLeaderboard(id) {
 }
 
 function filterSearch() {
-  let cards = document.querySelectorAll('.player-card');
   let input = document.getElementById('leaderboard-search').value.toUpperCase();
-  for (let i = 0; i < cards.length; i ++) {
-    let nameObj = cards[i].querySelector('.name');
-    if (nameObj == null) { continue; }
-    let name = nameObj.innerHTML;
-    if (name.toUpperCase().indexOf(input) > -1) {
-      cards[i].style.display = '';
-    }
-    else {
+  let boards = document.querySelectorAll('.leaderboard-container');
+  for (let i = 0; i < boards.length; i ++) {
+    let cards = boards[i].querySelectorAll('.player-card');
+    let cardIdx = 0;
+
+    for (let i = 0; i < cards.length; i ++) {
+      let nameObj = cards[i].querySelector('.name');
+      if (nameObj == null) { continue; }
+      cards[i].style = ``;
       cards[i].style.display = 'none';
+      setTimeout(() => {
+        let name = nameObj.innerHTML;
+        if (name.toUpperCase().indexOf(input) > -1) {
+          cards[i].style.display = '';
+          cards[i].style = `animation-delay: ${cardIdx * POP_IN_DELAY}ms`;
+          cardIdx ++;
+        }
+      }, 1);
+      
+      // else {
+      //   cards[i].style.display = 'none';
+      // }
     }
   }
 }
