@@ -202,6 +202,7 @@ const RELOAD_TIME = 400; // ms
 // GENERAL
 
 const body = document.querySelector('body');
+let fetchedSheets = new Set();
 
 async function init() {
   let prefetchedData = localStorage.prefetchedData;
@@ -211,7 +212,7 @@ async function init() {
     case 'home-page':
       fetchSheet('socials', makeSocials);
       fetchSheet('links', makeLinks);
-      fetchSheet('positions', makeOpenings);
+      fetchSheet('positions', () => { makeOpenings(); handleAllTooltips(); });
       fetchSheet('events', () => { makeEvents(3); });
       fetchSheets(['collections', 'gallery'], makeGallery);
       break;
@@ -221,7 +222,7 @@ async function init() {
       break;
     case 'council-page':
       fetchSheet('socials', makeSocials);
-      fetchSheets(['council', 'positions'], () => { makeYearSelect(); makeCouncilGrid(); });
+      fetchSheets(['council', 'positions'], () => { makeYearSelect(); makeCouncilGrid(); handleAllTooltips(); });
       break;
     case 'merch-page':
       fetchSheet('socials', makeSocials);
@@ -242,40 +243,51 @@ async function init() {
         } catch (error) {
           changeLeaderboard(getCell('games', 0, 'name'));
         }
+        addButtonEvents();
       });
       break;
     default:
       break;
   }
 
-  document.querySelectorAll(':has(>.tooltip)').forEach((el) => { handleTooltips(el); });
-
   window.addEventListener('resize', function() { document.querySelectorAll(':has(>.tooltip)').forEach((el) => { handleTooltips(el); }); });
-
-  document.querySelectorAll('.button:has(i)').forEach((el) => {
-    el.addEventListener('click', (event) => {
-      el.classList.add('animating','mouseover');
-      setTimeout(() => {
-        el.classList.remove('animating');
-      }, 500);
-    });
-    el.addEventListener('mouseleave', (event) => {
-      if (el.classList.contains('animating')) {
-        setTimeout(() => {
-          el.classList.remove('mouseover');
-        }, 500);
-      }
-      else {
-        el.classList.remove('mouseover');
-      }
-    });
-  });
-  
-  // document.querySelectorAll(':has(>.tooltip)').forEach((el) => {
-  //   el.addEventListener('mouseover', (event) => { fixTooltipPosition(el); });
-  // });
 }
 window.addEventListener('DOMContentLoaded', init);
+
+function handleAllTooltips() {
+  document.querySelectorAll(':has(>.tooltip)').forEach((el) => {
+    handleTooltips(el);
+  });
+}
+
+function addButtonEvents() {
+  document.querySelectorAll('.button:has(i)').forEach((el) => {
+    el.addEventListener('click', buttonClick(el));
+    el.addEventListener('mouseleave', buttonMouseLeave(el));
+  });
+}
+
+function buttonClick(el) {
+  return function() {
+    el.classList.add('animating','mouseover');
+    setTimeout(() => {
+      el.classList.remove('animating');
+    }, 500);
+  }
+}
+
+function buttonMouseLeave(el) {
+  return function() {
+    if (el.classList.contains('animating')) {
+      setTimeout(() => {
+        el.classList.remove('mouseover');
+      }, 500);
+    }
+    else {
+      el.classList.remove('mouseover');
+    }
+  }
+}
 
 function fixNullData() {
   let prefetchedData = {};
