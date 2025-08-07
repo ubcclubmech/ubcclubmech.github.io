@@ -243,12 +243,13 @@ async function init() {
         } catch (error) {
           changeLeaderboard(getCell('games', 0, 'name'));
         }
-        addButtonEvents();
       });
       break;
     default:
       break;
   }
+
+  addButtonEvents();
 
   window.addEventListener('resize', function() { document.querySelectorAll(':has(>.tooltip)').forEach((el) => { handleTooltips(el); }); });
 }
@@ -573,6 +574,7 @@ function makeSocials() {
   }
 
   document.getElementById('socials').innerHTML = html;
+  addButtonEvents();
 }
 
 function makeLinks() {
@@ -585,6 +587,7 @@ function makeLinks() {
     linkIdx ++;
   }
   document.getElementById('links').innerHTML = html;
+  addButtonEvents();
 }
 
 function makeGallery() {
@@ -678,6 +681,7 @@ function makeEvents(num) {
     html += '</li>';
   }
   document.getElementById('events').innerHTML = html;
+  addButtonEvents();
 }
 
 // COUNCIL
@@ -1134,6 +1138,8 @@ function makeLeaderboardGames() {
   document.querySelectorAll('#leaderboard-page :not(nav) .button').forEach(el => {
     el.addEventListener('click', event => { changeLeaderboard(el.getAttribute('id').split('-')[0]); });
   });
+
+  addButtonEvents();
 }
 
 function makeLeaderboardHTML(values, keys, round) {

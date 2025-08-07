@@ -204,7 +204,6 @@ header {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  /* padding: 0px 1rem; */
   box-shadow: 0 10px 20px var(--card-shadow);
 }
 
@@ -384,28 +383,59 @@ header nav .button.nav:hover {
   transform: scale(1.1);
 }
 
+#socials {
+  height: calc(var(--navbar-height) - 2rem);
+  right: 1rem;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--icon-margin);
+}
+
 .button.icon {
-  padding: var(--icon-padding);
-  /* padding: var(--standard-padding); */
-  line-height: 0;
+  padding: 0;
+  box-sizing: border-box;
   background: none;
   text-decoration: none;
   color: var(--nav);
-  display: inline-block;
-  /* font-size: 24px; */
   font-size: calc(var(--nav-size) * 1.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.button i {
+.button.icon i {
+  height: auto;
+  padding: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.button.icon i::before {
+  margin: 0 0.05em -0.05em 0.05em;
+  line-height: 1.05em
+}
+
+.button.icon.square i {
+  aspect-ratio: 1;
+}
+
+.button i::before {
+  display: flex;
   transform: scale(1);
   transition: transform 0.2s ease-in-out;
 }
 
-.button.animating i {
+.button.animating i::before {
   animation: icon-click 0.5s ease-in-out 0s 1 forwards;
 }
 
-.button:not(.selected):not(.animating):not(.mouseover):hover i {
+.button:not(.selected):not(.animating):not(.mouseover):hover i::before {
   transform: scale(1.12);
 }
 
@@ -434,18 +464,9 @@ header nav .button.nav:hover {
   }
 
   #open-nav {
-    display: inline-block;
+    display: flex;
     font-size: calc(var(--nav-size) * 2);
   }
-}
-
-#socials {
-  position: absolute;
-  right: 1rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: var(--icon-margin);
 }
 
 .section-header {
@@ -1297,7 +1318,15 @@ form .button {
 #leaderboard-page nav .button.nav {
   color: var(--text);
   font-size: var(--h4-size);
+}
+
+#leaderboard-page nav .button.nav.icon i {
   padding: var(--icon-padding);
+}
+
+#leaderboard-page nav .button.nav.icon i::before {
+  margin-left: 0;
+  margin-right: 0;
 }
 
 #leaderboard-page #content > h1 {
@@ -1357,10 +1386,6 @@ form .button {
 #leaderboard-page .button:not(.icon):hover, #leaderboard-page .button:not(.icon).selected {
   background-color: var(--red);
   color: var(--text-alt);
-}
-
-#leaderboard-page .button:not(.icon) i {
-  margin-right: var(--icon-margin);
 }
 
 #leaderboard-search {
