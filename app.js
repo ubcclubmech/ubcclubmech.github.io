@@ -214,6 +214,7 @@ async function init() {
       fetchSheet('socials', makeSocials);
       fetchSheet('links', makeLinks);
       fetchSheet('positions', () => { makeOpenings(); handleAllTooltips(); });
+      // fetchSheet('sponsors', makeSponsors);
       fetchSheets(['events', 'positions'], () => { makeEvents(4); });
       fetchSheets(['collections', 'gallery'], makeGallery);
       break;
@@ -598,6 +599,17 @@ function makeLinks() {
   }
   document.getElementById('links').innerHTML = html;
   addButtonEvents();
+}
+
+function makeSponsors() {
+  let html = '';
+  for (let i = 0; i < data.sponsors.length; i ++) {
+    if (anyCellNull('sponsors', i, ['name', 'logo', 'link']) == true || getCell('sponsors', i, 'show') == false) { continue; }
+
+    html += `<li><a href="${getCell('sponsors', i, 'link')}" target="_blank"><img src=${driveUrlToThumb(getCell('sponsors', i, 'logo'))}"></a></li>`;
+  }
+
+  document.getElementById('sponsors').innerHTML = html;
 }
 
 function makeGallery() {

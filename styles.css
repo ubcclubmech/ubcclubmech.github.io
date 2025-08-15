@@ -28,8 +28,8 @@
   --section-filter: brightness(0.9) blur(calc(var(--section-header-height) / 55));
 
   /* padding */
-  --standard-padding: 0.35em 0.9em;
-  --thin-padding: 0.25em 0.9em;
+  --thin-padding: 0.3em 1em;
+  --standard-padding: 0.4em 1.1em;
   --thick-padding: 0.5em 1.2em;
   --icon-padding: 0.3em 0.3em;
   --tooltip-padding: 0.5rem 0.8rem;
@@ -78,15 +78,17 @@
   --primary-75: hsl(235, 42.7%, 71.8%);
   --primary-80: hsl(235, 44.7%, 77.3%);
   --primary-85: hsl(235, 46.5%, 82.9%);
-  --primary-90: hsl(235, 48.2%, 88.5%);
-  --primary-95: hsl(235, 49.8%, 94.2%); /* link buttons */
+  --primary-90: hsl(235, 48.2%, 88.5%); /* link buttons */
+  --primary-95: hsl(235, 49.8%, 94.2%);
 
   --secondary: hsl(0, 0%, 92%); /* chips */
+  --secondary: #ebebeb; /* chips */
 
   --card-shadow: hsl(0, 0%, 0%, 10%);
   --tooltip-border: hsl(0, 0%, 70%);
 
   --red: hsl(0, 70%, 55%);
+  --red: #dd3c3c;
   --green: hsl(120, 55%, 38%);
   --yellow: hsl(25, 70%, 50%);
 
@@ -664,9 +666,14 @@ header nav .button.nav:hover {
   align-items: stretch;
   gap: var(--gap-width);
   flex-wrap: wrap;
-  margin: calc(var(--grid-margin-top) / 2) 0 0 0;
+  margin: 0;
   list-style: none;
-  padding: 0;
+  padding: calc(var(--gap-width) * 1.5);
+  box-shadow: 0 5px 9px var(--card-shadow);
+  border-radius: calc(var(--border-radius) + var(--gap-width) * 1.5);
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  box-sizing: border-box;
 }
 
 #links li {
@@ -679,6 +686,7 @@ header nav .button.nav:hover {
 
 #links li a {
   flex-grow: 1;
+  padding: var(--thick-padding);
 }
 
 #welcome-container {
@@ -844,6 +852,13 @@ header nav .button.nav:hover {
   }
 }
 
+#sponsors-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 #sponsors {
   width: 100%;
   list-style: none;
@@ -859,11 +874,13 @@ header nav .button.nav:hover {
 
 #sponsors li {
   /* calc((100% - var(--gap-width) * (var(--sponsor-cols) - 1)) / var(--sponsor-cols)) */
-  flex: 0 0 min(11rem, calc((100% - 10px * (3 - 1)) / 3));
+  flex: 0 0 min(11rem, calc((100% - 10px * (2 - 1)) / 2));
+  /* flex: 0 0 11rem; */
   aspect-ratio: 1;
   border-radius: var(--border-radius);
   overflow: hidden;
   transform: translateY(0);
+  box-shadow: 0 5px 9px var(--card-shadow);
   transition-property: transform, box-shadow;
   transition-duration: 0.2s;
   transition-timing-function: ease-in-out;
@@ -872,7 +889,7 @@ header nav .button.nav:hover {
 #sponsors li:has(a):hover {
   cursor: pointer;
   transform: translateY(-5px);
-  box-shadow: 0 5px 9px var(--card-shadow);
+  box-shadow: 0 10px 14px var(--card-shadow);
 }
 
 #sponsors li a {
@@ -1120,7 +1137,7 @@ header nav .button.nav:hover {
 #council-grid {
   display: grid;
   width: var(--grid-width);
-  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
   grid-template-rows: auto;
   column-gap: var(--grid-col-gap);
   row-gap: var(--grid-row-gap);
