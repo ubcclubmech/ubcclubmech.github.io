@@ -381,7 +381,7 @@ header nav .button.nav:hover {
   gap: var(--icon-margin);
 }
 
-.button.icon {
+.button.icon:not(.link) {
   padding: 0;
   box-sizing: border-box;
   background: none;
@@ -998,6 +998,7 @@ header nav .button.nav:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .event > div img {
@@ -1028,21 +1029,29 @@ header nav .button.nav:hover {
 
 .event > div a {
   position: absolute;
-  font-size: var(--h5-size);
-  padding: var(--thick-padding);
+  left: var(--gap-width);
+  bottom: var(--gap-width);
+  font-size: var(--body-size);
+  aspect-ratio: 1;
+  box-sizing: border-box;
   opacity: 0;
+  padding: 0 0.4em;
   pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   transform: scale(0.97);
   transition-property: opacity, transform, box-shadow;
   transition-duration: 0.2s;
   transition-timing-function: ease-in-out;
 }
 
-.event > div:has(a):hover img {
+/* .event > div:has(a):hover img {
   filter: brightness(0.7) blur(2px);
   transform: scale(0.99);
   transition-delay: 0s;
-}
+} */
 
 .event > div:has(a):hover a {
   pointer-events: auto;

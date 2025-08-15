@@ -673,7 +673,8 @@ function makeEvents(num) {
     }
     
     if (getCell('events', currEvent, 'instagram') != null) {
-      html += `<a class="button link" href="${getCell('events', currEvent, 'instagram')}" target="_blank"><i class="fa-brands fa-instagram" style="transform: scale(1.25); margin-right: 0.65em;"></i>View Post</a>`;
+      html += `<a class="button link icon" href="${getCell('events', currEvent, 'instagram')}" target="_blank"><i class="fa-brands fa-instagram" style="transform: scale(1.25);"></i></a>`;
+      // style="margin-right: 0.65em;"
     }
     html += '</div>';
     
