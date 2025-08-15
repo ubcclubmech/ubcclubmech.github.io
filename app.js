@@ -14,7 +14,7 @@ const SHEETS = {
       "end",
       "name",
       "location",
-      "type",
+      "contacts",
       "rsvp",
       "calendar",
       "instagram",
@@ -27,6 +27,7 @@ const SHEETS = {
     "DOC": DATABASE_DOC,
     "COLS": [
       "name",
+      "icon_pack",
       "icon",
       "link",
       "show"
@@ -193,7 +194,7 @@ const MONTHS = new Map([[1, "Jan"], [2, "Feb"], [3, "Mar"], [4, "Apr"], [5, "May
 
 // animation
 const POP_IN_DELAY = 75; // ms
-const POP_IN_VARIANCE = 300; // ms
+const POP_IN_VARIANCE = 200; // ms
 
 // reloading
 const PULL_HEIGHT = 150; // px
@@ -213,12 +214,12 @@ async function init() {
       fetchSheet('socials', makeSocials);
       fetchSheet('links', makeLinks);
       fetchSheet('positions', () => { makeOpenings(); handleAllTooltips(); });
-      fetchSheet('events', () => { makeEvents(3); });
+      fetchSheets(['events', 'positions'], () => { makeEvents(4); });
       fetchSheets(['collections', 'gallery'], makeGallery);
       break;
     case 'events-page':
       fetchSheet('socials', makeSocials);
-      fetchSheet('events', () => { makeEvents(Number.POSITIVE_INFINITY); });
+      fetchSheets(['events', 'positions'], () => { makeEvents(Number.POSITIVE_INFINITY); });
       break;
     case 'council-page':
       fetchSheet('socials', makeSocials);
@@ -383,6 +384,15 @@ function getCell(sheet, row, col, formattedString = false) {
 function anyCellNull(sheet, row, cols) {
   for (let i = 0; i < cols.length; i ++) {
     if (getCell(sheet, row, cols[i]) == null) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function anyCellFilled(sheet, row, cols) {
+  for (let i = 0; i < cols.length; i ++) {
+    if (getCell(sheet, row, cols[i]) != null) {
       return true;
     }
   }
@@ -582,7 +592,7 @@ function makeLinks() {
   let linkIdx = 0;
   for (let i = 0; i < data.links.length; i ++) {
     if (anyCellNull('links', i, ['name', 'link']) == true || getCell('links', i, 'show') == false) { continue; } // skip blank entries
-    let icon = (getCell('links', i, 'icon') != null) ? `<i class="fa-solid fa-${getCell('links', i, 'icon')}"></i>` : '';
+    let icon = (anyCellNull('links', i, ['icon_pack', 'icon']) == false) ? `<i class="fa-${getCell('links', i, 'icon_pack')} fa-${getCell('links', i, 'icon')}"></i>` : '';
     html += `<li style="animation-delay: ${linkIdx * POP_IN_DELAY}ms;"><a class="button link" href="${getCell('links', i, 'link')}" target="_blank">${icon + getCell('links', i, 'name')}</a></li>`;
     linkIdx ++;
   }
@@ -654,16 +664,18 @@ function makeEvents(num) {
     let date = getCell('events', currEvent, 'date').substring(5).split(')')[0].split(',');
     html += `<li class="event" style="animation-delay: ${Math.random() * POP_IN_VARIANCE}ms;">`;
 
-    let imgSrc = '/media/events/none.jpg';
+    html += '<div>';
     if (getCell('events', currEvent, 'image') != null) {
-      imgSrc = driveUrlToThumb(getCell('events', currEvent, 'image'));
+      html += `<img src="${driveUrlToThumb(getCell('events', currEvent, 'image'))}" alt="${getCell('events', currEvent, 'name')}">`;
     }
-
+    else {
+      html += '<i class="fa-solid fa-gear"></i>';
+    }
+    
     if (getCell('events', currEvent, 'instagram') != null) {
-      html += `<a href="${getCell('events', currEvent, 'instagram')}" target="_blank">`;
+      html += `<a class="button link" href="${getCell('events', currEvent, 'instagram')}" target="_blank"><i class="fa-brands fa-instagram" style="transform: scale(1.25); margin-right: 0.65em;"></i>View Post</a>`;
     }
-    html += `<img src="${imgSrc}" alt="${getCell('events', currEvent, 'name')}">`;
-    html += (getCell('events', currEvent, 'instagram') != null) ? '</a>' : '';
+    html += '</div>';
     
     html += `<h2>${getCell('events', currEvent, 'name')}</h2>`;
     html += '<ul class="event-dtl">';
@@ -672,10 +684,32 @@ function makeEvents(num) {
     html += `<li><i class="fa-solid fa-clock"></i>${eventTime}</li>`;
     html += `<li><i class="fa-solid fa-location-dot"></i>${(getCell('events', currEvent, 'location') != null) ? getCell('events', currEvent, 'location') : 'TBD'}</li>`;
     html += '</ul>';
-    if (getCell('events', currEvent, 'rsvp') != null || getCell('events', currEvent, 'calendar') != null) {
+    if (anyCellFilled('events', currEvent, ['contacts', 'rsvp', 'calendar'])) {
       html += '<ul class="event-links">';
-      html += (getCell('events', currEvent, 'rsvp') != null ? (`<li><a class="button link" href="${getCell('events', currEvent, 'rsvp')}" target="_blank"><i class="fa-solid fa-reply"></i>RSVP</a></li>`) : '');
-      html += (getCell('events', currEvent, 'calendar') != null ? (`<li><a class="button link" href="${getCell('events', currEvent, 'calendar')}" target="_blank"><i class="fa-brands fa-google"></i>Add to Calendar</a></li>`) : '');
+
+      html += (getCell('events', currEvent, 'rsvp') != null ? `<li><a class="button link" href="${getCell('events', currEvent, 'rsvp')}" target="_blank"><i class="fa-solid fa-reply"></i>RSVP</a></li>` : '');
+
+      html += (getCell('events', currEvent, 'calendar') != null ? `<li><a class="button link" href="${getCell('events', currEvent, 'calendar')}" target="_blank"><i class="fa-brands fa-google"></i>Add to Calendar</a></li>` : '');
+
+      if (getCell('events', currEvent, 'contacts') != null) {
+        let eventContacts = getCell('events', currEvent, 'contacts').split(', ');
+
+        let href = 'mailto:';
+        for (let i = 0; i < eventContacts.length; i ++) {
+          if (i > 0) {
+            href += ',';
+          }
+          for (let j = 0; j < data.positions.length; j ++) {
+            if (eventContacts[i] == getCell('positions', j, 'position')) {
+              href += getCell('positions', j, 'email');
+            }
+          }
+        }
+        href += `?subject=Club MECH ${getCell('events', currEvent, 'name')}`;
+
+        html += `<li><a class="button link" href="${href}" target="_blank"><i class="fa-solid fa-envelope"></i>Contact Organizers</a></li>`;
+      }
+
       html += '</ul>';
     }
     html += '</li>';
@@ -723,12 +757,14 @@ function makeCouncilGrid() {
       if (currYear == selectedYear && currPositions[0] == getCell('positions', p, 'position')) { // heirarchical ordering done by *first* position in list
         html += `<li class="council-member visible" style="animation-delay: ${Math.random() * POP_IN_VARIANCE}ms;">`;
 
-        let imgSrc = '/media/council/none.jpg';
         if (getCell('council', i, 'photo') != null) {
-          imgSrc = driveUrlToThumb(getCell('council', i, 'photo'));
+          html += (`<img src="${driveUrlToThumb(getCell('council', i, 'photo'))}" alt="${getCell('council', i, 'name')}">`); // photo
+        }
+        else {
+          html += '<i class="fa-solid fa-user"></i>';
         }
 
-        html += (`<img src="${imgSrc}" alt="${getCell('council', i, 'name')}">`); // photo
+        
         html += `<h2>${getCell('council', i, 'name')}</h2>`; // name
         html += '<h3>';
         for (let j = 0; j < currPositions.length; j ++) {
@@ -811,16 +847,23 @@ function makeMerch() {
   let html = '';
 
   for (let i = 0; i < data.merch.length; i ++) {
-    if (anyCellNull('merch', i, ['item', 'price']) == true || getCell('merch', i, 'show') == false) { continue; } // skip blank entries
+    if (anyCellNull('merch', i, ['item', 'price', 'category']) == true || getCell('merch', i, 'show') == false) { continue; } // skip blank entries
 
-    html += `<li class="merch-item${(getCell('merch', i, 'category') != null) ? (` ${getCell('merch', i, 'category')}`) : ''}">`;
+    html += `<li class="merch-item ${getCell('merch', i, 'category')}" style="animation-delay: ${Math.random() * POP_IN_VARIANCE}ms;">`;
 
-    let imgSrc = '/media/events/none.jpg';
     if (getCell('merch', i, 'image') != null) {
-      imgSrc = driveUrlToThumb(getCell('merch', i, 'image'));
+      html += `<img src="${driveUrlToThumb(getCell('merch', i, 'image'))}">`;
+    }
+    else {
+      let catIcon = 'gear';
+      for (let j = 0; j < data.categories.length; j ++) {
+        if (getCell('categories', j, 'name') == getCell('merch', i, 'category')) {
+          catIcon = getCell('categories', j, 'icon');
+        }
+      }
+      html += `<i class="fa-solid fa-${catIcon}"></i>`;
     }
 
-    html += `<img src="${imgSrc}">`;
     html += `<h2>${getCell('merch', i, 'item')}</h2>`;
     html += `<div><div class="price">$${Number(getCell('merch', i, 'price')).toFixed(2)}</div>`;
 
@@ -873,13 +916,22 @@ function filterMerch(category) {
     break;
   }
 
+  let merchGrid = document.querySelector('#merch-grid');
+  merchGrid.style = `min-height: ${merchGrid.getBoundingClientRect().height}px`;
+  setTimeout(() => {
+    merchGrid.style = '';
+  }, 1);
+
   for (let i = 0; i < merchItems.length; i ++) {
-    if (category == defaultCategory || merchItems[i].classList.contains(category)) {
-      merchItems[i].style.display = '';
-    }
-    else {
-      merchItems[i].style.display = 'none';
-    }
+    merchItems[i].style = '';
+    merchItems[i].style.display = 'none';
+
+    setTimeout(() => {
+      if (category == defaultCategory || merchItems[i].classList.contains(category)) {
+        merchItems[i].style = `animation-delay: ${Math.random() * POP_IN_VARIANCE}ms;`;
+        merchItems[i].style.display = '';
+      }
+    }, 1);
   }
 
   let categoryButtons = document.querySelectorAll('#merch-categories button');
