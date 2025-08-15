@@ -1003,7 +1003,6 @@ header nav .button.nav:hover {
 }
 
 .event > div img {
-  background-color: var(--primary-20);
   object-fit: cover;
   width: 100%;
   aspect-ratio: 4 / 5;
