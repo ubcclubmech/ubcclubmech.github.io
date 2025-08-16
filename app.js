@@ -190,7 +190,7 @@ let playerNames;
 // CONSTANTS
 
 // general
-const MONTHS = new Map([[1, "Jan"], [2, "Feb"], [3, "Mar"], [4, "Apr"], [5, "May"], [6, "Jun"], [7, "Jul"], [8, "Aug"], [9, "Sep"], [10, "Oct"], [11, "Nov"], [12, "Dec"]]);
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 // animation
 const POP_IN_DELAY = 75; // ms
@@ -400,14 +400,42 @@ function anyCellFilled(sheet, row, cols) {
   return false;
 }
 
-function dateToUTC(date) {
-  let splitDate = date.split('(')[1].split(')')[0].split(',');
-  if (splitDate.length > 3) {
-    return Date.UTC(splitDate[0], splitDate[1], splitDate[2], splitDate[3], splitDate[4]);
+function splitDate(date) {
+  return date.split('(')[1].split(')')[0].split(',');
+}
+
+function dateToUTC(date, isSplit = false) {
+  let dateArr = date;
+  if (isSplit == false) {
+    dateArr = splitDate(date);
   }
-  else {
-    return Date.UTC(splitDate[0], splitDate[1], splitDate[2]);
+  
+  if (dateArr.length > 3) {
+    return Date.UTC(dateArr[0], dateArr[1], dateArr[2], dateArr[3], dateArr[4]);
   }
+  return Date.UTC(dateArr[0], dateArr[1], dateArr[2]);
+}
+
+function dateToString(date, isSplit = false) {
+  let dateArr = date;
+  if (isSplit == false) {
+    dateArr = splitDate(date);
+  }
+
+  return `${dateArr[2]} ${MONTHS[dateArr[1]]} ${dateArr[0]}`;
+}
+
+function replaceOrdinals(string) {
+  let output = string;
+  let ords = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '0th'];
+  for (let i = 0; i < ords.length; i ++) {
+    let j = output.indexOf(ords[i]);
+    if (j > -1) {
+      output = `${output.substring(0, j + 1)}<sup>${ords[i].substring(1)}</sup>${output.substring(j + 3)}`;
+      i --;
+    }
+  }
+  return output;
 }
 
 function toggleNav() {
@@ -562,11 +590,11 @@ function makeOpenings() {
     if (getCell('positions', i, 'position') == null) { continue; } // skip blank entries
     if (getCell('positions', i, 'filled') == false) { // if position not filled
       if (getCell('positions', i, 'type') == 'Executive') {
-        execHTML += `<li style="animation-delay: ${execIdx * POP_IN_DELAY}ms;"><div>${getCell('positions', i, 'position')}</div><i class="fa-solid fa-circle-info"><div class="tooltip">${getCell('positions', i, 'responsibilities')}</div></i></li>`;
+        execHTML += `<li style="animation-delay: ${execIdx * POP_IN_DELAY}ms;"><div>${replaceOrdinals(getCell('positions', i, 'position'))}</div><i class="fa-solid fa-circle-info"><div class="tooltip">${getCell('positions', i, 'responsibilities')}</div></i></li>`;
         execIdx ++;
       }
       else {
-        exoHTML += `<li style="animation-delay: ${exoIdx * POP_IN_DELAY}ms;"><div>${getCell('positions', i, 'position')}</div><i class="fa-solid fa-circle-info"><div class="tooltip">${getCell('positions', i, 'responsibilities')}</div></i></li>`;
+        exoHTML += `<li style="animation-delay: ${exoIdx * POP_IN_DELAY}ms;"><div>${replaceOrdinals(getCell('positions', i, 'position'))}</div><i class="fa-solid fa-circle-info"><div class="tooltip">${getCell('positions', i, 'responsibilities')}</div></i></li>`;
         exoIdx ++;
       }
     }
@@ -663,8 +691,7 @@ function makeEvents(num) {
   let today = Date.now() - 1000 * 60 * 60 * 24;
   for (let i = 0; i < data.events.length; i ++) {
     if (getCell('events', i, 'show') == false || anyCellNull('events', i, ['date', 'name']) == true) { continue; } // skip blank entries
-    let date = getCell('events', i, 'date').substring(5).split(')')[0].split(',');
-    let utc = Date.UTC(date[0], date[1], date[2]);
+    let utc = dateToUTC(getCell('events', i, 'date'));
     if (utc < today) { continue; }
     upcoming.set(i, utc);
   }
@@ -673,7 +700,6 @@ function makeEvents(num) {
   let html = '';
   for (let i = 0; i < sorted.length; i ++) {
     let currEvent = sorted[i][0];
-    let date = getCell('events', currEvent, 'date').substring(5).split(')')[0].split(',');
     html += `<li class="event" style="animation-delay: ${Math.random() * POP_IN_VARIANCE}ms;">`;
 
     html += '<div>';
@@ -692,7 +718,7 @@ function makeEvents(num) {
     
     html += `<h2>${getCell('events', currEvent, 'name')}</h2>`;
     html += '<ul class="event-dtl">';
-    html += `<li><i class="fa-solid fa-calendar"></i>${date[2]} ${MONTHS.get(Number(date[1]) + 1)} ${date[0]}</li>`;
+    html += `<li><i class="fa-solid fa-calendar"></i>${dateToString(getCell('events', currEvent, 'date'))}</li>`;
     let eventTime = (getCell('events', currEvent, 'start', true) == null ? 'TBD' : (getCell('events', currEvent, 'start', true) + (getCell('events', currEvent, 'end', true) == null ? '' : `–${getCell('events', currEvent, 'end', true)}`)));
     html += `<li><i class="fa-solid fa-clock"></i>${eventTime}</li>`;
     html += `<li><i class="fa-solid fa-location-dot"></i>${(getCell('events', currEvent, 'location') != null) ? getCell('events', currEvent, 'location') : 'TBD'}</li>`;
@@ -778,12 +804,12 @@ function makeCouncilGrid() {
         }
 
         
-        html += `<h2>${getCell('council', i, 'name')}</h2>`; // name
+        html += `<h2>${replaceOrdinals(getCell('council', i, 'name'))}</h2>`;
         html += '<h3>';
         for (let j = 0; j < currPositions.length; j ++) {
           for (let k = 0; k < data.positions.length; k ++) {
             if (currPositions[j] == getCell('positions', k, 'position')) {
-              html += `<span>${currPositions[j]}<i class="fa-solid fa-circle-info"><div class="tooltip">${getCell('positions', k, 'responsibilities')}</div></i></span>`;
+              html += `<span>${replaceOrdinals(currPositions[j])}<i class="fa-solid fa-circle-info"><div class="tooltip">${replaceOrdinals(getCell('positions', k, 'responsibilities'))}</div></i></span>`;
               break;
             }
           }
@@ -877,7 +903,7 @@ function makeMerch() {
       html += `<i class="fa-solid fa-${catIcon}"></i>`;
     }
 
-    html += `<h2>${getCell('merch', i, 'item')}</h2>`;
+    html += `<h2>${replaceOrdinals(getCell('merch', i, 'item'))}</h2>`;
     html += `<div><div class="price">$${Number(getCell('merch', i, 'price')).toFixed(2)}</div>`;
 
     if (getCell('merch', i, 'sizes') != null) {
@@ -1187,8 +1213,7 @@ function makeLeaderboardGames() {
     boardsHTML += `<ul class="leaderboard-container" id="${getCell('games', i, 'name')}-board" style="display: none;">`;
     
     if (dateToUTC(getCell('games', i, 'starts')) > Date.now()) {
-      let date = getCell('games', i, 'starts').split('(')[1].split(')')[0].split(',');
-      boardsHTML += `<li class="player-card message"><div>This leaderboard starts on ${date[2]} ${MONTHS.get(Number(date[1]) + 1)} ${date[0]}!</div></li>`;
+      boardsHTML += `<li class="player-card message"><div>This leaderboard starts on ${dateToString(getCell('games', i, 'starts'))}!</div></li>`;
 
       // for (let x = 1; x <= 20; x ++) {
       //   boardsHTML += `<li class="player-card" style="animation-delay: ${(x - 1) * POP_IN_DELAY}ms;"><div class="rank r${x}">${x}</div><div class="name">Player ${x}</div><div class="rating">${1000 - 10 * x}</div></li>`;
