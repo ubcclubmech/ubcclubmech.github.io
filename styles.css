@@ -31,6 +31,7 @@
   --thin-padding: 0.3em 1em;
   --standard-padding: 0.4em 1.1em;
   --thick-padding: 0.5em 1.2em;
+  --chunky-padding: 1em 1.8em;
   --icon-padding: 0.3em 0.3em;
   --tooltip-padding: 0.5rem 0.8rem;
   --select-height: calc(1em * var(--line-height) + 0.8em); /* select ignores line height, final number is the total standard vertical padding */
@@ -682,6 +683,10 @@ header nav .button.nav:hover {
   box-sizing: border-box;
 }
 
+#links:not(:has(:first-child)) {
+  display: none;
+}
+
 #links li {
   flex-grow: 1;
   display: flex;
@@ -721,6 +726,10 @@ header nav .button.nav:hover {
   gap: var(--gap-width);
 }
 
+#welcome-openings > div > ul {
+  flex: 1 0;
+}
+
 @media (max-width: 1400px) {
   #welcome-container {
     flex-direction: column;
@@ -745,7 +754,11 @@ header nav .button.nav:hover {
   gap: var(--gap-width);
 }
 
-.openings li {
+.openings:not(:has(:first-child)) {
+  display: none;
+}
+
+.openings li:not(:has(.no-entries)) {
   font-size: var(--body-size);
   background-color: var(--secondary);
   margin: 0;
@@ -757,6 +770,15 @@ header nav .button.nav:hover {
   align-items: center;
   text-align: center;
   padding: var(--standard-padding);
+}
+
+.no-entries {
+  font-size: var(--body-size);
+  background-color: var(--secondary);
+  margin: 0;
+  border-radius: var(--border-radius);
+  text-align: center;
+  padding: var(--chunky-padding);
 }
 
 .openings li > div {
@@ -1010,6 +1032,10 @@ header nav .button.nav:hover {
   margin-top: var(--grid-margin-top);
   margin-bottom: 1rem;
   list-style: none;
+}
+
+#events:has(> li > .no-entries) {
+  grid-template-columns: 1fr;
 }
 
 .event {

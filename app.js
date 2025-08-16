@@ -586,18 +586,22 @@ function makeOpenings() {
   let execHTML = '';
   let exoHTML = '';
 
+  let posCount = 0;
   for (let i = 0; i < data.positions.length; i ++) {
-    if (getCell('positions', i, 'position') == null) { continue; } // skip blank entries
-    if (getCell('positions', i, 'filled') == false) { // if position not filled
-      if (getCell('positions', i, 'type') == 'Executive') {
-        execHTML += `<li style="animation-delay: ${execIdx * POP_IN_DELAY}ms;"><div>${replaceOrdinals(getCell('positions', i, 'position'))}</div><i class="fa-solid fa-circle-info"><div class="tooltip">${getCell('positions', i, 'responsibilities')}</div></i></li>`;
-        execIdx ++;
-      }
-      else {
-        exoHTML += `<li style="animation-delay: ${exoIdx * POP_IN_DELAY}ms;"><div>${replaceOrdinals(getCell('positions', i, 'position'))}</div><i class="fa-solid fa-circle-info"><div class="tooltip">${getCell('positions', i, 'responsibilities')}</div></i></li>`;
-        exoIdx ++;
-      }
+    if (anyCellNull('positions', i, ['position', 'type', 'responsibilities']) == true || getCell('positions', i, 'filled') == true) { continue; } // skip blank entries
+    posCount ++;
+    if (getCell('positions', i, 'type') == 'Executive') {
+      execHTML += `<li style="animation-delay: ${execIdx * POP_IN_DELAY}ms;"><div>${replaceOrdinals(getCell('positions', i, 'position'))}</div><i class="fa-solid fa-circle-info"><div class="tooltip">${getCell('positions', i, 'responsibilities')}</div></i></li>`;
+      execIdx ++;
     }
+    else {
+      exoHTML += `<li style="animation-delay: ${exoIdx * POP_IN_DELAY}ms;"><div>${replaceOrdinals(getCell('positions', i, 'position'))}</div><i class="fa-solid fa-circle-info"><div class="tooltip">${getCell('positions', i, 'responsibilities')}</div></i></li>`;
+      exoIdx ++;
+    }
+  }
+
+  if (posCount == 0) {
+    execHTML = `<li><div class="no-entries">No openings right now. Check back later!</div></li>`;
   }
 
   document.getElementById('exec-openings').innerHTML = execHTML;
@@ -695,6 +699,14 @@ function makeEvents(num) {
     if (utc < today) { continue; }
     upcoming.set(i, utc);
   }
+
+  if (upcoming.size == 0) {
+    let html = `<li><div class="no-entries">No upcoming events. See you next term!</div></li>`;
+    document.getElementById('events').innerHTML = html;
+    addButtonEvents();
+    return;
+  }
+
   let sorted = Array.from(upcoming).sort((a, b) => a[1] - b[1]).slice(0, Math.min(num, Array.from(upcoming).length));
 
   let html = '';
