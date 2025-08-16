@@ -754,24 +754,20 @@ header nav .button.nav:hover {
   display: flex;
   flex-direction: row;
   justify-content: stretch;
+  align-items: center;
   text-align: center;
   padding: var(--standard-padding);
 }
 
 .openings li > div {
   flex: 1 0;
-  /* padding: 0 var(--icon-margin); */
 }
 
 .openings li > i {
   flex-grow: 0;
   flex-shrink: 0;
   color: var(--primary-20);
-  display: flex;
   margin: 0 -0.15em 0 0.6em;
-  flex-direction: column;
-  justify-content: center;
-  align-items: stretch;
 }
 
 #land-acknowledgement-container {
