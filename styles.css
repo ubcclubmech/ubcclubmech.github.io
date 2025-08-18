@@ -28,13 +28,31 @@
   --section-filter: brightness(0.9) blur(calc(var(--section-header-height) / 55));
 
   /* padding */
-  --thin-padding: 0.3em 1em;
-  --standard-padding: 0.4em 1.1em;
-  --thick-padding: 0.5em 1.2em;
-  --chunky-padding: 1em 1.8em;
-  --icon-padding: 0.3em 0.3em;
-  --tooltip-padding: 0.5rem 0.8rem;
-  --select-height: calc(1em * var(--line-height) + 0.8em); /* select ignores line height, final number is the total standard vertical padding */
+  /* split up because sometimes maths need to be done */
+  --thin-padding-v: 0.3em;
+  --thin-padding-h: 1em;
+  --standard-padding-v: 0.4em;
+  --standard-padding-h: 1.1em;
+  --thick-padding-v: 0.5em;
+  --thick-padding-h: 1.2em;
+  --chunky-padding-v: 1em;
+  --chunky-padding-h: 1.8em;
+  --icon-padding-v: 0.3em;
+  --icon-padding-h: 0.3em;
+  --tooltip-padding-v: 0.5rem;
+  --tooltip-padding-h: 0.8rem;
+  /* bundled for easy use with elements */
+  --thin-padding: var(--thin-padding-v) var(--thin-padding-h);
+  --standard-padding: var(--standard-padding-v) var(--standard-padding-h);
+  --thick-padding: var(--thick-padding-v) var(--thick-padding-h);
+  --chunky-padding: var(--chunky-padding-v) var(--chunky-padding-h);
+  --icon-padding: var(--icon-padding-v) var(--icon-padding-h);
+  --tooltip-padding: var(--tooltip-padding-v) var(--tooltip-padding-h);
+  /* single-line heights for quick use */
+  --thin-height: calc(1em * var(--line-height) + 2 * var(--thin-padding-v));
+  --standard-height: calc(1em * var(--line-height) + 2 * var(--standard-padding-v));
+  --thick-height: calc(1em * var(--line-height) + 2 * var(--thick-padding-v));
+  --chunky-height: calc(1em * var(--line-height) + 2 * var(--chunky-padding-v));
   
   /* variables */
   --navbar-height: 80px;
@@ -82,14 +100,12 @@
   --primary-90: hsl(235, 48.2%, 88.5%); /* link buttons */
   --primary-95: hsl(235, 49.8%, 94.2%);
 
-  --secondary: hsl(0, 0%, 92%); /* chips */
-  --secondary: #ebebeb; /* chips */
+  --secondary: hsl(0, 0%, 92%); /* chips, cards */
 
   --card-shadow: hsl(0, 0%, 0%, 10%);
   --tooltip-border: hsl(0, 0%, 70%);
 
   --red: hsl(0, 70%, 55%);
-  --red: #dd3c3c;
   --green: hsl(120, 55%, 38%);
   --yellow: hsl(25, 70%, 50%);
 
@@ -183,10 +199,30 @@ p { font-size: var(--body-size); margin: 1rem 0 1rem 0; }
   0%, 100% { visibility: visible; }
 }
 
+@keyframes fade-out-scale {
+  0% { transform: scale(1); }
+  100% { transform: scale(0.85); }
+}
+
+@keyframes fade-out-opacity {
+  0% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   #links > li, .openings > li, .event, .collection > li, .council-member, .merch-item, .player-card {
     visibility: hidden;
     animation: var(--pop-in);
+  }
+  @media (max-width: 925px) {
+    header nav .button.nav {
+      visibility: hidden;
+      animation: var(--pop-in);
+    }
+    header nav.hidden .button.nav {
+      visibility: visible;
+      animation: fade-out-scale var(--pop-in-duration) ease-in-out 0s 1, fade-out-opacity var(--pop-in-duration) ease-in-out 0s 1 forwards;
+    }
   }
 }
 
@@ -261,18 +297,48 @@ header nav {
     width: 100%;
     left: 0px;
     padding-bottom: 1rem;
-    background-color: var(--header);
-    /* transform: translateX(0px); */
     opacity: 1;
-    transition-property: opacity;
-    transition-duration: 0.2s;
+    /* transition: opacity; */
+    transition-duration: 0s;
     transition-timing-function: ease-in-out;
   }
 
   header nav.hidden {
-    opacity: 0;
-    /* transform: translateX(-100%); */
+    /* opacity: 0;
+    transition-duration: 0.2s; */
     pointer-events: none;
+  }
+
+  header nav::before {
+    background-color: var(--header);
+    position: absolute;
+    content: ' ';
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  header nav.hidden::before {
+    transition-delay: 0.1s;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    header nav::before {
+      transition-property: height;
+      transition-duration: var(--pop-in-duration);
+      transition-timing-function: ease-in-out;
+      transition-delay: 0s;
+    }
+
+    header nav.hidden::before {
+      opacity: 1;
+      transition-delay: 0.1s;
+      height: 0%;
+    }
   }
 }
 
@@ -448,10 +514,21 @@ header nav .button.nav:hover {
     padding: 1em;
     margin: 0;
     border-radius: 0;
-    transition: background-color 0.1s ease-in-out, transform 0.2s ease-in-out;
+    transition: background-color 0.1s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    opacity: 1;
     text-decoration: none;
     text-align: center;
     box-sizing: border-box;
+  }
+
+  header nav.hidden .button.nav {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    header nav.hidden .button.nav {
+      opacity: 0;
+    }
   }
 
   header nav .button.nav:hover {
@@ -533,13 +610,13 @@ header nav .button.nav:hover {
 } */
 
 .section-header p {
-  width: 80%;
   margin: 0px;
   font-size: var(--h4-size);
   font-weight: 600;
   text-align: center;
   color: var(--section);
   text-shadow: var(--section-shadow);
+  line-height: var(--heading-line-height);
 }
 
 .section-header .button {
@@ -553,6 +630,7 @@ header nav .button.nav:hover {
   font-size: var(--h4-size);
   text-align: center;
   padding: 0 0.3rem 0 0;
+  height: calc(1em * var(--heading-line-height));
   background: none;
   border: none;
   font-weight: 600;
@@ -678,13 +756,21 @@ header nav .button.nav:hover {
   padding: calc(var(--gap-width) * 1.5);
   box-shadow: 0 5px 9px var(--card-shadow);
   border-radius: calc(var(--border-radius) + var(--gap-width) * 1.5);
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
   box-sizing: border-box;
+  position: relative;
+  /* bottom: calc(var(--gap-width) * 1.5 + 0.5 * var(--thick-height));
+  margin-bottom: calc((var(--gap-width) * 1.5 + 0.5 * var(--thick-height)) * -1); */
+  bottom: calc(var(--border-radius) + var(--gap-width) * 1.5);
+  margin-bottom: calc((var(--border-radius) + var(--gap-width) * 1.5) * -1);
+  background-color: var(--background);
 }
 
-#links:not(:has(:first-child)) {
+#links:not(:has(> :first-child)) {
   display: none;
+}
+
+#home-page:has(#links > :first-child) .section-header > :last-child {
+  margin-bottom: calc((var(--border-radius) + var(--gap-width) * 1.5) * 0.5);
 }
 
 #links li {
@@ -1300,7 +1386,7 @@ form textarea {
 form select {
   width: 100%;
   font-size: var(--body-size);
-  height: var(--select-height);
+  height: var(--standard-height);
   color: var(--text);
   font-family: inherit;
   margin: 0;

@@ -251,6 +251,7 @@ async function init() {
       break;
   }
 
+  setNavDelays();
   addButtonEvents();
 
   window.addEventListener('resize', function() { document.querySelectorAll(':has(>.tooltip)').forEach((el) => { handleTooltips(el); }); });
@@ -438,21 +439,67 @@ function replaceOrdinals(string) {
   return output;
 }
 
+// let navOpen = false;
+// let closingNav = false;
+
+let togglingNav = false;
+
 function toggleNav() {
   let nav = document.getElementById('nav')
-  let classes = nav.classList;
+  // let classes = nav.classList;
 
-  if (classes.contains('hidden')) {
+  if (togglingNav) {
+    return;
+  }
+
+  togglingNav = true;
+
+  if (nav.classList.contains('hidden')) {
+    setNavDelays();
     nav.classList.remove('hidden');
+    document.querySelectorAll('header nav .button.nav').forEach((el) => {
+      el.style.display = 'none';
+    });
+    setTimeout(() => {
+      document.querySelectorAll('header nav .button.nav').forEach((el) => {
+        el.style.display = '';
+      });
+    }, 1);
+    setTimeout(() => {
+      togglingNav = false;
+    }, 500);
   }
   else
   {
+    setNavDelays(true);
+    document.querySelectorAll('header nav .button.nav').forEach((el) => {
+      el.style.display = 'block';
+    });
+    setTimeout(() => {
+      togglingNav = false;
+      document.querySelectorAll('header nav .button.nav').forEach((el) => {
+        el.style.display = '';
+      });
+    }, 500);
     nav.classList.add('hidden');
   }
 }
 document.querySelectorAll('#open-nav').forEach((el) => {
   el.addEventListener('click', toggleNav);
 });
+
+function setNavDelays(reverse = false) {
+  let buttons = document.querySelectorAll('header nav .button.nav');
+
+  for (let i = 0; i < buttons.length; i ++) {
+    let animIndex = i;
+    if (reverse) {
+      animIndex = buttons.length - 1 - i;
+    }
+
+    buttons[i].style = `animation-delay: ${animIndex * POP_IN_DELAY}ms;`;
+  }
+}
 
 function handleTooltips(el) {
   let ibound = el.getBoundingClientRect();
