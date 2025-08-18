@@ -443,6 +443,7 @@ function replaceOrdinals(string) {
 // let closingNav = false;
 
 let togglingNav = false;
+let navDelay;
 
 function toggleNav() {
   let nav = document.getElementById('nav')
@@ -467,10 +468,9 @@ function toggleNav() {
     }, 1);
     setTimeout(() => {
       togglingNav = false;
-    }, 500);
+    }, navDelay);
   }
-  else
-  {
+  else {
     setNavDelays(true);
     document.querySelectorAll('header nav .button.nav').forEach((el) => {
       el.style.display = 'block';
@@ -480,7 +480,7 @@ function toggleNav() {
       document.querySelectorAll('header nav .button.nav').forEach((el) => {
         el.style.display = '';
       });
-    }, 500);
+    }, navDelay + 200);
     nav.classList.add('hidden');
   }
 }
@@ -490,9 +490,11 @@ document.querySelectorAll('#open-nav').forEach((el) => {
 
 function setNavDelays(reverse = false) {
   let buttons = document.querySelectorAll('header nav .button.nav');
+  navDelay = buttons.length * POP_IN_DELAY;
+  document.querySelector('header nav').setAttribute('dur', `${navDelay}`);
 
   for (let i = 0; i < buttons.length; i ++) {
-    let animIndex = i;
+    let animIndex = i + 2;
     if (reverse) {
       animIndex = buttons.length - 1 - i;
     }
@@ -573,6 +575,12 @@ body.addEventListener('touchstart', (event) => {
   reloading = false;
   startY = event.touches[0].pageY;
   mouseStartY = event.touches[0].clientY;
+
+  let nav = document.querySelector('header nav');
+  let navBound = nav.getBoundingClientRect();
+  if (mouseStartY > navBound.y + navBound.height && !nav.classList.contains('hidden')) {
+    toggleNav();
+  }
 }, {passive: true});
 
 body.addEventListener('touchmove', (event) => {
