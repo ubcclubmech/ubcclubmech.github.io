@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+
 :root {
   /* type */
   --type-scale: 1.333;
@@ -12,7 +14,7 @@
   --h1-size: calc(pow(var(--type-scale), 5.6) * var(--body-size));
 
   /* constants */
-  --icon-margin: 0.6em;
+  --icon-margin: 0.5em;
   --border-radius: 10px;
   --gap-width: 10px;
   --grid-col-gap: min(5vw, 100px);
@@ -22,6 +24,7 @@
 
   --pop-in: pop-in-scale var(--pop-in-duration) ease-in-out 0s 1, pop-in-opacity var(--pop-in-duration) ease-in-out 0s 1, pop-in-visibility var(--pop-in-duration) ease-in-out 0s 1 forwards;
   --pop-in-duration: 0.4s;
+  --nav-duration: calc(var(--pop-in-duration) * 2 / 3);
 
   /* section headers */
   --section-shadow: 0 0 0.3em hsl(0, 0%, 0%, 50%);
@@ -38,7 +41,7 @@
   --chunky-padding-v: 1em;
   --chunky-padding-h: 1.8em;
   --icon-padding-v: 0.3em;
-  --icon-padding-h: 0.3em;
+  --icon-padding-h: 0.15em;
   --tooltip-padding-v: 0.5rem;
   --tooltip-padding-h: 0.8rem;
   /* bundled for easy use with elements */
@@ -221,7 +224,7 @@ p { font-size: var(--body-size); margin: 1rem 0 1rem 0; }
     }
     header nav.hidden .button.nav {
       visibility: visible;
-      animation: fade-out-scale var(--pop-in-duration) ease-in-out 0s 1, fade-out-opacity var(--pop-in-duration) ease-in-out 0s 1 forwards;
+      animation: fade-out-scale var(--nav-duration) ease-in-out 0s 1, fade-out-opacity var(--nav-duration) ease-in-out 0s 1 forwards;
     }
   }
 }
@@ -471,7 +474,7 @@ header nav .button.nav:hover {
 
 .button.icon i {
   height: auto;
-  padding: 0.3rem;
+  padding: var(--icon-padding);
   display: flex;
   flex-direction: column;
   justify-content: center;

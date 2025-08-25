@@ -195,6 +195,7 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 // animation
 const POP_IN_DELAY = 75; // ms
 const POP_IN_VARIANCE = 200; // ms
+const NAV_DELAY = POP_IN_DELAY * 2 / 3;
 
 // reloading
 const PULL_HEIGHT = 150; // px
@@ -490,8 +491,10 @@ document.querySelectorAll('#open-nav').forEach((el) => {
 
 function setNavDelays(reverse = false) {
   let buttons = document.querySelectorAll('header nav .button.nav');
-  navDelay = buttons.length * POP_IN_DELAY;
-  document.querySelector('header nav').setAttribute('dur', `${navDelay}`);
+  navDelay = buttons.length * NAV_DELAY;
+  document.querySelectorAll('header nav').forEach((el) => {
+    el.setAttribute('dur', `${navDelay}`);
+  });
 
   for (let i = 0; i < buttons.length; i ++) {
     let animIndex = i + 2;
@@ -499,7 +502,7 @@ function setNavDelays(reverse = false) {
       animIndex = buttons.length - 1 - i;
     }
 
-    buttons[i].style = `animation-delay: ${animIndex * POP_IN_DELAY}ms;`;
+    buttons[i].style = `animation-delay: ${animIndex * NAV_DELAY}ms;`;
   }
 }
 
