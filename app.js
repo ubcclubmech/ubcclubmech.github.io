@@ -90,10 +90,9 @@ const SHEETS = {
       "price",
       "category",
       "sizes",
-      "oos_sizes",
-      "status",
+      "stock",
       "image",
-      "show"
+      "show",
     ]
   },
   "categories": {
@@ -976,36 +975,25 @@ function makeMerch() {
     html += `<h2>${replaceOrdinals(getCell('merch', i, 'item'))}</h2>`;
     html += `<div><div class="price">$${Number(getCell('merch', i, 'price')).toFixed(2)}</div>`;
 
+    let stock = getCell('merch', i, 'stock') == null ? '' : getCell('merch', i, 'stock').replaceAll(' ', '').split(',');
     if (getCell('merch', i, 'sizes') != null) {
       let sizes = getCell('merch', i, 'sizes').split(', ');
-      let oosSizes = (getCell('merch', i, 'oos_sizes') != null) ? getCell('merch', i, 'oos_sizes').split(', ') : [];
 
       html += '<ul class="sizes">';
       for (let j = 0; j < sizes.length; j ++) {
-        let isOutOfStock = false;
-        for (let k = 0; k < oosSizes.length; k ++) {
-          if (sizes[j] == oosSizes[k]) { isOutOfStock = true; }
-        }
-        html += `<li${(isOutOfStock == true) ? ' class="out-of-stock"' : ''}>${sizes[j]}</li>`;
+        html += `<li${(stock[j] == '0' || stock[j] == '') ? ' class="out-of-stock">' : (Number(stock[j]) < 11) ? ` class="running-low"><div class="counter">${stock[j]}</div>` : '>'}${sizes[j]}</li>`;
       }
       html += '</ul>';
     }
-    else if (getCell('merch', i, 'status') != null) {
-      switch (getCell('merch', i, 'status')) {
-        case 'In stock':
-          html += '<div class="status in-stock">In stock</div>';
-          break;
-        case 'Out of stock':
-          html += '<div class="status out-of-stock">Out of stock</div>';
-          break;
-        // case 'Running low':
-        //   html += '<div class="status running-low">Running low</div>';
-        //   break;
-        // case 'Coming soon':
-        //   html += '<div class="status coming-soon">Coming soon</div>';
-        //   break;
-        default:
-          break;
+    else {
+      if (stock[0] == '0' || stock[0] == '') {
+        html += '<div class="status out-of-stock">Out of stock</div>';
+      }
+      else if (Number(stock[0]) < 11) {
+        html += `<div class="status running-low">Only ${stock[0]} left!</div>`;
+      }
+      else {
+        html += '<div class="status in-stock">In stock</div>';
       }
     }
     html += '</div>';
