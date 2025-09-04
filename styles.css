@@ -129,7 +129,7 @@
   }
 }
 
-@media (max-width: 925px) {
+@media (max-width: 1000px) {
   :root {
     --type-scale: 1.25;
     --h1-size: calc(pow(var(--type-scale), 6) * var(--body-size));
@@ -217,7 +217,7 @@ p { font-size: var(--body-size); margin: 1rem 0 1rem 0; }
     visibility: hidden;
     animation: var(--pop-in);
   }
-  @media (max-width: 925px) {
+  @media (max-width: 1000px) {
     header nav .button.nav {
       visibility: hidden;
       animation: var(--pop-in);
@@ -280,7 +280,7 @@ header nav {
   gap: max(0px, calc(max(1.5rem, 2.5vw) - 1.6em));
 }
 
-@media (max-width: 925px) {
+@media (max-width: 1000px) {
   .desktop {
     display: none;
   }
@@ -439,7 +439,7 @@ header nav .button.nav {
   color: var(--nav);
   font-size: var(--nav-size);
   text-decoration: none;
-  padding: var(--thin-padding);
+  padding: var(--thin-padding-v) 0.75em;
   transform: scale(1);
   transition: transform 0.2s ease-in-out;
 }
@@ -510,7 +510,7 @@ header nav .button.nav:hover {
   left: 1rem;
 }
 
-@media (max-width: 925px) {
+@media (max-width: 1000px) {
   header nav .button.nav {
     font-size: calc(var(--nav-size) * 1.125);
     width: 100%;
@@ -950,7 +950,7 @@ header nav .button.nav:hover {
   }
 }
 
-@media (max-width: 925px) {
+@media (max-width: 1000px) {
   #flags-container {
     flex-wrap: wrap;
   }
@@ -1248,7 +1248,7 @@ header nav .button.nav:hover {
   margin-right: var(--icon-margin);
 }
 
-@media (width <= 925px) or (width > 1500px) {
+@media (width <= 1000px) or (width > 1500px) {
   #home-page #events .event:nth-of-type(4) {
     display: none;
   }
@@ -1545,6 +1545,97 @@ form .button {
 .merch-item .coming-soon {
   background-color: var(--primary-45);
   color: var(--text-alt);
+}
+
+/* LOCKERS */
+
+#lockers {
+  width: var(--grid-width);
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  column-gap: var(--grid-col-gap);
+  row-gap: var(--grid-row-gap);
+  padding: 0;
+  margin-top: var(--grid-margin-top);
+  margin-bottom: 1rem;
+  list-style: none;
+}
+
+.locker img {
+  object-fit: cover;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--border-radius);
+}
+
+.locker h2 {
+  margin: var(--item-name-margin);
+  font-size: var(--h4-size);
+  text-align: left;
+}
+
+.locker > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: var(--gap-width);
+}
+
+.locker ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: stretch;
+  flex-wrap: wrap;
+  padding: 0;
+  gap: var(--gap-width);
+  margin: calc(1.5 * var(--gap-width)) 0 0 0;
+}
+
+.locker li, .locker .unavailable {
+  list-style-type: none;
+  flex-grow: 1;
+  background-color: var(--secondary);
+  padding: var(--standard-padding);
+  border-radius: var(--border-radius);
+  white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.locker .unavailable {
+  background-color: var(--red);
+  color: var(--text-alt);
+  padding: var(--thick-padding);
+  margin-top: var(--gap-width);
+}
+
+.locker li i {
+  color: var(--text);
+  margin-right: var(--icon-margin);
+}
+
+.locker .availability {
+  flex-direction: column;
+}
+
+.locker .availability li {
+  background-color: var(--green);
+  color: var(--text-alt);
+}
+
+.locker .availability li i {
+  color: var(--text-alt);
+}
+
+.locker .availability li.running-low {
+  background-color: var(--yellow);
+}
+
+.locker .availability li.none-left {
+  background-color: var(--red);
 }
 
 /* LEADERBOARD */
