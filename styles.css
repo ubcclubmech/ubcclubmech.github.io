@@ -384,6 +384,14 @@ sup {
   font-weight: 600;
 }
 
+code {
+    background-color: var(--secondary);
+    padding: 0.1em 0.4em;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    color: var(--text);
+}
+
 .button {
   font-family: 'Lexend', sans-serif;
   font-size: var(--body-size);
