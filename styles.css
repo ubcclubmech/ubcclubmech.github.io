@@ -1122,7 +1122,7 @@ header nav .button.nav:hover {
 #events {
   width: var(--grid-width);
   display: grid;
-  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
   column-gap: var(--grid-col-gap);
   row-gap: var(--grid-row-gap);
   padding: 0;
@@ -1143,15 +1143,15 @@ header nav .button.nav:hover {
 .event > div {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   position: relative;
+  aspect-ratio: 4 / 5;
 }
 
 .event > div img {
   object-fit: cover;
   width: 100%;
-  aspect-ratio: 4 / 5;
   transform: scale(1);
   border-radius: var(--border-radius);
   transition-property: filter, transform;
@@ -1235,7 +1235,7 @@ header nav .button.nav:hover {
   background-color: var(--secondary);
   padding: var(--standard-padding);
   border-radius: var(--border-radius);
-  white-space: nowrap;
+  /* white-space: nowrap; */
   text-align: center;
   font-size: var(--body-size);
 }
