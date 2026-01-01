@@ -1,64 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- META TAGS -->
-    <title>UBC Club MECH | Lockers</title>
-    <meta charset="UTF-8" />
-    <meta name="author" content="UBC Club MECH" />
-    <meta name="description" content="Club MECH manages lockers for students to rent. See what's available!" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <!-- OG TAGS -->
-    <meta property="og:title" content="UBC Club MECH | Lockers" />
-    <meta property="og:site_name" content="UBC Club MECH" />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content="Club MECH manages lockers for students to rent. See what's available!" />
-    <meta property="og:image" content="https://ubcclubmech.ca/media/logos/mech-og.jpg" />
-    <meta property="og:image:alt" content="UBC Mechanical Engineering logo" />
-    <meta property="og:image:type" content="image/jpeg" />
-    <!-- FAVICONS -->
-    <link rel="icon" type="image/png" sizes="48x48" href="favicon/favicon-48x48.png" />
-    <link rel="icon" type="image/png" sizes="128x128" href="favicon/favicon-128x128.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="favicon/android-chrome-192x192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="favicon/android-chrome-512x512.png" />
-    <link rel="apple-touch-icon" type="image/png" href="favicon/apple-touch-icon.png" />
-    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico" />
-    <link rel="manifest" href="favicon/manifest.webmanifest" />
-    <!-- STYLING -->
-    <link rel="stylesheet" href="styles.css?version=9" />
-    <link href="assets/css/fontawesome.css" rel="stylesheet" />
-    <link href="assets/css/solid.css" rel="stylesheet" />
-    <link href="assets/css/brands.css" rel="stylesheet" />
-  </head>
-  <body id="lockers-page" tabindex="0">
-    <header>
-      <div class="logo desktop">
-        <img src="media/logos/white.png">
-      </div>
-      <button class="button icon" id="open-nav"><i class="fa-solid fa-bars"></i></button>
-      <nav id="nav" class="hidden">
-        <a class="button nav" href=".">Home</a>
-        <a class="button nav" href="./events">Events</a>
-        <a class="button nav" href="./council">Council</a>
-        <a class="button nav" href="./contact">Contact</a>
-        <a class="button nav" href="./merch">Merch</a>
-        <a class="button nav" href="./lockers">Lockers</a>
-        <a class="button nav" href="./leaderboard">Leaderboard</a>
-      </nav>
-      <div id="socials"></div>
-    </header>
-    <div class="section-header">
-      <div id="reload-indicator"></div>
-      <img src="media/headers/lockers.jpg">
-      <div>
-        <h1>LOCKERS</h1>
-      </div>
-    </div>
-    <div id="content">
-      <div class="inner below-header">
-        <p style="text-align: center; max-width: 525px; margin: 0;">Interested in renting a locker? Have a question?<br>Send us a message in the <a class="link" href="https://discord.com/channels/756657015845159009/1413997949805002923"><code>#find-an-exec</code></a> channel on our Discord, and an exec can assist you!</p>
-      </div>
-      <ul id="lockers"></ul>
-    </div>
-    <script type="module" src="app.js"></script>
-  </body>
+
+<head>
+	<!-- META TAGS -->
+	<title>UBC Club MECH | Lockers</title>
+	<meta charset="UTF-8" />
+	<meta name="author" content="UBC Club MECH" />
+	<meta name="description" content="Club MECH manages lockers for students to rent. See what's available!" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<!-- OG TAGS -->
+	<meta property="og:title" content="UBC Club MECH | Lockers" />
+	<meta property="og:site_name" content="UBC Club MECH" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Club MECH manages lockers for students to rent. See what's available!" />
+	<meta property="og:image" content="https://ubcclubmech.ca/media/logos/mech-og.jpg" />
+	<meta property="og:image:alt" content="UBC Mechanical Engineering logo" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<!-- FAVICONS -->
+	<link rel="icon" type="image/png" sizes="48x48" href="favicon/favicon-48x48.png" />
+	<link rel="icon" type="image/png" sizes="128x128" href="favicon/favicon-128x128.png" />
+	<link rel="icon" type="image/png" sizes="192x192" href="favicon/android-chrome-192x192.png" />
+	<link rel="icon" type="image/png" sizes="512x512" href="favicon/android-chrome-512x512.png" />
+	<link rel="apple-touch-icon" type="image/png" href="favicon/apple-touch-icon.png" />
+	<link rel="icon" type="image/x-icon" href="favicon/favicon.ico" />
+	<link rel="manifest" href="favicon/manifest.webmanifest" />
+	<!-- STYLING -->
+	<link rel="stylesheet" href="styles.css?version=9" />
+	<link href="assets/css/fontawesome.css" rel="stylesheet" />
+	<link href="assets/css/solid.css" rel="stylesheet" />
+	<link href="assets/css/brands.css" rel="stylesheet" />
+</head>
+
+<body id="lockers-page" tabindex="0">
+	<header>
+		<div class="logo desktop">
+			<img src="media/logos/white.png">
+		</div>
+		<button class="button icon" id="open-nav"><i class="fa-solid fa-bars"></i></button>
+		<nav id="nav" class="hidden">
+			<a class="button nav" href=".">Home</a>
+			<a class="button nav" href="./events">Events</a>
+			<a class="button nav" href="./council">Council</a>
+			<a class="button nav" href="./sponsors">Sponsors</a>
+			<a class="button nav" href="./contact">Contact</a>
+			<a class="button nav" href="./merch">Merch</a>
+			<a class="button nav" href="./lockers">Lockers</a>
+			<a class="button nav" href="./leaderboard">Leaderboard</a>
+		</nav>
+		<div id="socials"></div>
+	</header>
+	<div class="section-header">
+		<div id="reload-indicator"></div>
+		<img src="media/headers/lockers.jpg">
+		<div>
+			<h1>LOCKERS</h1>
+		</div>
+	</div>
+	<div id="content">
+		<div class="inner below-header">
+			<p style="text-align: center; max-width: 525px; margin: 0;">Interested in renting a locker? Have a
+				question?<br>Send us a message in the <a class="link"
+					href="https://discord.com/channels/756657015845159009/1413997949805002923"><code>#find-an-exec</code></a>
+				channel on our Discord, and an exec can assist you!</p>
+		</div>
+		<ul id="lockers"></ul>
+	</div>
+	<script type="module" src="app.js"></script>
+</body>
+
 </html>

@@ -1,103 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- META TAGS -->
-    <title>UBC Club MECH | Home</title>
-    <meta charset="UTF-8" />
-    <meta name="author" content="UBC Club MECH" />
-    <meta name="description" content="We are Club MECH, UBC's mechanical engineering undergraduate student club. Among other things, we run social and networking events, and act as representatives for mechanical engineering undergrads." />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <!-- OG TAGS -->
-    <meta property="og:title" content="UBC Club MECH | Home" />
-    <meta property="og:site_name" content="UBC Club MECH" />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content="We are Club MECH, UBC's mechanical engineering undergraduate student club. Among other things, we run social and networking events, and act as representatives for mechanical engineering undergrads." />
-    <meta property="og:image" content="https://ubcclubmech.ca/media/logos/mech-og.jpg" />
-    <meta property="og:image:alt" content="UBC Mechanical Engineering logo" />
-    <meta property="og:image:type" content="image/jpeg" />
-    <!-- FAVICONS -->
-    <link rel="icon" type="image/png" sizes="48x48" href="favicon/favicon-48x48.png" />
-    <link rel="icon" type="image/png" sizes="128x128" href="favicon/favicon-128x128.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="favicon/android-chrome-192x192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="favicon/android-chrome-512x512.png" />
-    <link rel="apple-touch-icon" type="image/png" href="favicon/apple-touch-icon.png" />
-    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico" />
-    <link rel="manifest" href="favicon/manifest.webmanifest" />
-    <!-- STYLING -->
-    <link rel="stylesheet" href="styles.css?version=9" />
-    <link href="assets/css/fontawesome.css" rel="stylesheet" />
-    <link href="assets/css/solid.css" rel="stylesheet" />
-    <link href="assets/css/brands.css" rel="stylesheet" />
-  </head>
-  <body id="home-page" tabindex="0">
-    <header>
-      <div class="logo desktop">
-        <img src="media/logos/white.png">
-      </div>
-      <button class="button icon square" id="open-nav"><i class="fa-solid fa-bars"></i></button>
-      <nav id="nav" class="hidden">
-        <a class="button nav" href=".">Home</a>
-        <a class="button nav" href="./events">Events</a>
-        <a class="button nav" href="./council">Council</a>
-        <a class="button nav" href="./contact">Contact</a>
-        <a class="button nav" href="./merch">Merch</a>
-        <a class="button nav" href="./lockers">Lockers</a>
-        <a class="button nav" href="./leaderboard">Leaderboard</a>
-      </nav>
-      <div id="socials"></div>
-    </header>
-    <div class="section-header">
-      <div id="reload-indicator"></div>
-      <img src="media/headers/home.jpg">
-      <div>
-        <h1>CLUB MECH</h1>
-        <p class="section-subtitle">EST. 1937</p>
-      </div>
-    </div>
-    <div id="content">
-      <ul id="links"></ul>
-      <div class="inner">
-        <div id="welcome-container">
-          <div>
-            <h2>Welcome!</h2>
-            <div id="welcome-blurb">
-              <p>We are Club MECH, UBC's mechanical engineering undergraduate student club. Among other things, we run social and networking events, and act as representatives for mechanical engineering undergrads. Our clubroom is located in CEME 2207 – every MECH student has access!</p>
-              <p>Our meetings are every Wednesday at 7:00 PM in the clubroom, and are open to all MECH students. Want to get involved? Check out the open positions, and if something interests you, <a class="nav link" href="./contact">reach out</a>!</p>
-            </div>
-          </div>
-          <div id="welcome-openings">
-            <h2>Openings</h2>
-            <div>
-              <ul id="exec-openings" class="openings"></ul>
-              <ul id="exo-openings" class="openings"></ul>
-            </div>
-          </div>
-        </div>
-        <div id="land-acknowledgement-container">
-          <div>
-            <h2>Land Acknowledgement</h2>
-            <div id="land-acknowledgement">
-              <p>The UBC Vancouver campus is located on the traditional territory of the xʷməθkʷəy̓əm (Musqueam) peoples, and the larger city of Vancouver is located on the traditional territory of the səlilwətaɬ (Tsleil-Waututh) and Sḵwx̱wú7mesh (Squamish) peoples.</p>
-              <p>As students living, working, and learning on stolen land, we have a responsibility to understand and recognize the ongoing effects of colonialism, marginalization, and exploitation, and to foster an environment of learning, understanding, and support within our community.</p>
-            </div>
-          </div>
-          <div id="flags-container">
-            <a class="flag" href="https://www.musqueam.bc.ca/" target="_blank" style="aspect-ratio: 432 / 216;"><img src="media/land-acknowledgement/musqueam.gif" alt="xʷməθkʷəy̓əm (Musqueam) flag"></a>
-            <a class="flag" href="https://twnation.ca/" target="_blank" style="aspect-ratio: 329 / 216;"><img src="media/land-acknowledgement/tsleil-waututh.gif" alt="səlilwətaɬ (Tsleil-Waututh) flag"></a>
-            <a class="flag" href="https://www.squamish.net/" target="_blank" style="aspect-ratio: 423 / 216;"><img src="media/land-acknowledgement/squamish.gif" alt="Sḵwx̱wú7mesh (Squamish) flag"></a>
-          </div>
-        </div>
-        <div id="sponsors-container">
-          <h2>Sponsors</h2>
-          <p style="max-width: 800px; margin-top: 0;">We're currently building an official sponsorship package, so stay tuned for that! In the meantime, <a class="nav link" href="./contact">contact us</a> if you'd like to become a Club MECH sponsor!</p>
-          <!-- <ul id="sponsors"></ul> -->
-        </div>
-      </div>
-      <h2>Upcoming Events</h2>
-      <ul id="events" style="margin-top: 1rem;"></ul>
-      <h2 style="margin-bottom: 0;">Gallery</h2>
-      <div id="gallery"></div>
-    </div>
-    <script type="module" src="app.js"></script>
-  </body>
+
+<head>
+	<!-- META TAGS -->
+	<title>UBC Club MECH | Home</title>
+	<meta charset="UTF-8" />
+	<meta name="author" content="UBC Club MECH" />
+	<meta name="description"
+		content="We are Club MECH, UBC's mechanical engineering undergraduate student club. Among other things, we run social and networking events, and act as representatives for mechanical engineering undergrads." />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<!-- OG TAGS -->
+	<meta property="og:title" content="UBC Club MECH | Home" />
+	<meta property="og:site_name" content="UBC Club MECH" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description"
+		content="We are Club MECH, UBC's mechanical engineering undergraduate student club. Among other things, we run social and networking events, and act as representatives for mechanical engineering undergrads." />
+	<meta property="og:image" content="https://ubcclubmech.ca/media/logos/mech-og.jpg" />
+	<meta property="og:image:alt" content="UBC Mechanical Engineering logo" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<!-- FAVICONS -->
+	<link rel="icon" type="image/png" sizes="48x48" href="favicon/favicon-48x48.png" />
+	<link rel="icon" type="image/png" sizes="128x128" href="favicon/favicon-128x128.png" />
+	<link rel="icon" type="image/png" sizes="192x192" href="favicon/android-chrome-192x192.png" />
+	<link rel="icon" type="image/png" sizes="512x512" href="favicon/android-chrome-512x512.png" />
+	<link rel="apple-touch-icon" type="image/png" href="favicon/apple-touch-icon.png" />
+	<link rel="icon" type="image/x-icon" href="favicon/favicon.ico" />
+	<link rel="manifest" href="favicon/manifest.webmanifest" />
+	<!-- STYLING -->
+	<link rel="stylesheet" href="styles.css?version=9" />
+	<link href="assets/css/fontawesome.css" rel="stylesheet" />
+	<link href="assets/css/solid.css" rel="stylesheet" />
+	<link href="assets/css/brands.css" rel="stylesheet" />
+</head>
+
+<body id="home-page" tabindex="0">
+	<header>
+		<div class="logo desktop">
+			<img src="media/logos/white.png">
+		</div>
+		<button class="button icon square" id="open-nav"><i class="fa-solid fa-bars"></i></button>
+		<nav id="nav" class="hidden">
+			<a class="button nav" href=".">Home</a>
+			<a class="button nav" href="./events">Events</a>
+			<a class="button nav" href="./council">Council</a>
+			<a class="button nav" href="./sponsors">Sponsors</a>
+			<a class="button nav" href="./contact">Contact</a>
+			<a class="button nav" href="./merch">Merch</a>
+			<a class="button nav" href="./lockers">Lockers</a>
+			<a class="button nav" href="./leaderboard">Leaderboard</a>
+		</nav>
+		<div id="socials"></div>
+	</header>
+	<div class="section-header">
+		<div id="reload-indicator"></div>
+		<img src="media/headers/home.jpg">
+		<div>
+			<h1>CLUB MECH</h1>
+			<p class="section-subtitle">EST. 1937</p>
+		</div>
+	</div>
+	<div id="content">
+		<ul id="links"></ul>
+		<div class="inner">
+			<div id="welcome-container">
+				<div>
+					<h2>Welcome!</h2>
+					<div id="welcome-blurb">
+						<p>We are Club MECH, UBC's mechanical engineering undergraduate student club. Among other things, we run
+							social and networking events, and act as representatives for mechanical engineering undergrads. Our
+							clubroom is located in CEME 2207 – every MECH student has access!</p>
+						<p>Our meetings are every Wednesday at 7:00 PM in the clubroom, and are open to all MECH students. Want to
+							get involved? Check out the open positions, and if something interests you, <a class="nav link"
+								href="./contact">reach out</a>!</p>
+					</div>
+				</div>
+				<div id="welcome-openings">
+					<h2>Openings</h2>
+					<div>
+						<ul id="exec-openings" class="openings"></ul>
+						<ul id="exo-openings" class="openings"></ul>
+					</div>
+				</div>
+			</div>
+			<div id="land-acknowledgement-container">
+				<div>
+					<h2>Land Acknowledgement</h2>
+					<div id="land-acknowledgement">
+						<p>The UBC Vancouver campus is located on the traditional territory of the xʷməθkʷəy̓əm (Musqueam) peoples,
+							and the larger city of Vancouver is located on the traditional territory of the səlilwətaɬ
+							(Tsleil-Waututh) and Sḵwx̱wú7mesh (Squamish) peoples.</p>
+						<p>As students living, working, and learning on stolen land, we have a responsibility to understand and
+							recognize the ongoing effects of colonialism, marginalization, and exploitation, and to foster an
+							environment of learning, understanding, and support within our community.</p>
+					</div>
+				</div>
+				<div id="flags-container">
+					<a class="flag" href="https://www.musqueam.bc.ca/" target="_blank" style="aspect-ratio: 432 / 216;"><img
+							src="media/land-acknowledgement/musqueam.gif" alt="xʷməθkʷəy̓əm (Musqueam) flag"></a>
+					<a class="flag" href="https://twnation.ca/" target="_blank" style="aspect-ratio: 329 / 216;"><img
+							src="media/land-acknowledgement/tsleil-waututh.gif" alt="səlilwətaɬ (Tsleil-Waututh) flag"></a>
+					<a class="flag" href="https://www.squamish.net/" target="_blank" style="aspect-ratio: 423 / 216;"><img
+							src="media/land-acknowledgement/squamish.gif" alt="Sḵwx̱wú7mesh (Squamish) flag"></a>
+				</div>
+			</div>
+			<!-- <div id="sponsors-container"> -->
+			<!-- <h2>Sponsors</h2> -->
+			<!-- <p style="max-width: 800px; margin-top: 0;">We're currently building an official sponsorship package, so stay -->
+			<!-- tuned for that! In the meantime, <a class="nav link" href="./contact">contact us</a> if you'd like to become a -->
+			<!-- Club MECH sponsor!</p> -->
+			<!-- <ul id="sponsors"></ul> -->
+			<!-- </div> -->
+		</div>
+		<h2>Upcoming Events</h2>
+		<ul id="events" style="margin-top: 1rem;"></ul>
+		<h2 style="margin-bottom: 0;">Gallery</h2>
+		<div id="gallery"></div>
+	</div>
+	<script type="module" src="app.js"></script>
+</body>
+
 </html>

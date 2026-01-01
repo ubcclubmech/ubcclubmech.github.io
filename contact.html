@@ -1,96 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- META TAGS -->
-    <title>UBC Club MECH | Contact</title>
-    <meta charset="UTF-8" />
-    <meta name="author" content="UBC Club MECH" />
-    <meta name="description" content="Have a question? Interested in sponsoring us? Want to give us feedback or suggestions? Send us a message, and we'll get back to you!" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <!-- OG TAGS -->
-    <meta property="og:title" content="UBC Club MECH | Contact" />
-    <meta property="og:site_name" content="UBC Club MECH" />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content="Have a question? Interested in sponsoring us? Want to give us feedback or suggestions? Send us a message, and we'll get back to you!" />
-    <meta property="og:image" content="https://ubcclubmech.ca/media/logos/mech-og.jpg" />
-    <meta property="og:image:alt" content="UBC Mechanical Engineering logo" />
-    <meta property="og:image:type" content="image/jpeg" />
-    <!-- FAVICONS -->
-    <link rel="icon" type="image/png" sizes="48x48" href="favicon/favicon-48x48.png" />
-    <link rel="icon" type="image/png" sizes="128x128" href="favicon/favicon-128x128.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="favicon/android-chrome-192x192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="favicon/android-chrome-512x512.png" />
-    <link rel="apple-touch-icon" type="image/png" href="favicon/apple-touch-icon.png" />
-    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico" />
-    <link rel="manifest" href="favicon/manifest.webmanifest" />
-    <!-- STYLING -->
-    <link rel="stylesheet" href="styles.css?version=8" />
-    <link href="assets/css/fontawesome.css" rel="stylesheet" />
-    <link href="assets/css/solid.css" rel="stylesheet" />
-    <link href="assets/css/brands.css" rel="stylesheet" />
-  </head>
-  <body id="contact-page" tabindex="0">
-    <header>
-      <div class="logo desktop">
-        <img src="media/logos/white.png">
-      </div>
-      <button class="button icon square" id="open-nav"><i class="fa-solid fa-bars"></i></button>
-      <nav id="nav" class="hidden">
-        <a class="button nav" href=".">Home</a>
-        <a class="button nav" href="./events">Events</a>
-        <a class="button nav" href="./council">Council</a>
-        <a class="button nav" href="./contact">Contact</a>
-        <a class="button nav" href="./merch">Merch</a>
-        <a class="button nav" href="./lockers">Lockers</a>
-        <a class="button nav" href="./leaderboard">Leaderboard</a>
-      </nav>
-      <div id="socials"></div>
-    </header>
-    <div class="section-header">
-      <div id="reload-indicator"></div>
-      <img src="media/headers/contact.jpg">
-      <div>
-        <h1 class="section-title">CONTACT</h1>
-      </div>
-    </div>
-    <div id="content">
-      <div class="inner">
-        <!-- <h2>Reach out!</h2> -->
-        <p class="below-header" style="max-width: 720px;">Have a question? Interested in sponsoring us? Want to give us feedback or suggestions? Send us a message, and we'll get back to you!</p>
 
-        <form action="https://api.web3forms.com/submit" method="POST">
-          <!-- REQUIRED -->
-          <input id="form-key" type="hidden" name="access_key">
+<head>
+	<!-- META TAGS -->
+	<title>UBC Club MECH | Contact</title>
+	<meta charset="UTF-8" />
+	<meta name="author" content="UBC Club MECH" />
+	<meta name="description"
+		content="Have a question? Interested in sponsoring us? Want to give us feedback or suggestions? Send us a message, and we'll get back to you!" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<!-- OG TAGS -->
+	<meta property="og:title" content="UBC Club MECH | Contact" />
+	<meta property="og:site_name" content="UBC Club MECH" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description"
+		content="Have a question? Interested in sponsoring us? Want to give us feedback or suggestions? Send us a message, and we'll get back to you!" />
+	<meta property="og:image" content="https://ubcclubmech.ca/media/logos/mech-og.jpg" />
+	<meta property="og:image:alt" content="UBC Mechanical Engineering logo" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<!-- FAVICONS -->
+	<link rel="icon" type="image/png" sizes="48x48" href="favicon/favicon-48x48.png" />
+	<link rel="icon" type="image/png" sizes="128x128" href="favicon/favicon-128x128.png" />
+	<link rel="icon" type="image/png" sizes="192x192" href="favicon/android-chrome-192x192.png" />
+	<link rel="icon" type="image/png" sizes="512x512" href="favicon/android-chrome-512x512.png" />
+	<link rel="apple-touch-icon" type="image/png" href="favicon/apple-touch-icon.png" />
+	<link rel="icon" type="image/x-icon" href="favicon/favicon.ico" />
+	<link rel="manifest" href="favicon/manifest.webmanifest" />
+	<!-- STYLING -->
+	<link rel="stylesheet" href="styles.css?version=8" />
+	<link href="assets/css/fontawesome.css" rel="stylesheet" />
+	<link href="assets/css/solid.css" rel="stylesheet" />
+	<link href="assets/css/brands.css" rel="stylesheet" />
+</head>
 
-          <!-- OPTIONAL -->
-          <input id="form-subject" type="hidden" name="subject" value="Website Contact Message (General)">
-          <input type="hidden" name="from_name" value="Club MECH Website">
-          <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+<body id="contact-page" tabindex="0">
+	<header>
+		<div class="logo desktop">
+			<img src="media/logos/white.png">
+		</div>
+		<button class="button icon square" id="open-nav"><i class="fa-solid fa-bars"></i></button>
+		<nav id="nav" class="hidden">
+			<a class="button nav" href=".">Home</a>
+			<a class="button nav" href="./events">Events</a>
+			<a class="button nav" href="./council">Council</a>
+			<a class="button nav" href="./sponsors">Sponsors</a>
+			<a class="button nav" href="./contact">Contact</a>
+			<a class="button nav" href="./merch">Merch</a>
+			<a class="button nav" href="./lockers">Lockers</a>
+			<a class="button nav" href="./leaderboard">Leaderboard</a>
+		</nav>
+		<div id="socials"></div>
+	</header>
+	<div class="section-header">
+		<div id="reload-indicator"></div>
+		<img src="media/headers/contact.jpg">
+		<div>
+			<h1 class="section-title">CONTACT</h1>
+		</div>
+	</div>
+	<div id="content">
+		<div class="inner">
+			<!-- <h2>Reach out!</h2> -->
+			<p class="below-header" style="max-width: 720px;">Have a question? Interested in sponsoring us? Want to give us
+				feedback or suggestions? Send us a message, and we'll get back to you!</p>
 
-          <!-- DATA -->
-          <div class="form-container">
-            <div style="flex: 1 0 30%;">
-              <label for="name"><h3>Name</h3></label>
-              <input type="text" name="name" style="width: 100%;" required>
-            </div>
-            <div style="flex: 1 0 30%;"> 
-              <label for="email"><h3>Email</h3></label>
-              <input type="email" name="email" required>
-            </div>
-            <div style="flex-shrink: 0; width: 100%;">
-              <label for="message"><h3>Message</h3></label>
-              <textarea name="message" rows="5" required></textarea>
-            </div>
-            <div style="flex: 1 0 30%;">
-              <select id="form-type"></select>
-            </div>
-            <div style="flex: 1 0 30%;">
-              <button type="submit" class="button important"><i class="fa-solid fa-paper-plane"></i><span>Send</span></button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    <script type="module" src="app.js"></script>
-  </body>
+			<form action="https://api.web3forms.com/submit" method="POST">
+				<!-- REQUIRED -->
+				<input id="form-key" type="hidden" name="access_key">
+
+				<!-- OPTIONAL -->
+				<input id="form-subject" type="hidden" name="subject" value="Website Contact Message (General)">
+				<input type="hidden" name="from_name" value="Club MECH Website">
+				<input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+				<!-- DATA -->
+				<div class="form-container">
+					<div style="flex: 1 0 30%;">
+						<label for="name">
+							<h3>Name</h3>
+						</label>
+						<input id="name" type="text" name="name" style="width: 100%;" required>
+					</div>
+					<div style="flex: 1 0 30%;">
+						<label for="email">
+							<h3>Email</h3>
+						</label>
+						<input id="email" type="email" name="email" required>
+					</div>
+					<div style="flex-shrink: 0; width: 100%;">
+						<label for="message">
+							<h3>Message</h3>
+						</label>
+						<textarea id="message" name="message" rows="5" required></textarea>
+					</div>
+					<div style="flex: 1 0 30%;">
+						<select id="form-type"></select>
+					</div>
+					<div style="flex: 1 0 30%;">
+						<button id="send" type="submit" class="button important"><i
+								class="fa-solid fa-paper-plane"></i><span>Send</span></button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script type="module" src="app.js"></script>
+</body>
+
 </html>
